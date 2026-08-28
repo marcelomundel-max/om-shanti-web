@@ -111,4 +111,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft') showPrev();
   });
 
+
+  // Google Analytics 4 - eventos de conversion
+  function trackGAEvent(eventName, destination) {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, {
+        event_category: 'conversion',
+        destination: destination
+      });
+    }
+  }
+
+  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackGAEvent('whatsapp_click', 'WhatsApp');
+    });
+  });
+
+  document.querySelectorAll('a[href*="alquilerargentina.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackGAEvent('booking_click', 'Alquiler Argentina');
+    });
+  });
+
+  document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackGAEvent('instagram_click', 'Instagram');
+    });
+  });
+
 });
