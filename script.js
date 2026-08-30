@@ -140,4 +140,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
+  // Meta Pixel - eventos de interacción
+  function trackMetaEvent(eventName, params = {}) {
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', eventName, params);
+    }
+  }
+
+  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Contact', {channel: 'WhatsApp'});
+      }
+      trackMetaEvent('WhatsAppClick', {destination: 'WhatsApp'});
+    });
+  });
+
+  document.querySelectorAll('a[href*="alquilerargentina.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', {destination: 'Alquiler Argentina'});
+      }
+      trackMetaEvent('BookingClick', {destination: 'Alquiler Argentina'});
+    });
+  });
+
+  document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      trackMetaEvent('InstagramClick', {destination: 'Instagram'});
+    });
+  });
+
 });
