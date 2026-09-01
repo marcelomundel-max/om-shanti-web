@@ -124,7 +124,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
     link.addEventListener('click', () => {
+      // Mantiene el evento general de WhatsApp para comparar con el historial.
       trackGAEvent('whatsapp_click', 'WhatsApp');
+
+      // Si el clic viene de una tarjeta de Experiencias, registra además
+      // un evento específico para saber qué propuesta generó interés.
+      const experience = link.dataset.experience;
+      if (experience) {
+        const experienceEvents = {
+          'Spa': 'experience_spa_click',
+          'Aventura': 'experience_aventura_click',
+          'City Tour': 'experience_citytour_click'
+        };
+        const eventName = experienceEvents[experience];
+        if (eventName) {
+          trackGAEvent(eventName, `WhatsApp Catalog - ${experience}`);
+        }
+      }
     });
   });
 
@@ -154,6 +170,22 @@ document.addEventListener('DOMContentLoaded', () => {
         fbq('track', 'Contact', {channel: 'WhatsApp'});
       }
       trackMetaEvent('WhatsAppClick', {destination: 'WhatsApp'});
+
+      const experience = link.dataset.experience;
+      if (experience) {
+        const metaEvents = {
+          'Spa': 'ExperienceSpaClick',
+          'Aventura': 'ExperienceAventuraClick',
+          'City Tour': 'ExperienceCityTourClick'
+        };
+        const eventName = metaEvents[experience];
+        if (eventName) {
+          trackMetaEvent(eventName, {
+            destination: 'WhatsApp Catalog',
+            experience: experience
+          });
+        }
+      }
     });
   });
 
