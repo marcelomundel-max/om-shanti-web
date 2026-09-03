@@ -211,17 +211,39 @@
     </div>
   </section>
 
-  <section class="section alt">
-    <div class="narrow center">
-      <span class="eyebrow dark">PARA DISFRUTAR SIN APURARSE</span>
-      <h2>Descansá, recorré, volvé.</h2>
-      <div class="pill-row">
-        <span>Paseo Victorica</span>
-        <span>Río y Delta</span>
-        <span>Museos</span>
-        <span>Gastronomía</span>
-        <span>Caminatas</span>
-        <span>Escapadas en pareja</span>
+  <section class="section alt discover" id="disfrutar">
+    <div class="narrow">
+      <div class="center">
+        <span class="eyebrow dark">PARA DISFRUTAR SIN APURARSE</span>
+        <h2>Descansá, recorré, volvé.</h2>
+        <p class="lead">Elegí una propuesta y mirá qué podés hacer en Tigre durante tu estadía.</p>
+        <div class="pill-row discover-pills" role="tablist" aria-label="Propuestas para disfrutar Tigre">
+          <button class="discover-pill active" type="button" role="tab" aria-selected="true" data-discover="victorica">Paseo Victorica</button>
+          <button class="discover-pill" type="button" role="tab" aria-selected="false" data-discover="delta">Río y Delta</button>
+          <button class="discover-pill" type="button" role="tab" aria-selected="false" data-discover="museos">Museos</button>
+          <button class="discover-pill" type="button" role="tab" aria-selected="false" data-discover="gastronomia">Gastronomía</button>
+          <button class="discover-pill" type="button" role="tab" aria-selected="false" data-discover="caminatas">Caminatas</button>
+          <button class="discover-pill" type="button" role="tab" aria-selected="false" data-discover="pareja">Escapadas en pareja</button>
+        </div>
+      </div>
+
+      <div class="discover-panel" role="tabpanel" aria-live="polite">
+        <div class="discover-photo-wrap">
+          <img id="discoverImage" src="assets/paseo-victorica.png" alt="Paseo Victorica al atardecer en Tigre">
+        </div>
+        <div class="discover-copy">
+          <span class="discover-kicker" id="discoverKicker">Muy cerca de Om Shanti</span>
+          <h3 id="discoverTitle">Paseo Victorica</h3>
+          <p class="discover-lead-text" id="discoverLead">Una de las postales más lindas de Tigre, ideal para caminar frente al río, tomar algo y disfrutar el atardecer.</p>
+          <ul class="discover-list" id="discoverList">
+            <li>Recorrer la costanera y sacar fotos al río.</li>
+            <li>Descubrir bares, cafés y restaurantes con vista.</li>
+            <li>Pasar por clubes de remo y rincones clásicos de Tigre.</li>
+            <li>Armar una salida relajada al caer la tarde.</li>
+          </ul>
+          <p class="discover-note" id="discoverNote">Ideal si querés combinar descanso con una salida linda sin alejarte demasiado.</p>
+          <a id="discoverCta" class="btn primary" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20me%20interesa%20una%20escapada%20para%20recorrer%20Paseo%20Victorica." target="_blank" rel="noopener">Consultar esta escapada</a>
+        </div>
       </div>
     </div>
   </section>

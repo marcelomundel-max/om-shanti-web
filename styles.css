@@ -54,6 +54,20 @@ nav{display:flex;gap:22px;align-items:center;font-size:.82rem;text-transform:upp
 .gallery-grid .wide{grid-column:span 2}
 .pill-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}
 .pill-row span{padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--paper)}
+.discover-pills{margin-bottom:36px}
+.discover-pill{padding:12px 18px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;transition:.25s ease}
+.discover-pill:hover{transform:translateY(-1px);border-color:var(--olive)}
+.discover-pill.active{background:var(--olive);color:white;border-color:var(--olive);box-shadow:0 10px 24px rgba(127,139,69,.18)}
+.discover-panel{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:stretch;background:#f6f0e7;border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:0 12px 28px rgba(45,51,45,.05)}
+.discover-photo-wrap{min-height:420px;border-radius:22px;overflow:hidden;background:#ddd}
+.discover-photo-wrap img{width:100%;height:100%;object-fit:cover}
+.discover-copy{display:flex;flex-direction:column;justify-content:center}
+.discover-kicker{display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;background:rgba(127,139,69,.12);color:var(--olive);font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.discover-copy h3{font-size:clamp(2rem,4vw,3.2rem);margin-bottom:14px}
+.discover-lead-text{font-size:1.08rem;color:var(--muted);margin:0 0 18px}
+.discover-list{margin:0 0 18px;padding-left:18px}
+.discover-list li{margin:0 0 10px}
+.discover-note{margin:0 0 10px;color:var(--ink);font-weight:500}
 .testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1150px;margin:auto}
 .testimonial-grid article{padding:30px;border-radius:18px;background:white;border:1px solid var(--line)}
 .testimonial-grid p{font-family:"Cormorant Garamond",serif;font-size:1.45rem}
@@ -71,8 +85,9 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
  nav{display:none}
  .menu-btn{display:block}
  .quick-facts{grid-template-columns:1fr 1fr}
- .split,.location{grid-template-columns:1fr;gap:35px}
+ .split,.location,.discover-panel{grid-template-columns:1fr;gap:35px}
  .testimonial-grid{grid-template-columns:1fr}
+ .discover-photo-wrap{min-height:340px}
 }
 @media(max-width:650px){
  .topbar{padding:14px 5vw}
@@ -86,6 +101,9 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
  .photo-wrap{min-height:390px}
  .gallery-grid{grid-template-columns:1fr;grid-auto-rows:260px}
  .gallery-grid .tall,.gallery-grid .wide{grid-row:auto;grid-column:auto}
+ .discover-panel{padding:18px}
+ .discover-photo-wrap{min-height:250px}
+ .discover-copy h3{font-size:2.2rem}
  footer{flex-direction:column}
  .outline{margin-left:0}
 }
