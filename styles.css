@@ -617,7 +617,7 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
     align-items:flex-start;
     justify-content:flex-start;
     background-image:url("assets/hero-mobile.jpg");
-    background-position:center top;
+    background-position:45% top;
     background-size:cover;
   }
   .hero-overlay{
