@@ -617,7 +617,7 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
     align-items:flex-start;
     justify-content:flex-start;
     background-image:url("assets/hero-mobile.jpg");
-    background-position:45% top;
+    background-position:center top;
     background-size:cover;
   }
   .hero-overlay{
@@ -667,5 +667,110 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
     margin-top:18px;
     padding:10px 12px;
     border-radius:14px;
+  }
+}
+
+
+/* ===== CORRECCIÓN FINAL MOBILE 2026-09-05 =====
+   - No modifica escritorio
+   - Centra mejor la foto en celular
+   - Evita que Instagram se superponga con el aviso de fin de semana
+*/
+@media (max-width:650px){
+  .hero{
+    min-height:auto;
+    padding:145px 6vw 26px;
+    flex-direction:column;
+    align-items:stretch;
+    justify-content:flex-start;
+    background-image:url("assets/hero-mobile.jpg");
+    background-position:65% top;
+    background-size:cover;
+  }
+
+  .hero-content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    padding:0;
+  }
+
+  .hero .eyebrow{
+    display:block;
+    margin:0 0 10px;
+  }
+
+  .hero h1{
+    max-width:10ch;
+    font-size:clamp(2.85rem,11.8vw,3.8rem);
+    line-height:.94;
+    margin:0 0 16px;
+  }
+
+  .hero p{
+    max-width:100%;
+    margin:0 0 14px;
+    font-size:1rem;
+    line-height:1.48;
+  }
+
+  .hero-cta-row{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+    width:100%;
+    margin-top:18px;
+  }
+
+  .hero .hero-cta-row .btn,
+  .hero .hero-cta-row .secondary,
+  .hero .hero-cta-row .ghost{
+    width:100%;
+    min-width:0;
+    margin:0;
+    padding:18px 20px;
+    text-align:center;
+  }
+
+  .hero-points{
+    display:none;
+  }
+
+  .hero-booking-note{
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    inset:auto;
+    z-index:3;
+    width:100%;
+    max-width:100%;
+    margin:16px 0 0;
+    padding:11px 12px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:8px 10px;
+    align-items:start;
+    border-radius:14px;
+  }
+
+  .hero-booking-note-copy{
+    min-width:0;
+    font-size:.76rem;
+    line-height:1.38;
+  }
+
+  .hero-booking-note a{
+    grid-column:2;
+    margin:0;
+    white-space:nowrap;
+  }
+
+  .floating-wa{
+    right:18px;
+    bottom:86px;
   }
 }
