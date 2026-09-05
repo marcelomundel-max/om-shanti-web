@@ -607,3 +607,64 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
     border-radius: 12px;
   }
 }
+
+
+/* Ajuste final mobile: hero optimizado sin tocar la versión escritorio */
+@media(max-width:650px){
+  .hero{
+    min-height:100vh;
+    padding:126px 6vw 26px;
+    align-items:flex-start;
+    justify-content:flex-start;
+    background-position:46% center;
+    background-size:cover;
+  }
+  .hero-overlay{
+    background:linear-gradient(180deg,rgba(17,18,14,.58) 0%,rgba(17,18,14,.22) 34%,rgba(17,18,14,.38) 62%,rgba(17,18,14,.64) 100%);
+  }
+  .hero-content{
+    width:100%;
+    max-width:100%;
+    padding:0;
+    margin:0;
+  }
+  .eyebrow{
+    display:block;
+    margin-bottom:8px;
+    font-size:.72rem;
+    letter-spacing:.24em;
+  }
+  .hero h1{
+    max-width:10.5ch;
+    font-size:clamp(3rem,12.2vw,4.6rem);
+    line-height:.92;
+    margin:0 0 12px;
+    text-wrap:pretty;
+  }
+  .hero p{
+    max-width:330px;
+    margin:0 0 10px;
+    font-size:1rem;
+    line-height:1.45;
+  }
+  .hero-points{
+    display:none;
+  }
+  .hero-cta-row{
+    margin-top:20px;
+    gap:14px;
+  }
+  .hero .hero-cta-row .btn,
+  .cta-row .btn{
+    width:100%;
+    min-width:0;
+    padding:20px 22px;
+    font-size:1rem;
+    border-radius:999px;
+  }
+  .hero-booking-note{
+    margin-top:18px;
+    padding:10px 12px;
+    border-radius:14px;
+  }
+}
