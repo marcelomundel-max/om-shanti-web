@@ -126,6 +126,143 @@ document.addEventListener('DOMContentLoaded', () => {
     return link.dataset.ctaLocation || 'other';
   }
 
+  // Sección interactiva: Descansá, recorré, volvé
+    const discoverButtons = Array.from(document.querySelectorAll('.discover-pill'));
+    const discoverImage = document.getElementById('discoverImage');
+    const discoverKicker = document.getElementById('discoverKicker');
+    const discoverTitle = document.getElementById('discoverTitle');
+    const discoverLead = document.getElementById('discoverLead');
+    const discoverList = document.getElementById('discoverList');
+    const discoverNote = document.getElementById('discoverNote');
+    const discoverCta = document.getElementById('discoverCta');
+  
+    const discoverContent = {
+      victorica: {
+        kicker: 'Muy cerca de Om Shanti',
+        title: 'Paseo Victorica',
+        lead: 'Una de las postales más lindas de Tigre, ideal para caminar frente al río, tomar algo y disfrutar el atardecer.',
+        list: [
+          'Recorrer la costanera y sacar fotos al río.',
+          'Descubrir bares, cafés y restaurantes con vista.',
+          'Pasar por clubes de remo y rincones clásicos de Tigre.',
+          'Armar una salida relajada al caer la tarde.'
+        ],
+        note: 'Ideal si querés combinar descanso con una salida linda sin alejarte demasiado.',
+        image: 'assets/paseo-victorica.png',
+        alt: 'Paseo Victorica al atardecer en Tigre',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada para recorrer Paseo Victorica.'
+      },
+      delta: {
+        kicker: 'Naturaleza y río',
+        title: 'Río y Delta',
+        lead: 'Tigre invita a vivir el agua de cerca: navegar, mirar el paisaje isleño y bajar un cambio.',
+        list: [
+          'Hacer una salida en lancha por los ríos del Delta.',
+          'Conocer la vida isleña y sus paisajes naturales.',
+          'Disfrutar del río en un plan tranquilo y distinto.',
+          'Sumar una experiencia ideal para desconectar.'
+        ],
+        note: 'Perfecto para quienes quieren sentir el Delta desde adentro.',
+        image: 'assets/rio-delta.png',
+        alt: 'Río y Delta de Tigre',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada para disfrutar el río y el Delta.'
+      },
+      museos: {
+        kicker: 'Cultura e historia local',
+        title: 'Museos',
+        lead: 'Si te gusta combinar paseo con cultura, en Tigre tenés museos muy lindos para visitar a pocos minutos.',
+        list: [
+          'Visitar el Museo de Arte Tigre (MAT).',
+          'Recorrer el Museo Naval y otros espacios históricos.',
+          'Conocer rincones con mucha identidad local.',
+          'Armar una salida cultural durante la estadía.'
+        ],
+        note: 'Una propuesta ideal para sumar algo distinto a la escapada.',
+        image: 'assets/museos.png',
+        alt: 'Museos y escapadas culturales en Tigre',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada con paseo por museos en Tigre.'
+      },
+      gastronomia: {
+        kicker: 'Sabores de Tigre',
+        title: 'Gastronomía',
+        lead: 'Desde meriendas frente al río hasta cenas relajadas, Tigre tiene opciones para comer rico y disfrutar sin apuro.',
+        list: [
+          'Salir a desayunar, merendar o cenar cerca del río.',
+          'Elegir entre cafés, restaurantes y propuestas informales.',
+          'Combinar un paseo con una parada gastronómica.',
+          'Disfrutar planes simples que hacen especial la escapada.'
+        ],
+        note: 'Muy buena opción para escapadas de descanso o en pareja.',
+        image: 'assets/gastronomia.png',
+        alt: 'Gastronomía junto al río en Tigre',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada para disfrutar la gastronomía de Tigre.'
+      },
+      caminatas: {
+        kicker: 'Salir a caminar y frenar un poco',
+        title: 'Caminatas',
+        lead: 'Hay recorridos ideales para caminar, respirar aire libre y disfrutar el ritmo tranquilo que tiene Tigre.',
+        list: [
+          'Caminar por zonas arboladas y costaneras.',
+          'Recorrer sectores tranquilos cerca del río.',
+          'Aprovechar el atardecer para una salida suave.',
+          'Disfrutar un plan simple, relajado y al aire libre.'
+        ],
+        note: 'Excelente para quienes buscan una escapada tranquila y sin agenda cargada.',
+        image: 'assets/caminatas.png',
+        alt: 'Caminatas en Tigre al atardecer',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada con caminatas en Tigre.'
+      },
+      pareja: {
+        kicker: 'Plan ideal para dos',
+        title: 'Escapadas en pareja',
+        lead: 'Om Shanti y Tigre se combinan muy bien para una salida en pareja: descanso, paseo y momentos simples para compartir.',
+        list: [
+          'Desayunar tranquilos y salir a recorrer sin apuro.',
+          'Ver el atardecer, caminar y tomar algo juntos.',
+          'Sumar una cena o una experiencia especial.',
+          'Volver a la cabaña para seguir disfrutando el descanso.'
+        ],
+        note: 'Pensado para parejas que quieren frenar, reconectar y disfrutar el tiempo juntos.',
+        image: 'assets/escapada-pareja.png',
+        alt: 'Escapada romántica en Tigre',
+        whatsapp: 'Hola Om Shanti, me interesa una escapada en pareja en Tigre.'
+      }
+    };
+  
+    function renderDiscover(key) {
+      const item = discoverContent[key];
+      if (!item || !discoverImage || !discoverTitle || !discoverLead || !discoverList || !discoverNote || !discoverCta || !discoverKicker) return;
+  
+      discoverImage.src = item.image;
+      discoverImage.alt = item.alt;
+      discoverKicker.textContent = item.kicker;
+      discoverTitle.textContent = item.title;
+      discoverLead.textContent = item.lead;
+      discoverNote.textContent = item.note;
+      discoverList.innerHTML = item.list.map(point => `<li>${point}</li>`).join('');
+      discoverCta.href = `https://wa.me/5491168330289?text=${encodeURIComponent(item.whatsapp)}`;
+  
+      discoverButtons.forEach(button => {
+        const isActive = button.dataset.discover === key;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+    }
+  
+    if (discoverButtons.length) {
+      discoverButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const key = button.dataset.discover;
+          renderDiscover(key);
+          const label = button.textContent?.trim() || key;
+          trackGAEvent('discover_tab_click', 'Interactive Section', { section_item: label });
+          trackMetaEvent('DiscoverTabClick', { section: 'Descansá, recorré, volvé', item: label });
+        });
+      });
+  
+      renderDiscover('victorica');
+    }
+
   document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
     link.addEventListener('click', () => {
       const location = ctaLocation(link);
@@ -221,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('a[href*="alquilerargentina.com"]').forEach(link => {
     link.addEventListener('click', () => {
-      // V2: ya NO se envía InitiateCheckout por un simple clic al motor.
+      // V2: el clic al motor se registra únicamente como BookingClick.
       trackMetaEvent('BookingClick', {
         destination: 'Alquiler Argentina',
         cta_location: ctaLocation(link)
