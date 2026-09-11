@@ -531,3 +531,116 @@ footer div{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
  footer{flex-direction:column}
  .outline{margin-left:0}
 }
+
+
+/* =========================================================
+   CORRECCIÓN HERO ESCRITORIO · contenido a la derecha
+   Recupera la composición aprobada: huéspedes visibles al centro
+   y texto/CTA sobre el sector derecho de la imagen.
+   ========================================================= */
+@media (min-width:1001px){
+  .hero{
+    min-height:100vh;
+    align-items:center;
+    justify-content:flex-end;
+    padding:118px 6.2vw 118px;
+    background-position:center center;
+  }
+
+  .hero-overlay{
+    background:
+      linear-gradient(90deg,
+        rgba(17,18,14,.03) 0%,
+        rgba(17,18,14,.04) 45%,
+        rgba(17,18,14,.22) 57%,
+        rgba(17,18,14,.67) 72%,
+        rgba(17,18,14,.90) 100%),
+      linear-gradient(180deg,
+        rgba(17,18,14,.12) 0%,
+        rgba(17,18,14,.02) 44%,
+        rgba(17,18,14,.18) 100%);
+  }
+
+  .hero-content{
+    width:min(31vw,470px);
+    max-width:470px;
+    margin-left:auto;
+    margin-right:0;
+    padding:14px 0 34px;
+  }
+
+  .hero .eyebrow{
+    display:block;
+    margin-bottom:16px;
+  }
+
+  .hero h1{
+    font-size:clamp(3.55rem,4.3vw,5.05rem);
+    line-height:.96;
+    max-width:470px;
+    margin:.05em 0 .38em;
+    text-wrap:balance;
+  }
+
+  .hero p{
+    font-size:1.08rem;
+    line-height:1.52;
+    max-width:455px;
+    margin-bottom:16px;
+  }
+
+  .hero-price{
+    margin:4px 0 12px;
+  }
+
+  .hero-cta-row{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:stretch;
+    width:100%;
+    max-width:455px;
+  }
+
+  .hero .hero-cta-row .btn,
+  .hero .hero-cta-row .secondary{
+    width:100%;
+    min-width:0;
+    margin:0;
+    padding:14px 20px;
+    text-align:center;
+  }
+
+  .hero-points{
+    display:none;
+  }
+
+  .hero-booking-note{
+    position:absolute;
+    z-index:3;
+    left:13vw;
+    right:13vw;
+    bottom:22px;
+    max-width:none;
+    width:auto;
+    margin:0;
+    padding:10px 14px;
+    align-items:center;
+    border-radius:10px;
+    background:rgba(18,20,15,.78);
+    border:1px solid rgba(255,255,255,.20);
+    box-shadow:0 10px 28px rgba(0,0,0,.24);
+    backdrop-filter:blur(8px);
+  }
+
+  .hero-booking-note-copy{
+    flex:1;
+    font-size:.78rem;
+    line-height:1.35;
+  }
+
+  .hero-booking-note a{
+    margin-left:auto;
+    white-space:nowrap;
+  }
+}
