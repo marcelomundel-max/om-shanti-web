@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Dejá tu reseña | Om Shanti Cabañas en Tigre</title>
+  <meta name="description" content="Formulario privado para huéspedes de Om Shanti Cabañas en Tigre.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0BV3BNHG4C"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0BV3BNHG4C');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+    s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1818328219537401');
+    fbq('track', 'PageView');
+  </script>
+
+  <style>
+    :root{
+      --olive:#869545;
+      --olive-dark:#677332;
+      --ink:#2a2a24;
+      --cream:#f4efe5;
+      --paper:#fbf8f1;
+      --gold:#c99732;
+      --line:#d9d1c3;
+      --shadow:0 24px 70px rgba(28,25,18,.28);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+      color:var(--ink);
+      min-height:100vh;
+      background:#26271f;
+    }
+    .page{
+      min-height:100vh;
+      background:
+        linear-gradient(90deg,rgba(18,19,15,.66) 0%,rgba(18,19,15,.45) 46%,rgba(18,19,15,.20) 100%),
+        url('assets/deck1.jpg') center/cover fixed;
+    }
+    .topbar{
+      height:92px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 6vw;
+      background:rgba(17,18,14,.80);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(10px);
+    }
+    .brand{
+      color:#fff;
+      text-decoration:none;
+      font-family:"Cormorant Garamond",serif;
+      font-size:2rem;
+      letter-spacing:.16em;
+      line-height:.9;
+    }
+    .brand small{
+      display:block;
+      margin-top:10px;
+      font-family:Inter,sans-serif;
+      font-size:.61rem;
+      letter-spacing:.28em;
+      font-weight:600;
+    }
+    .home-link{
+      color:#fff;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:999px;
+      padding:11px 18px;
+      font-size:.86rem;
+      transition:.2s ease;
+    }
+    .home-link:hover{background:rgba(255,255,255,.10)}
+
+    .wrap{
+      width:min(1180px,90vw);
+      margin:0 auto;
+      padding:64px 0 72px;
+      display:grid;
+      grid-template-columns:1fr minmax(420px,540px);
+      gap:56px;
+      align-items:center;
+    }
+    .intro{color:#fff;max-width:590px}
+    .eyebrow{
+      margin:0 0 18px;
+      color:#e4bf69;
+      font-size:.78rem;
+      font-weight:600;
+      letter-spacing:.26em;
+      text-transform:uppercase;
+    }
+    h1{
+      margin:0 0 22px;
+      font-family:"Cormorant Garamond",serif;
+      font-size:clamp(3.4rem,5.4vw,5.8rem);
+      line-height:.92;
+      font-weight:600;
+      text-wrap:balance;
+    }
+    .lead{
+      margin:0;
+      max-width:540px;
+      font-size:1.15rem;
+      line-height:1.62;
+      color:rgba(255,255,255,.92);
+    }
+    .benefits{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-top:38px;
+      font-size:.9rem;
+      color:rgba(255,255,255,.92);
+    }
+    .benefits span{display:block;line-height:1.45}
+    .benefits b{display:block;color:#e7c67c;font-size:1.3rem;margin-bottom:7px}
+
+    .card{
+      background:rgba(251,248,241,.97);
+      border:1px solid rgba(255,255,255,.45);
+      border-radius:26px;
+      padding:32px;
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(12px);
+    }
+    .private-badge{
+      width:max-content;
+      max-width:100%;
+      margin:0 auto 24px;
+      border-radius:999px;
+      padding:8px 14px;
+      background:#eef0df;
+      color:#5f6d2e;
+      font-size:.8rem;
+      font-weight:600;
+    }
+    .field{margin-bottom:18px}
+    label,.label{
+      display:block;
+      margin-bottom:8px;
+      font-size:.88rem;
+      font-weight:600;
+    }
+    input,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:11px;
+      background:#fff;
+      color:var(--ink);
+      font:inherit;
+      padding:13px 14px;
+      outline:none;
+      transition:border .2s,box-shadow .2s;
+    }
+    input:focus,textarea:focus{
+      border-color:#9aaa56;
+      box-shadow:0 0 0 3px rgba(134,149,69,.13);
+    }
+    textarea{min-height:145px;resize:vertical;line-height:1.5}
+    .stars{
+      display:flex;
+      flex-direction:row-reverse;
+      justify-content:flex-end;
+      gap:5px;
+    }
+    .stars input{position:absolute;opacity:0;pointer-events:none}
+    .stars label{
+      cursor:pointer;
+      margin:0;
+      font-size:2rem;
+      line-height:1;
+      color:#c7bda9;
+      transition:.15s ease;
+    }
+    .stars label:hover,
+    .stars label:hover ~ label,
+    .stars input:checked ~ label{color:var(--gold)}
+    .consent{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin:8px 0 22px;
+      font-size:.82rem;
+      line-height:1.45;
+    }
+    .consent input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--olive)}
+    .consent label{margin:0;font-weight:400}
+    .submit{
+      width:100%;
+      border:0;
+      border-radius:999px;
+      padding:15px 22px;
+      background:var(--olive);
+      color:#fff;
+      font:600 1rem Inter,sans-serif;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+    .submit:hover{background:var(--olive-dark);transform:translateY(-1px)}
+    .submit:disabled{opacity:.65;cursor:wait;transform:none}
+    .status{
+      display:none;
+      margin-top:18px;
+      padding:14px 16px;
+      border-radius:12px;
+      font-size:.88rem;
+      line-height:1.45;
+    }
+    .status.ok{display:block;background:#edf2df;color:#4c5b27}
+    .status.error{display:block;background:#f7e7e4;color:#8a3f34}
+    .success-panel{display:none;text-align:center;padding:20px 6px 8px}
+    .success-panel.show{display:block}
+    .success-panel .leaf{font-size:2.4rem;margin-bottom:10px}
+    .success-panel h2{
+      margin:0 0 10px;
+      font:600 2rem "Cormorant Garamond",serif;
+    }
+    .success-panel p{margin:0 0 18px;line-height:1.55;color:#5b5a52}
+    .back-home{
+      display:inline-block;
+      color:#5f6d2e;
+      text-decoration:none;
+      font-weight:600;
+    }
+    .honeypot{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+
+    @media(max-width:900px){
+      .page{background-attachment:scroll}
+      .topbar{height:86px;padding:0 6vw}
+      .home-link{display:none}
+      .wrap{
+        width:min(680px,88vw);
+        grid-template-columns:1fr;
+        gap:28px;
+        padding:38px 0 48px;
+      }
+      .intro{max-width:100%}
+      h1{font-size:clamp(3.1rem,11vw,4.8rem);max-width:10ch}
+      .lead{font-size:1rem;line-height:1.5}
+      .benefits{display:none}
+      .card{padding:24px;border-radius:22px}
+    }
+    @media(max-width:520px){
+      .brand{font-size:1.7rem}
+      .brand small{font-size:.55rem}
+      .wrap{width:90vw;padding-top:30px}
+      h1{font-size:3.3rem}
+      .card{padding:20px 17px}
+      .private-badge{font-size:.73rem}
+      .stars label{font-size:2.15rem}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <a class="brand" href="https://cabanasomshanti.com/">OM SHANTI<small>CABAÑAS EN TIGRE</small></a>
+    <a class="home-link" href="https://cabanasomshanti.com/">Volver a la web</a>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <p class="eyebrow">Gracias por elegir Om Shanti</p>
+      <h1 id="headline">Contanos cómo fue tu experiencia</h1>
+      <p class="lead">Tu opinión nos ayuda a seguir mejorando y también puede ayudar a futuros huéspedes. Solo te llevará un minuto.</p>
+      <div class="benefits" aria-hidden="true">
+        <span><b>♡</b>Tu opinión es muy valiosa</span>
+        <span><b>⌁</b>Ayudás a otros viajeros</span>
+        <span><b>✦</b>Seguimos creando experiencias únicas</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Formulario de reseña">
+      <div id="formArea">
+        <div class="private-badge">🔒 Formulario privado para huéspedes</div>
+
+        <form id="reviewForm" action="https://formspree.io/f/xppwpwjn" method="POST">
+          <div class="field">
+            <label for="name">Nombre</label>
+            <input id="name" name="nombre" type="text" autocomplete="name" placeholder="Tu nombre" required>
+          </div>
+
+          <div class="field">
+            <label for="stayDate">Fecha de estadía <span style="font-weight:400;color:#777">(opcional)</span></label>
+            <input id="stayDate" name="fecha_estadia" type="date">
+          </div>
+
+          <div class="field">
+            <span class="label">Calificación</span>
+            <div class="stars" aria-label="Calificación de 1 a 5 estrellas">
+              <input type="radio" id="star5" name="calificacion" value="5" required><label for="star5" title="5 estrellas">★</label>
+              <input type="radio" id="star4" name="calificacion" value="4"><label for="star4" title="4 estrellas">★</label>
+              <input type="radio" id="star3" name="calificacion" value="3"><label for="star3" title="3 estrellas">★</label>
+              <input type="radio" id="star2" name="calificacion" value="2"><label for="star2" title="2 estrellas">★</label>
+              <input type="radio" id="star1" name="calificacion" value="1"><label for="star1" title="1 estrella">★</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="review">Tu reseña</label>
+            <textarea id="review" name="resena" placeholder="Contanos cómo fue tu experiencia en Om Shanti..." required maxlength="1800"></textarea>
+          </div>
+
+          <div class="consent">
+            <input id="consent" name="autoriza_publicacion" type="checkbox" value="Sí">
+            <label for="consent">Autorizo a Om Shanti a publicar esta reseña en su web y redes sociales, usando mi nombre de pila.</label>
+          </div>
+
+          <div class="honeypot" aria-hidden="true">
+            <label>No completar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <input type="hidden" name="origen" value="Formulario privado web Om Shanti">
+          <input type="hidden" name="_subject" value="Nueva reseña de huésped - Om Shanti">
+
+          <button class="submit" id="submitBtn" type="submit">Enviar mi reseña</button>
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div id="successPanel" class="success-panel" aria-live="polite">
+        <div class="leaf">🌿</div>
+        <h2>¡Gracias por compartir tu experiencia!</h2>
+        <p>Tu reseña llegó correctamente. Gracias por habernos elegido y por tomarte un momento para escribirnos.</p>
+        <a class="back-home" href="https://cabanasomshanti.com/">Volver a Om Shanti →</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const guestName = (params.get('nombre') || '').trim();
+    const nameInput = document.getElementById('name');
+    const headline = document.getElementById('headline');
+
+    if (guestName) {
+      nameInput.value = guestName;
+      headline.textContent = guestName + ', contanos cómo fue tu experiencia';
+    }
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'review_form_view', {
+        event_category: 'reviews',
+        page_location: window.location.href
+      });
+    }
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', 'ReviewFormView');
+    }
+
+    const form = document.getElementById('reviewForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const status = document.getElementById('status');
+    const formArea = document.getElementById('formArea');
+    const successPanel = document.getElementById('successPanel');
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      status.className = 'status';
+      status.textContent = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('No se pudo enviar');
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'review_submit', {
+            event_category: 'reviews',
+            value: 1
+          });
+        }
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'ReviewSubmit');
+        }
+
+        formArea.style.display = 'none';
+        successPanel.classList.add('show');
+        window.scrollTo({top:0, behavior:'smooth'});
+      } catch (err) {
+        status.className = 'status error';
+        status.textContent = 'No pudimos enviar la reseña. Por favor, intentá nuevamente en unos segundos.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar mi reseña';
+      }
+    });
+  })();
+</script>
+</body>
+</html>
