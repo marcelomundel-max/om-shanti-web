@@ -70,6 +70,9 @@
 .reviews-cta .btn{white-space:nowrap;margin:0;}
 @media(max-width:900px){.reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.reviews-head{align-items:flex-start;flex-direction:column}.reviews-summary{border-left:0;border-top:1px solid rgba(60,65,45,.18);padding-left:0;width:100%}}
 @media(max-width:650px){.testimonials.reviews-showcase{padding:54px 0}.reviews-wrap{padding:0 5.5vw}.reviews-grid{grid-template-columns:1fr}.review-card{min-height:0;padding:21px}.reviews-head h2{font-size:clamp(2.55rem,12vw,3.5rem)}.reviews-summary{display:none}.reviews-cta{align-items:flex-start;flex-direction:column}.reviews-cta .btn{width:100%;text-align:center}.review-text{font-size:1rem}}
+
+/* ===== BOTÓN FLOTANTE COMPARTIR ===== */
+.floating-share{position:fixed;right:24px;bottom:92px;z-index:999;width:58px;height:58px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:#f4f0e6;color:#2f3928;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer}.floating-share svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.floating-share-label{position:fixed;right:92px;bottom:108px;z-index:998;background:#22251d;color:#fff;padding:8px 12px;border-radius:999px;font:500 12px/1 'Inter',sans-serif;opacity:0;pointer-events:none;white-space:nowrap}.floating-share:hover + .floating-share-label,.floating-share:focus + .floating-share-label{opacity:1}@media(max-width:650px){.floating-share{right:18px;bottom:88px;width:54px;height:54px}.floating-share-label{display:none}}
 </style>
 
 </head>
@@ -351,6 +354,7 @@
 <div><strong>OM SHANTI</strong><span>Tigre · Buenos Aires</span></div>
 <div><a data-cta-location="footer" data-cta-type="instagram" href="https://www.instagram.com/om_shanti78?igsi=MWk3ejdiN2ZqNDYyNA==" target="_blank">Instagram</a><a data-cta-location="footer" data-cta-type="whatsapp" href="https://wa.me/5491168330289" target="_blank">WhatsApp</a></div>
 </footer>
+<button aria-label="Compartir Om Shanti" class="floating-share" id="shareOmShanti" title="Compartir con alguien" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 10.5l6.8-4"></path><path d="M8.6 13.5l6.8 4"></path></svg></button><span aria-hidden="true" class="floating-share-label">Compartir con alguien</span>
 <a aria-label="WhatsApp" class="floating-wa" data-cta-location="floating" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20consultar%20disponibilidad." rel="noopener" target="_blank">WA</a>
 <div aria-hidden="true" class="lightbox" id="lightbox">
 <button aria-label="Cerrar" class="lightbox-close" id="lightboxClose">×</button>
@@ -360,6 +364,9 @@
 </div>
 <button aria-label="Imagen siguiente" class="lightbox-nav next" id="lightboxNext">›</button>
 </div>
+<script>
+(function(){const b=document.getElementById('shareOmShanti');if(!b)return;const u='https://cabanasomshanti.com/';const t='Mirá este lugar que encontré en Tigre 🌿\nCabañas Om Shanti';function tr(m){if(typeof gtag==='function')gtag('event','share_whatsapp',{method:m,content_type:'website',item_id:'om_shanti_web'});if(typeof fbq==='function')fbq('trackCustom','ShareWhatsApp',{method:m,content_name:'Om Shanti Web'});}b.addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Cabañas Om Shanti · Tigre',text:t,url:u});tr('native_share');return}catch(e){if(e&&e.name==='AbortError')return}}tr('whatsapp');window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank','noopener');});})();
+</script>
 <script src="script.js"></script>
 </body>
 </html>
