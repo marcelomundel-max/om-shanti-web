@@ -73,6 +73,98 @@
 
 /* ===== BOTÓN FLOTANTE COMPARTIR ===== */
 .floating-share{position:fixed;right:24px;bottom:92px;z-index:999;width:58px;height:58px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:#f4f0e6;color:#2f3928;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer}.floating-share svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.floating-share-label{position:fixed;right:92px;bottom:108px;z-index:998;background:#22251d;color:#fff;padding:8px 12px;border-radius:999px;font:500 12px/1 'Inter',sans-serif;opacity:0;pointer-events:none;white-space:nowrap}.floating-share:hover + .floating-share-label,.floating-share:focus + .floating-share-label{opacity:1}@media(max-width:650px){.floating-share{right:18px;bottom:88px;width:54px;height:54px}.floating-share-label{display:none}}
+
+/* ===== NUESTRA HISTORIA ===== */
+.story-section{
+  background:#f6f1e5;
+  color:#25291f;
+  padding:86px 0;
+  scroll-margin-top:92px;
+  overflow:hidden;
+}
+.story-wrap{max-width:1180px;margin:0 auto;padding:0 5vw;}
+.story-intro{text-align:center;max-width:820px;margin:0 auto 48px;}
+.story-intro h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,5.6vw,5.3rem);
+  line-height:.94;
+  margin:.18em 0 .2em;
+}
+.story-intro .lead{max-width:720px;margin:0 auto;color:#606456;line-height:1.65;}
+.story-step{
+  display:grid;
+  grid-template-columns:minmax(260px,.82fr) minmax(0,1.65fr);
+  gap:38px;
+  align-items:center;
+  padding:34px 0;
+  border-top:1px solid rgba(64,72,43,.18);
+}
+.story-step.reverse{grid-template-columns:minmax(0,1.65fr) minmax(260px,.82fr);}
+.story-copy{padding:10px 0;}
+.story-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:45px;height:34px;padding:0 13px;border-radius:999px;
+  background:#e9e2ca;color:#58633a;font-weight:600;font-size:.9rem;margin-bottom:12px;
+}
+.story-copy h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.7vw,3.3rem);
+  line-height:1;
+  margin:0 0 14px;
+}
+.story-copy p{margin:0;color:#5d6156;line-height:1.68;font-size:1rem;}
+.story-photo,.story-collage img{
+  display:block;width:100%;height:100%;object-fit:cover;border-radius:18px;
+  box-shadow:0 12px 30px rgba(40,42,31,.08);
+}
+.story-photo-wrap{height:390px;}
+.story-collage{display:grid;gap:10px;height:390px;}
+.story-collage.travel{grid-template-columns:1.15fr 1fr 1fr;}
+.story-collage.travel img:nth-child(1){grid-row:1 / span 2;}
+.story-collage.travel img:nth-child(2){grid-column:2;grid-row:1;}
+.story-collage.travel img:nth-child(3){grid-column:2 / span 2;grid-row:2;}
+.story-collage.build{grid-template-columns:1.4fr .8fr;grid-template-rows:1fr 1fr;}
+.story-collage.build img:first-child{grid-row:1 / span 2;}
+.story-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:390px;}
+.story-pair img{width:100%;height:100%;object-fit:cover;border-radius:18px;box-shadow:0 12px 30px rgba(40,42,31,.08);}
+.story-ending{
+  margin-top:38px;padding:32px 34px;border-radius:24px;
+  background:linear-gradient(135deg,#e9e5cf,#f4f0e5);
+  display:grid;grid-template-columns:.7fr 1.3fr;gap:34px;align-items:center;
+}
+.story-ending h3{font-family:'Cormorant Garamond',serif;font-size:3rem;margin:0 0 8px;}
+.story-ending p{margin:0;color:#5b6052;line-height:1.6;}
+.story-quote{
+  border-left:1px solid rgba(70,78,45,.25);
+  padding-left:34px;font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,3vw,2.8rem);font-style:italic;line-height:1.1;color:#485231;
+}
+@media(max-width:900px){
+  .story-step,.story-step.reverse{grid-template-columns:1fr;gap:20px}
+  .story-step.reverse .story-copy{order:1}.story-step.reverse .story-media{order:2}
+  .story-ending{grid-template-columns:1fr}.story-quote{border-left:0;border-top:1px solid rgba(70,78,45,.25);padding:24px 0 0}
+}
+@media(max-width:650px){
+  .story-section{padding:62px 0}
+  .story-wrap{padding:0 5.5vw}
+  .story-intro{margin-bottom:30px}
+  .story-step{padding:28px 0}
+  .story-photo-wrap,.story-collage,.story-pair{height:auto}
+  .story-photo-wrap .story-photo{aspect-ratio:4/3}
+  .story-collage.travel{grid-template-columns:1fr 1fr;height:auto}
+  .story-collage.travel img{height:170px}
+  .story-collage.travel img:nth-child(1){grid-row:auto;grid-column:1 / span 2;height:235px}
+  .story-collage.travel img:nth-child(2){grid-column:1;grid-row:auto}
+  .story-collage.travel img:nth-child(3){grid-column:2;grid-row:auto}
+  .story-collage.build{grid-template-columns:1fr 1fr;grid-template-rows:auto;height:auto}
+  .story-collage.build img{height:175px}
+  .story-collage.build img:first-child{grid-column:1 / span 2;grid-row:auto;height:235px}
+  .story-pair{grid-template-columns:1fr;height:auto}
+  .story-pair img{height:240px}
+  .story-ending{padding:26px 22px}
+  .story-ending h3{font-size:2.5rem}
+}
+
 </style>
 
 </head>
@@ -83,6 +175,7 @@
 <nav>
 <a href="#inicio">Inicio</a>
 <a href="#cabana">La cabaña</a>
+<a href="#historia">Historia</a>
 <a href="#experiencia">Experiencia</a>
 <a href="#galeria">Galería</a>
 <a href="#opiniones">Opiniones</a>
@@ -139,6 +232,83 @@
 <a class="text-link" data-cta-location="cabana" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20consultar%20una%20fecha." rel="noopener" target="_blank">Consultar una fecha →</a>
 </div>
 </section>
+
+<section class="story-section" id="historia">
+  <div class="story-wrap">
+    <div class="story-intro">
+      <span class="eyebrow dark">NUESTRA HISTORIA</span>
+      <h2>La historia de Om Shanti</h2>
+      <p class="lead">Una historia que empezó mucho antes de tener nombre: viajes, trabajo, sueños compartidos y ganas de crear un lugar para frenar, respirar y disfrutar.</p>
+    </div>
+
+    <div class="story-step">
+      <div class="story-copy">
+        <span class="story-number">01</span>
+        <h3>Antes de tener nombre</h3>
+        <p>Mucho antes de imaginar Om Shanti, hubo viajes, caminos y lugares que nos fueron marcando. Sin saberlo, fuimos guardando pequeños detalles: la forma en que nos recibían, los espacios donde nos sentíamos cómodos y esa sensación de sentirse como en casa aun estando lejos.</p>
+      </div>
+      <div class="story-media">
+        <div class="story-collage travel">
+          <img src="assets/historia-viaje-glaciar.jpg" alt="Marcelo y Marisa viajando antes de crear Om Shanti"/>
+          <img src="assets/historia-viaje-lagos.jpg" alt="Uno de los viajes que inspiraron la forma de recibir huéspedes"/>
+          <img src="assets/historia-viaje-salinas.jpg" alt="Marcelo y Marisa durante uno de sus viajes"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-step reverse">
+      <div class="story-media">
+        <div class="story-photo-wrap">
+          <img class="story-photo" src="assets/historia-idea-rio.jpg" alt="Marcelo y Marisa junto al río, donde empezó a tomar forma la idea de Om Shanti"/>
+        </div>
+      </div>
+      <div class="story-copy">
+        <span class="story-number">02</span>
+        <h3>2018 · La idea</h3>
+        <p>Entre mates a orillas del río Reconquista, esa idea que venía creciendo empezó a tomar forma: crear un lugar donde pudiéramos recibir a otros con la misma calidez con la que a nosotros nos gustaba ser recibidos. Así empezó Om Shanti.</p>
+      </div>
+    </div>
+
+    <div class="story-step">
+      <div class="story-copy">
+        <span class="story-number">03</span>
+        <h3>Manos a la obra</h3>
+        <p>El proyecto tomó forma con trabajo propio, aprendizaje y mucha ilusión. Cada avance fue una mezcla de esfuerzo, entusiasmo y visión compartida. No queríamos solamente construir un alojamiento: queríamos darle identidad.</p>
+      </div>
+      <div class="story-media">
+        <div class="story-collage build">
+          <img src="assets/historia-obra-techo.jpg" alt="Trabajo de construcción realizado para dar forma a Om Shanti"/>
+          <img src="assets/historia-obra-nosotros.jpg" alt="Marcelo y Marisa durante la construcción de Om Shanti"/>
+          <img src="assets/historia-deck.jpg" alt="Construcción artesanal del deck de Om Shanti"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-step reverse">
+      <div class="story-media">
+        <div class="story-pair">
+          <img src="assets/historia-espacio-vacio.jpg" alt="Interior de Om Shanti durante sus primeros pasos"/>
+          <img src="assets/historia-taller.jpg" alt="Trabajos de carpintería y terminaciones en Om Shanti"/>
+        </div>
+      </div>
+      <div class="story-copy">
+        <span class="story-number">04</span>
+        <h3>El espacio empezó a transformarse</h3>
+        <p>Piso, cocina, deck, carpintería, iluminación y detalles. De a poco, aquel espacio vacío fue convirtiéndose en el refugio que habíamos imaginado. Muchas de las cosas que hoy forman parte de Om Shanti nacieron literalmente de nuestras manos.</p>
+      </div>
+    </div>
+
+    <div class="story-ending">
+      <div>
+        <span class="story-number">05</span>
+        <h3>Hoy</h3>
+        <p>Om Shanti sigue creciendo, pero conserva la esencia del primer día: ofrecer un lugar donde bajar el ritmo, sentirse bien recibido y llevarse un lindo recuerdo de Tigre.</p>
+      </div>
+      <div class="story-quote">“Om Shanti significa paz y tranquilidad. Y eso sigue siendo lo que queremos compartir con cada persona que llega.”</div>
+    </div>
+  </div>
+</section>
+
 <section class="section location">
 <div class="location-card">
 <span class="eyebrow dark">UBICACIÓN</span>
@@ -368,35 +538,6 @@
 </div>
 <script>
 (function(){const b=document.getElementById('shareOmShanti');if(!b)return;const u='https://cabanasomshanti.com/';const t='Mirá este lugar que encontré en Tigre 🌿\nCabañas Om Shanti';function tr(m){if(typeof gtag==='function')gtag('event','share_whatsapp',{method:m,content_type:'website',item_id:'om_shanti_web'});if(typeof fbq==='function')fbq('trackCustom','ShareWhatsApp',{method:m,content_name:'Om Shanti Web'});}b.addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Cabañas Om Shanti · Tigre',text:t,url:u});tr('native_share');return}catch(e){if(e&&e.name==='AbortError')return}}tr('whatsapp');window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank','noopener');});})();
-</script>
-<script>
-/* ===== ORIGEN DE ENLACES DE SEGUIMIENTO =====
-   Permite usar enlaces limpios:
-   /whatsapp  /instagram  /messenger
-   y registra el origen en GA4 antes de mostrar la misma página.
-*/
-(function(){
-  const path = window.location.pathname.replace(/\/+$/, '').toLowerCase();
-  const sources = {
-    '/whatsapp': {source:'whatsapp', medium:'chat', campaign:'seguimiento'},
-    '/instagram': {source:'instagram', medium:'chat', campaign:'seguimiento'},
-    '/messenger': {source:'messenger', medium:'chat', campaign:'seguimiento'}
-  };
-  const o = sources[path];
-  if (!o) return;
-
-  // Guardamos el origen para conservarlo durante la visita.
-  try { sessionStorage.setItem('omshanti_ref_source', o.source); } catch(e) {}
-
-  // Evento específico para verlo fácilmente en GA4 Exploraciones.
-  if (typeof gtag === 'function') {
-    gtag('event', 'seguimiento_web', {
-      source_channel: o.source,
-      medium: o.medium,
-      campaign: o.campaign
-    });
-  }
-})();
 </script>
 <script src="script.js"></script>
 </body>
