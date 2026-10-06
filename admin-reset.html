@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nueva contraseña · Om Shanti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#ebe8de;font-family:Inter,sans-serif;color:#20251d}.card{width:min(92vw,460px);background:#fffdf8;padding:34px;border-radius:26px;box-shadow:0 20px 60px #0002}.eyebrow{letter-spacing:.22em;font-size:.72rem}.card h1{font-family:'Cormorant Garamond',serif;font-size:2.7rem;margin:.25em 0}.field{margin:16px 0}.field label{display:block;margin-bottom:7px;font-size:.85rem}.field input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #aaa;border-radius:12px;font:inherit}.btn{width:100%;padding:13px;border:0;border-radius:12px;background:#50643e;color:#fff;font-weight:600;cursor:pointer}.msg{margin-top:14px;line-height:1.45}.ok{color:#305b2f}.error{color:#9d302c}</style>
+</head>
+<body><main class="card"><div class="eyebrow">OM SHANTI · ADMIN</div><h1>Nueva contraseña</h1><p>Elegí una nueva contraseña para tu acceso al panel.</p><div class="field"><label>Nueva contraseña</label><input id="p1" type="password" autocomplete="new-password" minlength="8"></div><div class="field"><label>Repetir contraseña</label><input id="p2" type="password" autocomplete="new-password" minlength="8"></div><button class="btn" id="save">Guardar nueva contraseña</button><div id="msg" class="msg"></div></main>
+<script>
+const SUPABASE_URL='https://gptevruejeluzmnrfkks.supabase.co';
+const SUPABASE_KEY='sb_publishable_msDkHKMUawuS-S6uqn5FbA_vsoaK3mJ';
+function accessToken(){const h=new URLSearchParams(location.hash.replace(/^#/,''));return h.get('access_token')}
+document.getElementById('save').onclick=async()=>{const msg=document.getElementById('msg'),a=document.getElementById('p1').value,b=document.getElementById('p2').value,t=accessToken();msg.textContent='';msg.className='msg';if(!t){msg.textContent='El enlace de recuperación no es válido o ya venció. Pedí uno nuevo desde el panel.';msg.classList.add('error');return}if(a.length<8){msg.textContent='Usá una contraseña de al menos 8 caracteres.';msg.classList.add('error');return}if(a!==b){msg.textContent='Las contraseñas no coinciden.';msg.classList.add('error');return}const r=await fetch(`${SUPABASE_URL}/auth/v1/user`,{method:'PUT',headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${t}`,'Content-Type':'application/json'},body:JSON.stringify({password:a})});const j=await r.json().catch(()=>({}));if(!r.ok){msg.textContent=j.message||'No se pudo actualizar la contraseña.';msg.classList.add('error');return}msg.innerHTML='Contraseña actualizada ✓<br>Ya podés volver al panel e iniciar sesión.';msg.classList.add('ok')};
+</script></body></html>
