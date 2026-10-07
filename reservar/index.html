@@ -1,14 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://www.alquilerargentina.com/alojamientos/rq26-Caba%C3%B1a-Caba%C3%B1as-Om-Shanti-Tigre.html">
-  <title>Reservas | Cabañas Om Shanti</title>
-  <script>
-    window.location.replace("https://www.alquilerargentina.com/alojamientos/rq26-Caba%C3%B1a-Caba%C3%B1as-Om-Shanti-Tigre.html");
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reservas online · Om Shanti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <p>Redirigiendo al sistema de reservas de Cabañas Om Shanti...</p>
+<header class="topbar">
+  <div class="shell">
+    <a class="brand" href="index.html">OM SHANTI<small>CABAÑAS EN TIGRE</small></a>
+    <span class="admin-link" id="connText">Conectando a Supabase…</span>
+  </div>
+</header>
+<section class="hero">
+  <div class="shell">
+    <span class="eyebrow">RESERVAS ONLINE</span>
+    <h1>Elegí tu fecha.<br>El resto empieza acá.</h1>
+    <p>Consultá disponibilidad en tiempo real y reservá tu estadía en Om Shanti.</p>
+  </div>
+</section>
+<main class="shell engine">
+<section class="card search-card">
+  <div class="search-grid">
+    <div class="field"><label>Ingreso</label><input type="date" id="checkin"></div>
+    <div class="field"><label>Salida</label><input type="date" id="checkout"></div>
+    <div class="field"><label>Huéspedes</label><select id="guests">
+      <option value="1">1 huésped</option><option value="2" selected>2 huéspedes</option>
+      <option value="3">3 huéspedes</option><option value="4">4 huéspedes</option>
+    </select></div>
+    <button class="btn primary" id="searchBtn" disabled>Ver disponibilidad</button>
+  </div>
+  <div id="searchMessage"></div>
+</section>
+<section id="availability" class="hidden">
+  <div class="section-title"><span class="eyebrow">UNIDADES DISPONIBLES</span><h2>Elegí tu cabaña</h2><p id="stayLabel"></p></div>
+  <div class="units" id="unitList"></div>
+</section>
+<section id="bookingFlow" class="hidden">
+  <div class="steps"><div class="step active"></div><div class="step active"></div><div class="step" id="step3"></div><div class="step" id="step4"></div></div>
+  <div class="flow">
+    <div class="card panel">
+      <div id="formStage">
+        <span class="eyebrow">DATOS DEL HUÉSPED</span><h2>Completá tu solicitud</h2>
+        <div class="field"><label>Nombre y apellido</label><input id="name" placeholder="Nombre completo"></div><br>
+        <div class="field"><label>Email</label><input id="email" type="email" placeholder="tu@email.com"></div><br>
+        <div class="field"><label>Teléfono / WhatsApp</label><input id="phone" placeholder="+54 9 ..."></div><br>
+        <div class="field"><label>¿Venís con mascota?</label><select id="pet"><option value="false">No</option><option value="true">Sí</option></select></div><br>
+        <div class="field"><label>Observaciones</label><textarea id="notes" placeholder="Horario estimado de llegada, consulta especial, etc."></textarea></div><br>
+        <button class="btn primary" id="continueBtn">Continuar</button>
+      </div>
+      <div id="paymentStage" class="hidden">
+        <div id="paymentHold" class="notice" style="margin-bottom:16px"></div>
+        <span class="eyebrow">SOLICITUD DE RESERVA</span><h2>Confirmá los datos</h2>
+        <div class="notice"><strong>Tu fecha queda reservada durante 2 horas.</strong><br>Realizá la transferencia y cargá el comprobante antes del horario indicado. Una vez recibido, la reserva deja de vencer automáticamente y queda pendiente de nuestra verificación.</div>
+        <div class="transfer">
+            <strong>Reservá tu fecha con el 50% de seña</strong><br>
+            El resto lo abonás al llegar.<br><br>
+            <strong>Datos para transferir</strong><br>
+            Banco: <strong>Banco Provincia</strong><br>
+            Titular: Marcelo Gastón Mundel<br>
+            CBU: <strong>0140047203513854939000</strong><br>
+            Alias: <strong>YESO.NIDO.VIENTO</strong><br>
+            Caja de Ahorro N°: 51385493900<br><br>
+            Importe a transferir: <strong id="paymentAmount">—</strong>
+          </div><br>
+          <div class="field">
+            <label>Comprobante de transferencia</label>
+            <input id="proofFile" type="file" accept="image/jpeg,image/png,application/pdf">
+            <p class="small">Formatos permitidos: JPG, PNG o PDF. Máximo 5 MB.</p>
+          </div><br>
+          <button class="btn primary" id="submitBtn">Enviar comprobante</button>
+      </div>
+      <div id="successStage" class="hidden success">
+        <div class="tick">✓</div><h2>¡Recibimos tu comprobante! 🌿</h2>
+        <p>Gracias por elegir Om Shanti.</p>
+        <p>Tus fechas quedaron reservadas mientras verificamos la transferencia. En breve vas a recibir por email la confirmación de tu reserva.</p>
+        <p><strong>El saldo restante lo abonás al llegar.</strong></p>
+        <p class="small">Código de reserva: <strong id="bookingId"></strong></p>
+        <p class="small">Horarios, indicaciones y detalles de la cabaña: <a href="https://cabanasomshanti.com/reglas" target="_blank" rel="noopener">cabanasomshanti.com/reglas</a></p>
+      </div>
+    </div>
+    <aside class="card panel">
+      <span class="eyebrow">RESUMEN</span><h2 id="summaryUnit">Tu estadía</h2>
+      <div id="summary"><p class="muted">Elegí fechas para comenzar.</p></div>
+    </aside>
+  </div>
+</section>
+</main>
+<footer class="footer"><div class="shell"><strong>OM SHANTI · TIGRE</strong><p>Reservas online · Om Shanti</p></div></footer>
+<script src="app.js"></script>
 </body>
 </html>
