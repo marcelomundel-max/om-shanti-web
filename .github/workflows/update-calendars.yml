@@ -20,7 +20,7 @@ jobs:
         run: |
           curl --fail --silent --show-error --location \
             -X POST \
-            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/sync-airbnb-calendar' \
+            'https://gptevruejeluzmnrfkks.supabase.co/functions/v1/sync-airbnb-calendar' \
             -H 'Content-Type: application/json' \
             -H 'x-cron-secret: ${{ secrets.AIRBNB_SYNC_CRON_SECRET }}' \
             --data '{"automatic":true}'
