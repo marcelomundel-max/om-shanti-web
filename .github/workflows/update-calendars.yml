@@ -19,13 +19,13 @@ jobs:
         run: |
           mkdir -p calendarios
           curl --fail --silent --show-error --location \
-            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=rustic' \
+            'https://gptevruejeluzmnrfkks.supabase.co/functions/v1/omshanti-calendar?unit=rustic' \
             -o calendarios/rustic.ics
 
       - name: Actualizar Zen desde Supabase
         run: |
           curl --fail --silent --show-error --location \
-            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=zen' \
+            'https://gptevruejeluzmnrfkks.supabase.co/functions/v1/omshanti-calendar?unit=zen' \
             -o calendarios/zen.ics
 
       - name: Verificar formato iCal
