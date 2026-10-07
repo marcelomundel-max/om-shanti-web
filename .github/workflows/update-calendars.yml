@@ -1,0 +1,48 @@
+name: Actualizar calendarios Om Shanti
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update-calendars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Actualizar Rustic desde Supabase
+        run: |
+          mkdir -p calendarios
+          curl --fail --silent --show-error --location \
+            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=rustic' \
+            -o calendarios/rustic.ics
+
+      - name: Actualizar Zen desde Supabase
+        run: |
+          curl --fail --silent --show-error --location \
+            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=zen' \
+            -o calendarios/zen.ics
+
+      - name: Verificar formato iCal
+        run: |
+          grep -q '^BEGIN:VCALENDAR' calendarios/rustic.ics
+          grep -q '^END:VCALENDAR' calendarios/rustic.ics
+          grep -q '^BEGIN:VCALENDAR' calendarios/zen.ics
+          grep -q '^END:VCALENDAR' calendarios/zen.ics
+
+      - name: Guardar cambios si los hay
+        run: |
+          git config user.name 'Om Shanti Calendar Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add calendarios/rustic.ics calendarios/zen.ics
+          if git diff --cached --quiet; then
+            echo 'No hay cambios en los calendarios.'
+          else
+            git commit -m 'Actualizar calendarios Airbnb'
+            git push
+          fi
