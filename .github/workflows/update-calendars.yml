@@ -14,6 +14,14 @@ jobs:
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
+        - name: Sincronizar Airbnb con Om Shanti
+        run: |
+          curl --fail --silent --show-error --location \
+            -X POST \
+            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/sync-airbnb-calendar' \
+            -H 'Content-Type: application/json' \
+            -H 'x-cron-secret: ${{ secrets.AIRBNB_SYNC_CRON_SECRET }}' \
+            --data '{"automatic":true}'
 
       - name: Actualizar Rustic desde Supabase
         run: |
