@@ -3,7 +3,7 @@ name: Actualizar calendarios Om Shanti
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '5 * * * *'
 
 permissions:
   contents: write
@@ -11,10 +11,12 @@ permissions:
 jobs:
   update-calendars:
     runs-on: ubuntu-latest
+
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
-        - name: Sincronizar Airbnb con Om Shanti
+
+      - name: Sincronizar Airbnb con Om Shanti
         run: |
           curl --fail --silent --show-error --location \
             -X POST \
@@ -27,13 +29,13 @@ jobs:
         run: |
           mkdir -p calendarios
           curl --fail --silent --show-error --location \
-            'https://gptevruejeluzmnrfkks.supabase.co/functions/v1/omshanti-calendar?unit=rustic' \
+            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=rustic' \
             -o calendarios/rustic.ics
 
       - name: Actualizar Zen desde Supabase
         run: |
           curl --fail --silent --show-error --location \
-            'https://gptevruejeluzmnrfkks.supabase.co/functions/v1/omshanti-calendar?unit=zen' \
+            'https://gptevruejeluzmrnfkks.supabase.co/functions/v1/omshanti-calendar?unit=zen' \
             -o calendarios/zen.ics
 
       - name: Verificar formato iCal
@@ -45,12 +47,13 @@ jobs:
 
       - name: Guardar cambios si los hay
         run: |
-          git config user.name 'Om Shanti Calendar Bot'
-          git config user.email 'actions@users.noreply.github.com'
+          git config user.name "Om Shanti Calendar Bot"
+          git config user.email "actions@users.noreply.github.com"
           git add calendarios/rustic.ics calendarios/zen.ics
+
           if git diff --cached --quiet; then
-            echo 'No hay cambios en los calendarios.'
+            echo "No hay cambios en los calendarios."
           else
-            git commit -m 'Actualizar calendarios Airbnb'
+            git commit -m "Actualizar calendarios Om Shanti"
             git push
           fi
