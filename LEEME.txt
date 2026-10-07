@@ -1,0 +1,20 @@
+OM SHANTI - CALENDARIOS PUBLICOS PARA AIRBNB
+
+Subir estas rutas al repositorio principal de GitHub Pages SIN reemplazar index.html:
+
+1) calendarios/rustic.ics
+2) calendarios/zen.ics
+3) .github/workflows/update-calendars.yml
+
+Cuando GitHub Pages publique los archivos, las URLs seran:
+https://cabanasomshanti.com/calendarios/rustic.ics
+https://cabanasomshanti.com/calendarios/zen.ics
+
+El workflow consulta la Edge Function omshanti-calendar una vez por hora, a los 17 minutos de cada hora, y actualiza los dos archivos solo si hubo cambios.
+
+Tambien se puede ejecutar manualmente desde GitHub > Actions > Actualizar calendarios Om Shanti > Run workflow.
+
+IMPORTANTE:
+- No reemplazar el index.html de la web.
+- La Edge Function omshanti-calendar debe quedar publica (Verify JWT with legacy secret apagado).
+- Probar primero las URLs publicas antes de cargarlas en Airbnb.
