@@ -1,99 +1,546 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reservas online · Om Shanti</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2212%22%20fill%3D%22%23f6f1e7%22%2F%3E%0A%3Ctext%20x%3D%2232%22%20y%3D%2239%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2225%22%20font-weight%3D%22700%22%20fill%3D%22%23263b28%22%3EOM%3C%2Ftext%3E%0A%3C%2Fsvg%3E" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Om Shanti Tigre | Cabaña para descansar y disfrutar</title>
+<meta content="Om Shanti en Tigre centro. Cabaña para 2 a 4 huéspedes, pet friendly, a 200 metros del río y de la ciudad." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-0BV3BNHG4C"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0BV3BNHG4C');
+  </script>
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1818328219537401');
+  fbq('track', 'PageView');
+  </script>
+<noscript><img height="1" src="https://www.facebook.com/tr?id=1818328219537401&amp;ev=PageView&amp;noscript=1" style="display:none" width="1"/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+/* ===== OPINIONES DE HUÉSPEDES 2026 ===== */
+.testimonials.reviews-showcase{
+  background:#f4f0e6;
+  padding-top:74px;
+  padding-bottom:74px;
+}
+.reviews-wrap{max-width:1180px;margin:0 auto;padding:0 5vw;}
+.reviews-head{display:flex;justify-content:space-between;gap:32px;align-items:flex-end;margin-bottom:30px;}
+.reviews-head h2{margin:.15em 0 0;font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,4.6vw,4.4rem);line-height:.96;color:#22251d;}
+.reviews-head p{margin:0;max-width:470px;color:#64675d;line-height:1.6;}
+.reviews-summary{display:flex;align-items:center;gap:12px;padding:14px 18px;border-left:1px solid rgba(60,65,45,.18);color:#495233;}
+.reviews-summary strong{display:block;font-size:1.05rem;color:#29301f;}
+.reviews-summary span{display:block;font-size:.86rem;color:#73776d;margin-top:2px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}
+.review-card{background:rgba(255,255,255,.78);border:1px solid rgba(67,75,46,.13);border-radius:20px;padding:24px;box-shadow:0 10px 28px rgba(45,48,34,.055);display:flex;flex-direction:column;min-height:315px;}
+.review-card.featured{background:linear-gradient(145deg,#f4f5e9,#faf8f0);border-color:rgba(119,137,65,.28);}
+.review-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+.review-source{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600;padding:7px 11px;border-radius:999px;background:#f7eaea;color:#b44c4c;}
+.review-source.direct{background:#e9eddc;color:#50642c;}
+.review-quote{font-family:'Cormorant Garamond',serif;font-size:2rem;line-height:1;color:#c7bb8d;}
+.review-person{display:flex;align-items:center;gap:13px;margin-bottom:14px;}
+.review-avatar{width:50px;height:50px;flex:0 0 50px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:1.35rem;background:#e7ebdd;color:#47602b;}
+.review-card:nth-child(3n) .review-avatar{background:#ece8f7;color:#6355a4;}
+.review-card:nth-child(4n) .review-avatar{background:#e4f0e5;color:#35724a;}
+.review-person h3{font-family:'Cormorant Garamond',serif;font-size:1.55rem;margin:0;color:#20231d;}
+.review-stars{letter-spacing:2px;color:#d89d22;font-size:1.02rem;margin-top:3px;}
+.review-text{font-size:.98rem;line-height:1.55;color:#373a34;margin:0 0 18px;flex:1;}
+.review-meta{border-top:1px solid rgba(56,62,42,.12);padding-top:14px;font-size:.82rem;color:#74786f;}
+.review-note{margin-top:20px;text-align:center;font-size:.82rem;color:#777a72;}
+.reviews-cta{margin-top:28px;border-radius:22px;overflow:hidden;background:linear-gradient(90deg,rgba(40,46,28,.95),rgba(64,72,39,.93));display:flex;align-items:center;justify-content:space-between;gap:22px;padding:22px 26px;color:#fff;}
+.reviews-cta h3{font-family:'Cormorant Garamond',serif;font-size:2rem;margin:0 0 2px;}
+.reviews-cta p{margin:0;color:rgba(255,255,255,.78);}
+.reviews-cta .btn{white-space:nowrap;margin:0;}
+@media(max-width:900px){.reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.reviews-head{align-items:flex-start;flex-direction:column}.reviews-summary{border-left:0;border-top:1px solid rgba(60,65,45,.18);padding-left:0;width:100%}}
+@media(max-width:650px){.testimonials.reviews-showcase{padding:54px 0}.reviews-wrap{padding:0 5.5vw}.reviews-grid{grid-template-columns:1fr}.review-card{min-height:0;padding:21px}.reviews-head h2{font-size:clamp(2.55rem,12vw,3.5rem)}.reviews-summary{display:none}.reviews-cta{align-items:flex-start;flex-direction:column}.reviews-cta .btn{width:100%;text-align:center}.review-text{font-size:1rem}}
+
+/* ===== BOTÓN FLOTANTE COMPARTIR ===== */
+.floating-share{position:fixed;right:24px;bottom:92px;z-index:999;width:58px;height:58px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:#f4f0e6;color:#2f3928;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer}.floating-share svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.floating-share-label{position:fixed;right:92px;bottom:108px;z-index:998;background:#22251d;color:#fff;padding:8px 12px;border-radius:999px;font:500 12px/1 'Inter',sans-serif;opacity:0;pointer-events:none;white-space:nowrap}.floating-share:hover + .floating-share-label,.floating-share:focus + .floating-share-label{opacity:1}@media(max-width:650px){.floating-share{right:18px;bottom:88px;width:54px;height:54px}.floating-share-label{display:none}}
+
+/* ===== NUESTRA HISTORIA ===== */
+.story-section{
+  background:#f6f1e5;
+  color:#25291f;
+  padding:86px 0;
+  scroll-margin-top:92px;
+  overflow:hidden;
+}
+.story-wrap{max-width:1180px;margin:0 auto;padding:0 5vw;}
+.story-intro{text-align:center;max-width:820px;margin:0 auto 48px;}
+.story-intro h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,5.6vw,5.3rem);
+  line-height:.94;
+  margin:.18em 0 .2em;
+}
+.story-intro .lead{max-width:720px;margin:0 auto;color:#606456;line-height:1.65;}
+.story-step{
+  display:grid;
+  grid-template-columns:minmax(260px,.82fr) minmax(0,1.65fr);
+  gap:38px;
+  align-items:center;
+  padding:34px 0;
+  border-top:1px solid rgba(64,72,43,.18);
+}
+.story-step.reverse{grid-template-columns:minmax(0,1.65fr) minmax(260px,.82fr);}
+.story-copy{padding:10px 0;}
+.story-number{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:45px;height:34px;padding:0 13px;border-radius:999px;
+  background:#e9e2ca;color:#58633a;font-weight:600;font-size:.9rem;margin-bottom:12px;
+}
+.story-copy h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.7vw,3.3rem);
+  line-height:1;
+  margin:0 0 14px;
+}
+.story-copy p{margin:0;color:#5d6156;line-height:1.68;font-size:1rem;}
+.story-photo,.story-collage img{
+  display:block;width:100%;height:100%;object-fit:cover;border-radius:18px;
+  box-shadow:0 12px 30px rgba(40,42,31,.08);
+}
+.story-photo-wrap{height:390px;}
+.story-collage{display:grid;gap:10px;height:390px;}
+.story-collage.travel{grid-template-columns:1.15fr 1fr 1fr;}
+.story-collage.travel img:nth-child(1){grid-row:1 / span 2;}
+.story-collage.travel img:nth-child(2){grid-column:2;grid-row:1;}
+.story-collage.travel img:nth-child(3){grid-column:2 / span 2;grid-row:2;}
+.story-collage.build{grid-template-columns:1.4fr .8fr;grid-template-rows:1fr 1fr;}
+.story-collage.build img:first-child{grid-row:1 / span 2;}
+.story-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:390px;}
+.story-pair img{width:100%;height:100%;object-fit:cover;border-radius:18px;box-shadow:0 12px 30px rgba(40,42,31,.08);}
+.story-ending{
+  margin-top:38px;padding:32px 34px;border-radius:24px;
+  background:linear-gradient(135deg,#e9e5cf,#f4f0e5);
+  display:grid;grid-template-columns:.7fr 1.3fr;gap:34px;align-items:center;
+}
+.story-ending h3{font-family:'Cormorant Garamond',serif;font-size:3rem;margin:0 0 8px;}
+.story-ending p{margin:0;color:#5b6052;line-height:1.6;}
+.story-quote{
+  border-left:1px solid rgba(70,78,45,.25);
+  padding-left:34px;font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.8rem,3vw,2.8rem);font-style:italic;line-height:1.1;color:#485231;
+}
+@media(max-width:900px){
+  .story-step,.story-step.reverse{grid-template-columns:1fr;gap:20px}
+  .story-step.reverse .story-copy{order:1}.story-step.reverse .story-media{order:2}
+  .story-ending{grid-template-columns:1fr}.story-quote{border-left:0;border-top:1px solid rgba(70,78,45,.25);padding:24px 0 0}
+}
+@media(max-width:650px){
+  .story-section{padding:62px 0}
+  .story-wrap{padding:0 5.5vw}
+  .story-intro{margin-bottom:30px}
+  .story-step{padding:28px 0}
+  .story-photo-wrap,.story-collage,.story-pair{height:auto}
+  .story-photo-wrap .story-photo{aspect-ratio:4/3}
+  .story-collage.travel{grid-template-columns:1fr 1fr;height:auto}
+  .story-collage.travel img{height:170px}
+  .story-collage.travel img:nth-child(1){grid-row:auto;grid-column:1 / span 2;height:235px}
+  .story-collage.travel img:nth-child(2){grid-column:1;grid-row:auto}
+  .story-collage.travel img:nth-child(3){grid-column:2;grid-row:auto}
+  .story-collage.build{grid-template-columns:1fr 1fr;grid-template-rows:auto;height:auto}
+  .story-collage.build img{height:175px}
+  .story-collage.build img:first-child{grid-column:1 / span 2;grid-row:auto;height:235px}
+  .story-pair{grid-template-columns:1fr;height:auto}
+  .story-pair img{height:240px}
+  .story-ending{padding:26px 22px}
+  .story-ending h3{font-size:2.5rem}
+}
+
+</style>
+
 </head>
 <body>
 <header class="topbar">
-  <div class="shell">
-    <a class="brand" href="index.html">OM SHANTI<small>CABAÑAS EN TIGRE</small></a>
-    <span class="admin-link" id="connText">Conectando a Supabase…</span>
-  </div>
+<a class="brand" href="#inicio">OM SHANTI <small>CABAÑAS EN TIGRE</small></a>
+<button aria-label="Abrir menú" class="menu-btn">☰</button>
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#cabana">La cabaña</a>
+<a href="#historia">Historia</a>
+<a href="#experiencia">Experiencia</a>
+<a href="#galeria">Galería</a>
+<a href="#opiniones">Opiniones</a>
+<a href="#contacto">Contacto</a>
+<a class="nav-cta" data-cta-location="nav" data-cta-type="booking" href="/reservar/">Reservar online</a>
+</nav>
 </header>
-<section class="hero">
-  <div class="shell">
-    <span class="eyebrow">RESERVAS ONLINE</span>
-    <h1>Elegí tu fecha.<br>El resto empieza acá.</h1>
-    <p>Consultá disponibilidad en tiempo real y reservá tu estadía en Om Shanti.</p>
-  </div>
+<main>
+<section class="hero" id="inicio">
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<span class="eyebrow">TIGRE · BUENOS AIRES</span>
+<h1>Tu lugar para frenar, respirar y disfrutar.</h1>
+<p>Cabaña para 2 a 4 huéspedes en Tigre centro, a 200 metros del río y de la ciudad.</p>
+<div class="hero-price">Desde <strong>$80.000</strong> por noche · 1 o 2 huéspedes</div><div class="hero-cta-row">
+<a class="btn primary" data-cta-location="hero" data-cta-type="booking" href="/reservar/">Reservar online</a>
+</div>
+<div class="hero-points">
+<span>📍 Tigre centro</span>
+<span>🌿 Entorno tranquilo</span>
+<span>🐾 Pet friendly</span>
+</div>
+</div>
+</section><section class="booking-steps" id="como-reservar"><div class="booking-steps-inner"><span class="eyebrow dark">CÓMO RESERVAR</span><h2>Reservá tu fecha en 3 pasos.</h2><div class="booking-steps-grid"><div class="booking-step"><span class="booking-step-number">1</span><div><h3>Elegí tu fecha</h3><p>Consultá disponibilidad online en tiempo real y elegí la opción que preferís.</p></div></div><div class="booking-step"><span class="booking-step-number">2</span><div><h3>Completá tus datos</h3><p>Tu fecha queda reservada durante 2 horas mientras realizás la transferencia.</p></div></div><div class="booking-step"><span class="booking-step-number">3</span><div><h3>Cargá el comprobante</h3><p>Transferí la seña del 50% y cargá el comprobante. Tus fechas quedan reservadas mientras verificamos el pago.</p></div></div></div></div></section>
+<section class="quick-facts">
+<div><strong>2 a 4</strong><span>huéspedes</span></div>
+<div><strong>200 m</strong><span>del río y de la ciudad</span></div>
+<div><strong>Pet friendly</strong><span>tu mascota es bienvenida</span></div>
+<div><strong>Desayuno</strong><span>de bienvenida</span></div>
 </section>
-<main class="shell engine">
-<section class="card search-card">
-  <div class="search-grid">
-    <div class="field"><label>Ingreso</label><input type="date" id="checkin"></div>
-    <div class="field"><label>Salida</label><input type="date" id="checkout"></div>
-    <div class="field"><label>Huéspedes</label><select id="guests">
-      <option value="1">1 huésped</option><option value="2" selected>2 huéspedes</option>
-      <option value="3">3 huéspedes</option><option value="4">4 huéspedes</option>
-    </select></div>
-    <button class="btn primary" id="searchBtn" disabled>Ver disponibilidad</button>
-  </div>
-  <div id="searchMessage"></div>
+<section class="section intro" id="experiencia">
+<div class="narrow center">
+<span class="eyebrow dark">VIVÍ TIGRE DE OTRA MANERA</span>
+<h2>Una escapada para bajar el ritmo.</h2>
+<p class="lead">Om Shanti es un espacio cálido, cómodo y tranquilo para descansar, reconectar y disfrutar Tigre sin apuro. Cerca de todo, pero con la calma suficiente para sentir que realmente te escapaste.</p>
+</div>
 </section>
-<section id="availability" class="hidden">
-  <div class="section-title"><span class="eyebrow">UNIDADES DISPONIBLES</span><h2>Elegí tu cabaña</h2><p id="stayLabel"></p></div>
-  <div class="units" id="unitList"></div>
+<section class="section split alt" id="cabana">
+<div class="photo-wrap"><img alt="Interior de la cabaña Om Shanti" src="assets/interior.jpg"/></div>
+<div class="split-copy">
+<span class="eyebrow dark">LA CABAÑA</span>
+<h2>Todo lo que necesitás para sentirte cómodo.</h2>
+<p>Un monoambiente cálido y funcional pensado para parejas, familias pequeñas o escapadas con mascota.</p>
+<ul class="features">
+<li>1 cama Queen + futón</li>
+<li>Capacidad para 2 a 4 huéspedes</li>
+<li>Desayuno de bienvenida</li>
+<li>Aire frío/calor</li>
+<li>WiFi</li>
+<li>Smart TV con Netflix</li>
+<li>Deck y galería privada</li>
+<li>Pet friendly</li>
+</ul>
+<a class="text-link" data-cta-location="cabana" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20consultar%20una%20fecha." rel="noopener" target="_blank">Consultar una fecha →</a>
+</div>
 </section>
-<section id="bookingFlow" class="hidden">
-  <div class="steps"><div class="step active"></div><div class="step active"></div><div class="step" id="step3"></div><div class="step" id="step4"></div></div>
-  <div class="flow">
-    <div class="card panel">
-      <div id="formStage">
-        <span class="eyebrow">DATOS DEL HUÉSPED</span><h2>Completá tu solicitud</h2>
-        <div class="field"><label>Nombre y apellido</label><input id="name" placeholder="Nombre completo"></div><br>
-        <div class="field"><label>Email</label><input id="email" type="email" placeholder="tu@email.com"></div><br>
-        <div class="field"><label>Teléfono / WhatsApp</label><input id="phone" placeholder="+54 9 ..."></div><br>
-        <div class="field"><label>¿Venís con mascota?</label><select id="pet"><option value="false">No</option><option value="true">Sí</option></select></div><br>
-        <div class="field"><label>Observaciones</label><textarea id="notes" placeholder="Horario estimado de llegada, consulta especial, etc."></textarea></div><br>
-        <button class="btn primary" id="continueBtn">Continuar</button>
+
+
+
+<section class="section location">
+<div class="location-card">
+<span class="eyebrow dark">UBICACIÓN</span>
+<h2>Tigre centro, cerca de todo.</h2>
+<p>Una ubicación ideal para disfrutar Tigre caminando, con el río, paseos, museos y gastronomía muy cerca.</p>
+<ul class="location-highlights"><li>200 m de Paseo Victorica</li><li>15 min caminando al Museo de Arte Tigre</li><li>15 min caminando al Puerto de Frutos</li><li>Bares y restaurantes a pasos</li></ul></div>
+<div class="photo-wrap"><img alt="Exterior y deck de Om Shanti" src="assets/exterior.jpg"/></div>
+</section>
+<section class="section gallery" id="galeria">
+<div class="section-head">
+<span class="eyebrow dark">GALERÍA</span>
+<h2>Así se vive Om Shanti.</h2>
+</div>
+<div class="gallery-grid">
+<figure class="tall gallery-card">
+<img alt="Deck de Om Shanti" class="lightbox-trigger" data-full="assets/deck1.jpg" src="assets/deck1.jpg"/>
+</figure>
+<figure class="gallery-card">
+<img alt="Cama de la cabaña" class="lightbox-trigger" data-full="assets/bed.jpg" src="assets/bed.jpg"/>
+</figure>
+<figure class="gallery-card">
+<img alt="Interior de Om Shanti" class="lightbox-trigger" data-full="assets/interior2.jpg" src="assets/interior2.jpg"/>
+</figure>
+<figure class="wide gallery-card">
+<img alt="Galería de la cabaña" class="lightbox-trigger" data-full="assets/deck2.jpg" src="assets/deck2.jpg"/>
+</figure>
+<figure class="gallery-card">
+<img alt="Baño de Om Shanti" class="lightbox-trigger" data-full="assets/bathroom.jpg" src="assets/bathroom.jpg"/>
+</figure>
+</div>
+</section>
+<section class="story-section" id="historia">
+  <div class="story-wrap">
+    <div class="story-intro">
+      <span class="eyebrow dark">NUESTRA HISTORIA</span>
+      <h2>La historia de Om Shanti</h2>
+      <p class="lead">Una historia que empezó mucho antes de tener nombre: viajes, trabajo, sueños compartidos y ganas de crear un lugar para frenar, respirar y disfrutar.</p>
+    </div>
+
+    <div class="story-step">
+      <div class="story-copy">
+        <span class="story-number">01</span>
+        <h3>Antes de tener nombre</h3>
+        <p>Mucho antes de imaginar Om Shanti, hubo viajes, caminos y lugares que nos fueron marcando. Sin saberlo, fuimos guardando pequeños detalles: la forma en que nos recibían, los espacios donde nos sentíamos cómodos y esa sensación de sentirse como en casa aun estando lejos.</p>
       </div>
-      <div id="paymentStage" class="hidden">
-        <div id="paymentHold" class="notice" style="margin-bottom:16px"></div>
-        <span class="eyebrow">SOLICITUD DE RESERVA</span><h2>Completá tu reserva</h2>
-        
-        <div class="transfer">
-            <strong>Reservá tu fecha con el 50% de seña</strong><br>
-            El resto lo abonás al llegar.<br><br>
-            <strong>Datos para transferir</strong><br>
-            Banco: <strong>Banco Provincia</strong><br>
-            Titular: Marcelo Gastón Mundel<br>
-            CBU: <strong>0140047203513854939000</strong><br>
-            Alias: <strong>YESO.NIDO.VIENTO</strong><br>
-            Caja de Ahorro N°: 51385493900<br><br>
-            Importe a transferir: <strong id="paymentAmount">—</strong>
-          </div><br>
-          <div class="field">
-            <label>Comprobante de transferencia</label>
-            <input id="proofFile" type="file" accept="image/jpeg,image/png,application/pdf">
-            <p class="small">Formatos permitidos: JPG, PNG o PDF. Máximo 5 MB.</p>
-          </div><br>
-          <button class="btn primary" id="submitBtn">Enviar comprobante</button>
-      </div>
-      <div id="successStage" class="hidden success">
-        <div class="tick">✓</div><h2>¡Recibimos tu comprobante! 🌿</h2>
-        <p>Gracias por elegir Om Shanti.</p>
-        <p>Tus fechas quedaron reservadas mientras verificamos la transferencia. En breve vas a recibir por email la confirmación de tu reserva.</p>
-        <p><strong>El saldo restante lo abonás al llegar.</strong></p>
-        <p class="small">Código de reserva: <strong id="bookingId"></strong></p>
-        <p class="small">Horarios, indicaciones y detalles de la cabaña: <a href="https://cabanasomshanti.com/reglas" target="_blank" rel="noopener">cabanasomshanti.com/reglas</a></p>
+      <div class="story-media">
+        <div class="story-collage travel">
+          <img src="assets/historia-viaje-glaciar.jpg" alt="Marcelo y Marisa viajando antes de crear Om Shanti"/>
+          <img src="assets/historia-viaje-lagos.jpg" alt="Uno de los viajes que inspiraron la forma de recibir huéspedes"/>
+          <img src="assets/historia-viaje-salinas.jpg" alt="Marcelo y Marisa durante uno de sus viajes"/>
+        </div>
       </div>
     </div>
-    <aside class="card panel">
-      <span class="eyebrow">RESUMEN</span><h2 id="summaryUnit">Tu estadía</h2>
-      <div id="summary"><p class="muted">Elegí fechas para comenzar.</p></div>
-    </aside>
+
+    <div class="story-step reverse">
+      <div class="story-media">
+        <div class="story-photo-wrap">
+          <img class="story-photo" src="assets/historia-idea-rio.jpg" alt="Marcelo y Marisa junto al río, donde empezó a tomar forma la idea de Om Shanti"/>
+        </div>
+      </div>
+      <div class="story-copy">
+        <span class="story-number">02</span>
+        <h3>2018 · La idea</h3>
+        <p>Entre mates a orillas del río Reconquista, esa idea que venía creciendo empezó a tomar forma: crear un lugar donde pudiéramos recibir a otros con la misma calidez con la que a nosotros nos gustaba ser recibidos. Así empezó Om Shanti.</p>
+      </div>
+    </div>
+
+    <div class="story-step">
+      <div class="story-copy">
+        <span class="story-number">03</span>
+        <h3>Manos a la obra</h3>
+        <p>El proyecto tomó forma con trabajo propio, aprendizaje y mucha ilusión. Cada avance fue una mezcla de esfuerzo, entusiasmo y visión compartida. No queríamos solamente construir un alojamiento: queríamos darle identidad.</p>
+      </div>
+      <div class="story-media">
+        <div class="story-collage build">
+          <img src="assets/historia-obra-techo.jpg" alt="Trabajo de construcción realizado para dar forma a Om Shanti"/>
+          <img src="assets/historia-obra-nosotros.jpg" alt="Marcelo y Marisa durante la construcción de Om Shanti"/>
+          <img src="assets/historia-deck.jpg" alt="Construcción artesanal del deck de Om Shanti"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-step reverse">
+      <div class="story-media">
+        <div class="story-pair">
+          <img src="assets/historia-espacio-vacio.jpg" alt="Interior de Om Shanti durante sus primeros pasos"/>
+          <img src="assets/historia-taller.jpg" alt="Trabajos de carpintería y terminaciones en Om Shanti"/>
+        </div>
+      </div>
+      <div class="story-copy">
+        <span class="story-number">04</span>
+        <h3>El espacio empezó a transformarse</h3>
+        <p>Piso, cocina, deck, carpintería, iluminación y detalles. De a poco, aquel espacio vacío fue convirtiéndose en el refugio que habíamos imaginado. Muchas de las cosas que hoy forman parte de Om Shanti nacieron literalmente de nuestras manos.</p>
+      </div>
+    </div>
+
+    <div class="story-ending">
+      <div>
+        <span class="story-number">05</span>
+        <h3>Hoy</h3>
+        <p>Om Shanti sigue creciendo, pero conserva la esencia del primer día: ofrecer un lugar donde bajar el ritmo, sentirse bien recibido y llevarse un lindo recuerdo de Tigre.</p>
+      </div>
+      <div class="story-quote">“Om Shanti significa paz y tranquilidad. Y eso sigue siendo lo que queremos compartir con cada persona que llega.”</div>
+    </div>
   </div>
 </section>
+
+
+<section class="section alt discover" id="disfrutar">
+<div class="narrow">
+<div class="center">
+<span class="eyebrow dark">PARA DISFRUTAR SIN APURARSE</span>
+<h2>Descansá, recorré, volvé.</h2>
+<p class="lead">Elegí una propuesta y mirá qué podés hacer en Tigre durante tu estadía.</p>
+<div aria-label="Propuestas para disfrutar Tigre" class="pill-row discover-pills" role="tablist">
+<button aria-selected="true" class="discover-pill active" data-discover="victorica" role="tab" type="button">Paseo Victorica</button>
+<button aria-selected="false" class="discover-pill" data-discover="delta" role="tab" type="button">Río y Delta</button>
+<button aria-selected="false" class="discover-pill" data-discover="museos" role="tab" type="button">Museos</button>
+<button aria-selected="false" class="discover-pill" data-discover="gastronomia" role="tab" type="button">Gastronomía</button>
+<button aria-selected="false" class="discover-pill" data-discover="caminatas" role="tab" type="button">Caminatas</button>
+<button aria-selected="false" class="discover-pill" data-discover="pareja" role="tab" type="button">Escapadas en pareja</button>
+</div>
+</div>
+<div aria-live="polite" class="discover-panel" role="tabpanel">
+<div class="discover-photo-wrap">
+<img alt="Paseo Victorica al atardecer en Tigre" id="discoverImage" src="assets/paseo-victorica.png"/>
+</div>
+<div class="discover-copy">
+<span class="discover-kicker" id="discoverKicker">Muy cerca de Om Shanti</span>
+<h3 id="discoverTitle">Paseo Victorica</h3>
+<p class="discover-lead-text" id="discoverLead">Una de las postales más lindas de Tigre, ideal para caminar frente al río, tomar algo y disfrutar el atardecer.</p>
+<ul class="discover-list" id="discoverList">
+<li>Recorrer la costanera y sacar fotos al río.</li>
+<li>Descubrir bares, cafés y restaurantes con vista.</li>
+<li>Pasar por clubes de remo y rincones clásicos de Tigre.</li>
+<li>Armar una salida relajada al caer la tarde.</li>
+</ul>
+<p class="discover-note" id="discoverNote">Ideal si querés combinar descanso con una salida linda sin alejarte demasiado.</p>
+<a class="btn primary" data-cta-location="discover_section" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20me%20interesa%20una%20escapada%20para%20recorrer%20Paseo%20Victorica." id="discoverCta" rel="noopener" target="_blank">Consultar esta escapada</a>
+</div>
+</div>
+</div>
+</section>
+<section class="section testimonials reviews-showcase" id="opiniones">
+<div class="reviews-wrap">
+  <div class="reviews-head">
+    <div>
+      <span class="eyebrow dark">LA VOZ DE NUESTROS HUÉSPEDES</span>
+      <h2>Opiniones de huéspedes</h2>
+      <p>Experiencias compartidas directamente por quienes se alojaron en Om Shanti.</p>
+    </div>
+    <div class="reviews-summary" aria-label="Resumen de opiniones">
+      <div aria-hidden="true" style="font-size:1.9rem">♧</div>
+      <div><strong>6 reseñas directas</strong><span>Historias reales, compartidas por nuestros huéspedes.</span></div>
+    </div>
+  </div>
+
+  <div class="reviews-grid">
+    <article class="review-card featured">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">A</div><div><h3>Andrea</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“Muy lindo, súper cómodo, ideal para descansar. Excelente la atención.”</p>
+      <div class="review-meta">Estadía: 27 de septiembre de 2026</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">F</div><div><h3>Federico</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“Experiencia más que reconfortante, el alojamiento cuenta con todas las comodidades y la ubicación es excelente para desplazarse sin necesidad de usar el vehículo. Volvería sin dudarlo.”</p>
+      <div class="review-meta">Estadía: 25 de septiembre de 2026</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">S</div><div><h3>Sofía</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“La verdad que fue una experiencia hermosa. Quizás cambiaría ciertas cosas, pero nada que no se pueda mejorar.”</p>
+      <div class="review-meta">Estadía: 4 de septiembre de 2026</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">L</div><div><h3>Leonardo</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“Con mi pareja quedamos encantados con la cabaña, que cuenta con todas las comodidades y acompaña con tranquilidad y paz. Nos tocó unos días muy lindos y pudimos recorrer distintos puntos turísticos de Tigre. Un lugar súper tranquilo para escaparse y distenderse. La pasamos de 10.”</p>
+      <div class="review-meta">Estadía: 9 de septiembre de 2026</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">N</div><div><h3>Nadia</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“Excelente el lugar, cada detalle, tranquilidad absoluta, muy buena atención. Muy recomendable para descansar y desconectar.”</p>
+      <div class="review-meta">Reseña directa de huésped</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top"><span class="review-source direct">✉ Reseña directa</span><span class="review-quote">”</span></div>
+      <div class="review-person"><div class="review-avatar">M</div><div><h3>Mayra</h3><div class="review-stars">★★★★★</div></div></div>
+      <p class="review-text">“Súper recomiendo la cabaña. Es un lugar tranquilo y lleno de paz, muy lindo para ir a caminar. La atención muy buena de Marcelo. ¡Volveremos pronto, gracias por todo!”</p>
+      <div class="review-meta">Estadía: 15 de septiembre de 2026</div>
+    </article>
+  </div>
+
+  <p class="review-note">Todas las reseñas fueron enviadas directamente por huéspedes de Om Shanti mediante nuestro formulario privado y autorizadas para su publicación.</p>
+
+  <div class="reviews-cta">
+    <div><h3>¿Querés vivir tu propia experiencia?</h3><p>Descubrí la tranquilidad de Om Shanti en Tigre.</p></div>
+    <a class="btn primary" data-cta-location="reviews" data-cta-type="booking" href="/reservar/">Reservar online</a>
+  </div>
+</div>
+</section>
+
+<section class="section experiences-addon" id="experiencias-adicionales">
+<div class="section-head experiences-head">
+<span class="eyebrow dark">EXPERIENCIAS ADICIONALES</span>
+<h2>Experiencias para sumar a tu estadía.</h2>
+<p class="lead">Opciones para disfrutar Tigre de otra manera. Consultá disponibilidad, detalles y valores actualizados en nuestro catálogo de WhatsApp.</p>
+</div>
+<div class="experience-grid">
+<article class="experience-card">
+<div aria-label="Experiencia de masajes Spa" class="experience-photo experience-photo-spa" role="img"></div>
+<div class="experience-copy">
+<div aria-hidden="true" class="experience-icon">✦</div>
+<h3>Experiencia Spa</h3>
+<p>Una pausa de bienestar sin salir de la cabaña.</p>
+<ul>
+<li>Sesión de 45 minutos</li>
+<li>Masajes relajantes y descontracturantes</li>
+<li>Aceites esenciales y piedras calientes</li>
+</ul>
+<a class="btn experience-btn experience-catalog" data-cta-location="experiences" data-cta-type="whatsapp" data-experience="Spa" href="https://wa.me/c/5491168330289" rel="noopener" target="_blank">Consultar en catálogo de WhatsApp</a>
+</div>
+</article>
+<article class="experience-card">
+<div aria-label="Excursión y trekking guiado al Delta" class="experience-photo experience-photo-aventura" role="img"></div>
+<div class="experience-copy">
+<div aria-hidden="true" class="experience-icon">🌿</div>
+<h3>Aventura en el Delta</h3>
+<p>Una experiencia guiada para conectar con la naturaleza del Delta.</p>
+<ul>
+<li>Excursión y trekking guiado</li>
+<li>Traslado en lancha colectiva</li>
+<li>Recorrido por Monte Blanco</li>
+</ul>
+<a class="btn experience-btn experience-catalog" data-cta-location="experiences" data-cta-type="whatsapp" data-experience="Aventura" href="https://wa.me/c/5491168330289" rel="noopener" target="_blank">Consultar en catálogo de WhatsApp</a>
+</div>
+</article>
+<article class="experience-card">
+<div aria-label="City Tour guiado por Tigre" class="experience-photo experience-photo-city" role="img"></div>
+<div class="experience-copy">
+<div aria-hidden="true" class="experience-icon">⌂</div>
+<h3>City Tour Tigre</h3>
+<p>Descubrí la historia y los rincones emblemáticos de Tigre con una guía local.</p>
+<ul>
+<li>Museos y puntos históricos</li>
+<li>Clubes de remo y Paseo Victorica</li>
+<li>Recorrido personalizado por el centro</li>
+</ul>
+<a class="btn experience-btn experience-catalog" data-cta-location="experiences" data-cta-type="whatsapp" data-experience="City Tour" href="https://wa.me/c/5491168330289" rel="noopener" target="_blank">Consultar en catálogo de WhatsApp</a>
+</div>
+</article>
+</div>
+<div class="experience-note">
+<span aria-hidden="true">ⓘ</span>
+<p><strong>Experiencias opcionales, con costo adicional a la estadía.</strong> Se reservan junto con la estadía y están sujetas a disponibilidad.</p>
+</div>
+</section><section class="section faq">
+<div class="narrow">
+<span class="eyebrow dark">PREGUNTAS FRECUENTES</span>
+<h2>Antes de reservar</h2>
+<details class="faq-highlight"><summary>¿Puedo reservar una sola noche el fin de semana?</summary><p>Sí. Para viernes, sábado o domingo ofrecemos la opción <strong>1 noche + late check-out</strong>, sujeta a disponibilidad. Como el motor de reserva online solo permite reservar 2 noches para esas fechas, esta modalidad se coordina directamente por WhatsApp. <strong>De lunes a jueves podés reservar 1 noche online normalmente.</strong> <a class="text-link inline-link" data-cta-location="faq" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20consultar%20la%20opci%C3%B3n%20de%201%20noche%20%2B%20late%20check-out%20para%20viernes%2C%20s%C3%A1bado%20o%20domingo." rel="noopener" target="_blank">Consultar por WhatsApp →</a></p></details>
+<details><summary>¿Cómo se confirma una reserva?</summary><p>La fecha se confirma con una seña del 50% por transferencia.</p></details>
+<details><summary>¿Para cuántas personas es?</summary><p>La cabaña recibe de 2 a 4 huéspedes.</p></details>
+<details><summary>¿Aceptan mascotas?</summary><p>Sí. Om Shanti es pet friendly.</p></details>
+<details><summary>¿Dónde está ubicada?</summary><p>En Tigre centro, a 200 metros del río y de la ciudad.</p></details>
+<details><summary>¿La lluvia complica el acceso?</summary><p>No. El acceso permite disfrutar la estadía sin barro y la experiencia también está pensada para días de lluvia.</p></details>
+</div>
+</section>
+<section class="section reserve" id="contacto">
+<div class="narrow center">
+<span class="eyebrow">TU ESCAPADA PUEDE EMPEZAR ACÁ</span>
+<h2>¿Qué fecha tenés en mente?</h2>
+<p>Consultá disponibilidad en tiempo real y reservá tu estadía online.</p>
+<p class="reserve-note"><strong>¿Querés venir una sola noche viernes, sábado o domingo?</strong> Consultanos por WhatsApp por la opción 1 noche + late check-out. El motor online admite 2 noches para esas fechas.</p>
+<div class="cta-row">
+<a class="btn primary" data-cta-location="final_cta" data-cta-type="booking" href="/reservar/">Reservar online</a>
+<a class="btn secondary" data-cta-location="final_cta" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20hacer%20una%20consulta%20sobre%20una%20reserva." rel="noopener" target="_blank">Consultar por WhatsApp</a>
+</div><p class="online-note">Disponibilidad online: fines de semana, desde 2 noches.</p>
+</div>
+</section>
 </main>
-<footer class="footer"><div class="shell"><strong>OM SHANTI · TIGRE</strong><p>Reservas online · Om Shanti</p></div></footer>
-<script src="app.js"></script>
+<footer>
+<div><strong>OM SHANTI</strong><span>Tigre · Buenos Aires</span></div>
+<div><a data-cta-location="footer" data-cta-type="instagram" href="https://www.instagram.com/om_shanti78?igsi=MWk3ejdiN2ZqNDYyNA==" target="_blank">Instagram</a><a data-cta-location="footer" data-cta-type="whatsapp" href="https://wa.me/5491168330289" target="_blank">WhatsApp</a></div>
+</footer>
+<button aria-label="Compartir Om Shanti" class="floating-share" id="shareOmShanti" title="Compartir con alguien" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="M8.6 10.5l6.8-4"></path><path d="M8.6 13.5l6.8 4"></path></svg></button><span aria-hidden="true" class="floating-share-label">Compartir con alguien</span>
+<a aria-label="WhatsApp" class="floating-wa" data-cta-location="floating" data-cta-type="whatsapp" href="https://wa.me/5491168330289?text=Hola%20Om%20Shanti%2C%20quiero%20consultar%20disponibilidad." rel="noopener" target="_blank">WA</a>
+<div aria-hidden="true" class="lightbox" id="lightbox">
+<button aria-label="Cerrar" class="lightbox-close" id="lightboxClose">×</button>
+<button aria-label="Imagen anterior" class="lightbox-nav prev" id="lightboxPrev">‹</button>
+<div class="lightbox-content">
+<img alt="" id="lightboxImage" src=""/>
+</div>
+<button aria-label="Imagen siguiente" class="lightbox-nav next" id="lightboxNext">›</button>
+</div>
+<script>
+(function(){const b=document.getElementById('shareOmShanti');if(!b)return;const u='https://cabanasomshanti.com/';const t='Mirá este lugar que encontré en Tigre 🌿\nCabañas Om Shanti';function tr(m){if(typeof gtag==='function')gtag('event','share_whatsapp',{method:m,content_type:'website',item_id:'om_shanti_web'});if(typeof fbq==='function')fbq('trackCustom','ShareWhatsApp',{method:m,content_name:'Om Shanti Web'});}b.addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'Cabañas Om Shanti · Tigre',text:t,url:u});tr('native_share');return}catch(e){if(e&&e.name==='AbortError')return}}tr('whatsapp');window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+u),'_blank','noopener');});})();
+</script>
+<script src="script.js"></script>
 </body>
 </html>
