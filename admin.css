@@ -1,3 +1,6 @@
+
+:root,html,body{color-scheme:light only!important}
+html,body{background:#f6f1e7!important;color:#20251c!important}
 html{
   color-scheme: only light;
 }
