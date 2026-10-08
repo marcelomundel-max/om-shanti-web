@@ -1,0 +1,63 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Om Shanti V6.1.1</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="admin.css"></head><body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <span class="eyebrow">OM SHANTI · ADMIN</span>
+    <h1>Panel de gestión</h1>
+    <p class="muted">Ingresá con el usuario administrador creado en Supabase.</p>
+    <div class="field"><label>Email</label><input id="loginEmail" name="email" type="email" autocomplete="username"></div>
+    <div class="field"><label>Contraseña</label><input id="loginPassword" name="password" type="password" autocomplete="current-password"></div>
+    <button class="btn primary" id="loginBtn">Ingresar</button>
+    <button class="btn ghost" id="forgotPasswordBtn" type="button" style="width:100%;margin-top:10px">¿Olvidaste tu contraseña?</button>
+    <div id="loginMsg"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header class="topbar"><div class="brand">OM SHANTI<small>PANEL DE GESTIÓN · V6.1.3</small></div><div><span id="refreshStatus" class="small" style="margin-right:14px">Actualización automática activa</span><span id="adminEmail" class="small"></span> <button id="logoutBtn">Cerrar sesión</button></div></header>
+<div class="layout">
+<aside class="sidebar"><h3>Gestión</h3>
+<button class="sidebtn active" data-section="resumen">Resumen</button>
+<button class="sidebtn" data-section="reservas">Reservas</button>
+<button class="sidebtn" data-section="calendario">Calendario</button>
+<button class="sidebtn" data-section="bloqueos">Bloqueos</button>
+<button class="sidebtn" data-section="tarifas">Tarifas</button>
+</aside>
+
+<main class="main">
+<section id="resumen" class="section active">
+<div class="title"><span class="eyebrow">SUPABASE EN VIVO</span><h1>Resumen</h1><p class="muted">Datos reales del proyecto Om Shanti Reservas.</p></div>
+<div class="stats"><div class="card stat"><span class="small">Pendientes</span><strong id="stPending">0</strong></div><div class="card stat"><span class="small">Confirmadas</span><strong id="stConfirmed">0</strong></div><div class="card stat"><span class="small">Próximas</span><strong id="stFuture">0</strong></div><div class="card stat"><span class="small">Valor confirmado</span><strong id="stRevenue">$0</strong></div></div>
+<div class="grid2"><div class="card panel"><h2>Próximas reservas</h2><div id="nextBookings"></div></div><div class="card panel"><h2>Últimos movimientos</h2><div id="activity"></div></div></div>
+</section>
+
+<section id="reservas" class="section">
+<div class="topline"><div class="title"><span class="eyebrow">GESTIÓN REAL</span><h1>Reservas</h1></div><div class="field" style="min-width:210px"><label>Filtrar estado</label><select id="statusFilter"><option value="all">Todas</option><option value="pending">Pendientes</option><option value="confirmed">Confirmadas</option><option value="rejected">Rechazadas</option><option value="cancelled">Canceladas</option><option value="completed">Finalizadas</option></select></div></div>
+<div class="card table-card"><table class="table"><thead><tr><th>Huésped</th><th>Cabaña</th><th>Fechas</th><th>Total</th><th>Seña</th><th>Estado</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+
+<section id="calendario" class="section">
+<div class="title"><span class="eyebrow">DISPONIBILIDAD</span><h1>Calendario</h1></div>
+<div class="card panel"><div class="topline"><div class="field" style="min-width:180px"><label>Cabaña</label><select id="calUnit"><option value="rustic">Rustic</option><option value="zen">Zen</option></select></div><div class="actions"><button class="btn ghost" id="prevMonth">←</button><button class="btn secondary" id="todayBtn">Hoy</button><button class="btn ghost" id="nextMonth">→</button></div></div><h2 id="calTitle"></h2><div id="calendar" class="calendar"></div><div class="legend"><span class="l1">Confirmada</span><span class="l2">Pendiente vigente</span><span class="l3">Bloqueo manual</span></div></div>
+</section>
+
+<section id="bloqueos" class="section">
+<div class="title"><span class="eyebrow">CONTROL DE DISPONIBILIDAD</span><h1>Bloqueos</h1></div>
+<div class="card panel" style="margin-bottom:18px"><div class="topline"><div><h2 style="margin-bottom:4px">Airbnb</h2><p class="muted" style="margin:0">Importá las fechas ocupadas/bloqueadas de Airbnb sin tocar los bloqueos manuales.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" id="syncAirbnbRustic">Sincronizar Rustic</button><button class="btn secondary" id="syncAirbnbZen">Sincronizar Zen</button></div></div><div id="airbnbSyncMsg" class="small" style="margin-top:10px"></div></div>
+<div class="grid2"><div class="card panel"><h2>Crear bloqueo manual</h2><div class="field"><label>Cabaña</label><select id="blockUnit"><option value="rustic">Rustic</option><option value="zen">Zen</option></select></div><br><div class="grid2"><div class="field"><label>Desde</label><input type="date" id="blockIn"></div><div class="field"><label>Hasta</label><input type="date" id="blockOut"></div></div><br><div class="field"><label>Motivo</label><input id="blockReason" placeholder="Mantenimiento / uso personal / reserva externa"></div><button class="btn primary" id="addBlock" style="margin-top:14px">Bloquear</button><div id="blockMsg"></div></div><div class="card panel"><h2>Bloqueos activos</h2><div id="blockList"></div></div></div>
+</section>
+
+<section id="tarifas" class="section">
+<div class="title"><span class="eyebrow">CONFIGURACIÓN</span><h1>Tarifas</h1></div>
+<div class="grid2">
+<div class="card panel"><div class="field"><label>Lunes a jueves · por noche · 1 o 2 huéspedes</label><input type="number" id="rWeek"></div></div>
+<div class="card panel"><div class="field"><label>Fin de semana · mínimo 2 noches</label><input type="number" id="rWeekend"></div></div>
+<div class="card panel"><div class="field"><label>Huésped adicional · por persona y noche</label><input type="number" id="rExtra"></div></div>
+<div class="card panel"><div class="grid2"><div class="field"><label>Late checkout Lun-Jue</label><input type="number" id="rLateWeek"></div><div class="field"><label>Late checkout Vie-Dom</label><input type="number" id="rLateWeekend"></div></div></div>
+</div><button class="btn primary" id="saveRates" style="margin-top:16px">Guardar tarifas</button><span id="rateMsg" class="small"></span>
+</section>
+</main>
+</div>
+</div>
+
+<div class="modal" id="bookingModal"><div class="modal-card"><div class="topline"><div><span class="eyebrow">RESERVA</span><h2 id="mTitle"></h2></div><button class="btn ghost" id="closeModal">✕</button></div><div id="mBody"></div></div></div>
+<script src="admin.js"></script></body></html>
