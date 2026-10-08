@@ -494,7 +494,7 @@ function renderRatePeriods(){
       <div class="rate-period-dates">${fmt(p.start_date)} → ${fmt(p.end_date)}</div>
       <div class="rate-period-values">
         Lun-Jue ${ARS(p.weekday_rate)} · Finde ${ARS(p.weekend_package)}<br>
-        Adicional ${ARS(p.extra_guest_rate)} · Late finde ${ARS(p.late_checkout_weekend)} · Seña ${p.deposit_percent}%
+        Adicional ${ARS(p.extra_guest_rate)} · Late finde ${ARS(p.late_checkout_weekend)} · Seña ${p.deposit_percent}% · Mín. ${Number(p.minimum_nights||1)} noche${Number(p.minimum_nights||1)!==1?'s':''}
       </div>
       <div class="rate-period-actions">
         <button class="btn secondary" type="button" onclick="editRatePeriod(${Number(p.id)})">Editar</button>
@@ -507,6 +507,7 @@ function resetRatePeriodForm(){
   editingRatePeriodId=null;
   ['rpLabel','rpStart','rpEnd','rpWeek','rpWeekend','rpExtra','rpLateWeek','rpLateWeekend'].forEach(id=>{if($(id))$(id).value=''});
   if($('rpDeposit'))$('rpDeposit').value=rates?.deposit_percent??50;
+  if($('rpMinNights'))$('rpMinNights').value=1;
   if($('saveRatePeriod'))$('saveRatePeriod').textContent='Guardar período';
   if($('ratePeriodMsg'))$('ratePeriodMsg').textContent='';
 }
@@ -520,6 +521,7 @@ function showRatePeriodForm(){
   $('rpLateWeek').value=r.late_checkout_weekday??'';
   $('rpLateWeekend').value=r.late_checkout_weekend??'';
   $('rpDeposit').value=r.deposit_percent??50;
+  $('rpMinNights').value=1;
   $('ratePeriodForm').classList.remove('hidden');
 }
 
@@ -534,6 +536,7 @@ function periodValuesFromForm(){
     late_checkout_weekday:+$('rpLateWeek').value,
     late_checkout_weekend:+$('rpLateWeekend').value,
     deposit_percent:+$('rpDeposit').value,
+    minimum_nights:+$('rpMinNights').value,
     active:true
   };
 }
@@ -543,6 +546,7 @@ function validatePeriodValues(v){
   const nums=[v.weekday_rate,v.weekend_package,v.extra_guest_rate,v.late_checkout_weekday,v.late_checkout_weekend];
   if(nums.some(n=>!Number.isFinite(n)||n<0))return 'Revisá los importes: deben ser números iguales o mayores a 0.';
   if(!Number.isFinite(v.deposit_percent)||v.deposit_percent<0||v.deposit_percent>100)return 'La seña debe ser un porcentaje entre 0 y 100.';
+  if(!Number.isInteger(v.minimum_nights)||v.minimum_nights<1||v.minimum_nights>30)return 'La estadía mínima debe ser un número entre 1 y 30 noches.';
   const overlap=(ratePeriods||[]).find(p=>p.active!==false&&Number(p.id)!==Number(editingRatePeriodId)&&v.start_date<=p.end_date&&v.end_date>=p.start_date);
   if(overlap)return `Ese período se superpone con "${overlap.label||'otro período'}" (${fmt(overlap.start_date)} → ${fmt(overlap.end_date)}).`;
   return null;
@@ -593,6 +597,7 @@ window.editRatePeriod=id=>{
   $('rpLateWeek').value=p.late_checkout_weekday;
   $('rpLateWeekend').value=p.late_checkout_weekend;
   $('rpDeposit').value=p.deposit_percent;
+  $('rpMinNights').value=Number(p.minimum_nights||1);
   $('saveRatePeriod').textContent='Guardar cambios';
   $('ratePeriodMsg').textContent='';
   $('ratePeriodForm').classList.remove('hidden');
