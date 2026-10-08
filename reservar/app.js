@@ -24,30 +24,80 @@ function nightsBetween(a,b) {
   return Math.round((new Date(b+'T12:00:00') - new Date(a+'T12:00:00')) / 86400000);
 }
 
-function localEstimate(a,b,g) {
-  const r = config.rates;
+function rateForDate(iso) {
+  const periods = Array.isArray(config?.rate_periods) ? config.rate_periods : [];
+
+  const matches = periods
+    .filter(p => p.start_date <= iso && iso <= p.end_date)
+    .sort((a,b) => {
+      const byStart = String(b.start_date).localeCompare(String(a.start_date));
+      if(byStart !== 0) return byStart;
+      return Number(b.id || 0) - Number(a.id || 0);
+    });
+
+  return matches[0] || config.rates;
+}
+
+function isWeekendOneNight(a,b) {
   const nights = nightsBetween(a,b);
-  let d = new Date(a+'T12:00:00'), base = 0;
+  const dow = new Date(a+'T12:00:00').getDay();
+  return nights === 1 && [0,5,6].includes(dow);
+}
+
+function localEstimate(a,b,g) {
+  const nights = nightsBetween(a,b);
+  let d = new Date(a+'T12:00:00');
+  let base = 0;
+  let extra = 0;
+
   for(let i=0;i<nights;i++) {
-    base += [0,5,6].includes(d.getDay()) ? r.weekend_package/2 : r.weekday_rate;
+    const iso = d.toISOString().slice(0,10);
+    const r = rateForDate(iso);
+
+    base += [0,5,6].includes(d.getDay())
+      ? r.weekend_package/2
+      : r.weekday_rate;
+
+    extra += Math.max(0,g-2) * r.extra_guest_rate;
     d.setDate(d.getDate()+1);
   }
-  const extra = Math.max(0,g-2) * r.extra_guest_rate * nights;
-  const total = base + extra;
-  return {nights,base,extra,total,deposit:Math.round(total*r.deposit_percent/100)};
+
+  const arrivalRate = rateForDate(a);
+  const lateCheckout = isWeekendOneNight(a,b);
+  const lateCheckoutAmount = lateCheckout
+    ? Number(arrivalRate.late_checkout_weekend || 0)
+    : 0;
+
+  const total = base + extra + lateCheckoutAmount;
+  const depositPercent = Number(arrivalRate.deposit_percent ?? config.rates.deposit_percent);
+
+  return {
+    nights,
+    base,
+    extra,
+    lateCheckout,
+    lateCheckoutAmount,
+    total,
+    depositPercent,
+    deposit: Math.round(total * depositPercent / 100)
+  };
 }
 
 function renderSummary() {
   if(!selectedQuote) return;
+  const depositPercent = Number(selectedQuote.depositPercent ?? config.rates.deposit_percent);
+
   $('summary').innerHTML = `
     <div class="summary-row"><span>Ingreso</span><strong>${fmt(selectedQuote.checkin)}</strong></div>
     <div class="summary-row"><span>Salida</span><strong>${fmt(selectedQuote.checkout)}</strong></div>
     <div class="summary-row"><span>Noches</span><strong>${selectedQuote.nights}</strong></div>
+    ${selectedQuote.lateCheckout ? `<div class="summary-row"><span>Modalidad</span><strong>1 noche + late checkout</strong></div>` : ''}
     <div class="summary-row"><span>Huéspedes</span><strong>${selectedQuote.guests}</strong></div>
     <div class="summary-row"><span>Tarifa base</span><strong>${ARS(selectedQuote.base)}</strong></div>
     ${selectedQuote.extra ? `<div class="summary-row"><span>Huéspedes adicionales</span><strong>${ARS(selectedQuote.extra)}</strong></div>` : ''}
+    ${selectedQuote.lateCheckout ? `<div class="summary-row"><span>Late checkout</span><strong>${ARS(selectedQuote.lateCheckoutAmount)}</strong></div>` : ''}
     <div class="summary-row total"><span>Total estimado</span><span>${ARS(selectedQuote.total)}</span></div>
-    <div class="deposit">Seña estimada (${config.rates.deposit_percent}%)<strong>${ARS(selectedQuote.deposit)}</strong></div>
+    <div class="deposit">Seña estimada (${depositPercent}%)<strong>${ARS(selectedQuote.deposit)}</strong></div>
     <p class="small">El importe definitivo se recalcula en Supabase al enviar.</p>`;
 }
 
@@ -226,11 +276,7 @@ function validateSearch() {
   const a=$('checkin').value,b=$('checkout').value;
   $('searchMessage').innerHTML='';
   if(!a||!b||b<=a) {
-    $('searchMessage').innerHTML='<div class="notice error">Elegí una fecha de ingreso y una salida posterior.</div>'; return false;
-  }
-  const n=nightsBetween(a,b), dow=new Date(a+'T12:00:00').getDay();
-  if([0,5,6].includes(dow)&&n<2) {
-    $('searchMessage').innerHTML=`<div class="notice">Los ingresos de viernes, sábado o domingo tienen un mínimo de <strong>2 noches</strong>. Para una sola noche, el late checkout de fin de semana es de <strong>${ARS(config.rates.late_checkout_weekend)}</strong> y se consulta por WhatsApp.</div>`;
+    $('searchMessage').innerHTML='<div class="notice error">Elegí una fecha de ingreso y una salida posterior.</div>';
     return false;
   }
   return true;
@@ -257,7 +303,13 @@ $('searchBtn').onclick = async () => {
     const est=localEstimate(a,b,g);
     selectedQuote={checkin:a,checkout:b,guests:g,...est};
 
-    $('stayLabel').textContent=`${fmt(a)} → ${fmt(b)} · ${est.nights} noche${est.nights!==1?'s':''} · ${g} huésped${g!==1?'es':''}`;
+    $('stayLabel').textContent = est.lateCheckout
+      ? `${fmt(a)} → ${fmt(b)} · 1 noche + late checkout · ${g} huésped${g!==1?'es':''}`
+      : `${fmt(a)} → ${fmt(b)} · ${est.nights} noche${est.nights!==1?'s':''} · ${g} huésped${g!==1?'es':''}`;
+
+    if(est.lateCheckout) {
+      $('searchMessage').innerHTML = `<div class="notice"><strong>Modalidad 1 noche + late checkout.</strong> Para estadías de una sola noche con ingreso viernes, sábado o domingo se suma un late checkout de <strong>${ARS(est.lateCheckoutAmount)}</strong>. El total que ves abajo ya lo incluye.</div>`;
+    }
 
     $('unitList').innerHTML=(config.units||[]).map(u=>{
       const av=data.find(x=>x.unit_id===u.id), ok=av&&av.available;
@@ -327,10 +379,13 @@ $('continueBtn').onclick=async()=>{
       }
     }
 
-    selectedQuote.total = result.total_amount;
-    selectedQuote.deposit = result.deposit_amount;
-    selectedQuote.base = result.base_amount;
-    selectedQuote.extra = result.extra_guest_amount;
+    selectedQuote.total = Number(result.total_amount);
+    selectedQuote.deposit = Number(result.deposit_amount);
+    selectedQuote.base = Number(result.base_amount);
+    selectedQuote.extra = Number(result.extra_guest_amount);
+    selectedQuote.lateCheckout = Boolean(result.late_checkout);
+    selectedQuote.lateCheckoutAmount = Number(result.late_checkout_amount || 0);
+    selectedQuote.depositPercent = Number(result.deposit_percent ?? selectedQuote.depositPercent ?? config.rates.deposit_percent);
     renderSummary();
     $('paymentAmount').textContent = ARS(result.deposit_amount);
 
