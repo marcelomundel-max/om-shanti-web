@@ -308,7 +308,25 @@ $('bookingModal').onclick=e=>{if(e.target===$('bookingModal'))$('bookingModal').
 function renderCalendar(){
  const unit=$('calUnit').value,y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0);$('calTitle').textContent=new Intl.DateTimeFormat('es-AR',{month:'long',year:'numeric'}).format(first);
  let html=['Lu','Ma','Mi','Ju','Vi','Sá','Do'].map(x=>`<div class="day head">${x}</div>`).join('');for(let i=0;i<(first.getDay()+6)%7;i++)html+='<div></div>';
- for(let d=1;d<=last.getDate();d++){const dt=new Date(y,m,d,12),iso=dt.toISOString().slice(0,10);const b=bookings.find(x=>x.unit_id===unit&&active(x)&&iso>=x.checkin&&iso<x.checkout);const bl=blocks.find(x=>x.unit_id===unit&&iso>=x.checkin&&iso<x.checkout);let cls='',note='';if(bl){cls='blocked';note=bl.source==='airbnb'?'Airbnb · '+(bl.unit_id==='rustic'?'Rustic':'Zen'):(bl.reason||'Bloqueado')}else if(b){cls=b.status==='confirmed'?'confirmed':'pending';note=b.guest_name}html+=`<div class="day ${cls}" title="${note}"><strong>${d}</strong><div class="day-note small">${note}</div></div>`}$('calendar').innerHTML=html;
+ for(let d=1;d<=last.getDate();d++){
+   const dt=new Date(y,m,d,12),iso=dt.toISOString().slice(0,10);
+   const b=bookings.find(x=>x.unit_id===unit&&active(x)&&iso>=x.checkin&&iso<x.checkout);
+   const late=bookings.find(x=>x.unit_id===unit&&active(x)&&x.late_checkout===true&&iso===x.checkout);
+   const bl=blocks.find(x=>x.unit_id===unit&&iso>=x.checkin&&iso<x.checkout);
+   let cls='',note='';
+   if(bl){
+     cls='blocked';
+     note=bl.source==='airbnb'?'Airbnb · '+(bl.unit_id==='rustic'?'Rustic':'Zen'):(bl.reason||'Bloqueado');
+   }else if(b){
+     cls=b.status==='confirmed'?'confirmed':'pending';
+     note=b.guest_name;
+   }else if(late){
+     cls=late.status==='confirmed'?'confirmed':'pending';
+     note='Late checkout';
+   }
+   html+=`<div class="day ${cls}" title="${note}"><strong>${d}</strong><div class="day-note small">${note}</div></div>`;
+ }
+ $('calendar').innerHTML=html;
 }
 $('calUnit').onchange=renderCalendar;$('prevMonth').onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1);renderCalendar()};$('nextMonth').onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1);renderCalendar()};$('todayBtn').onclick=()=>{calDate=new Date();renderCalendar()};
 
