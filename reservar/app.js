@@ -24,7 +24,7 @@ function nightsBetween(a,b) {
   return Math.round((new Date(b+'T12:00:00') - new Date(a+'T12:00:00')) / 86400000);
 }
 
-function rateForDate(iso) {
+function periodForDate(iso) {
   const periods = Array.isArray(config?.rate_periods) ? config.rate_periods : [];
 
   const matches = periods
@@ -35,13 +35,23 @@ function rateForDate(iso) {
       return Number(b.id || 0) - Number(a.id || 0);
     });
 
-  return matches[0] || config.rates;
+  return matches[0] || null;
+}
+
+function rateForDate(iso) {
+  return periodForDate(iso) || config.rates;
+}
+
+function minimumNightsForCheckin(iso) {
+  const period = periodForDate(iso);
+  return Math.max(1, Number(period?.minimum_nights || 1));
 }
 
 function isWeekendOneNight(a,b) {
   const nights = nightsBetween(a,b);
   const dow = new Date(a+'T12:00:00').getDay();
-  return nights === 1 && [0,5,6].includes(dow);
+  const minimumNights = minimumNightsForCheckin(a);
+  return minimumNights === 1 && nights === 1 && [0,5,6].includes(dow);
 }
 
 function localEstimate(a,b,g) {
@@ -275,10 +285,21 @@ $('checkout').addEventListener('change', () => {
 function validateSearch() {
   const a=$('checkin').value,b=$('checkout').value;
   $('searchMessage').innerHTML='';
+
   if(!a||!b||b<=a) {
     $('searchMessage').innerHTML='<div class="notice error">Elegí una fecha de ingreso y una salida posterior.</div>';
     return false;
   }
+
+  const nights = nightsBetween(a,b);
+  const minimumNights = minimumNightsForCheckin(a);
+
+  if(nights < minimumNights) {
+    $('searchMessage').innerHTML =
+      `<div class="notice error"><strong>Para estas fechas la estadía mínima es de ${minimumNights} noche${minimumNights!==1?'s':''}.</strong> Elegí una fecha de salida posterior para continuar.</div>`;
+    return false;
+  }
+
   return true;
 }
 
