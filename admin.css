@@ -11,3 +11,78 @@ html{
 .rate-section{margin-top:18px}.rate-section:first-of-type{margin-top:0}.rate-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}.rate-section-head h2{font-size:30px;margin:2px 0 4px}.rate-section-head p{margin:0}.rate-period-form{padding:18px;border:1px solid var(--line);border-radius:16px;background:#f8f5ed;margin:6px 0 18px}.rate-period-list{display:grid;gap:10px}.rate-period-item{display:grid;grid-template-columns:minmax(180px,1.2fr) minmax(190px,1fr) minmax(260px,1.8fr) auto;gap:14px;align-items:center;padding:14px 16px;border:1px solid #e4dece;border-radius:14px;background:#fff}.rate-period-item strong{display:block}.rate-period-dates{font-weight:700}.rate-period-values{font-size:12px;color:var(--muted);line-height:1.55}.rate-period-empty{padding:16px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#faf8f2}.rate-period-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
 @media(max-width:900px){.rate-period-item{grid-template-columns:1fr 1fr}.rate-period-actions{justify-content:flex-start}}
 @media(max-width:560px){.rate-period-item{grid-template-columns:1fr}.rate-section-head .btn{width:100%}}
+
+/* ===== CALENDARIO · VISTA AMBAS CABAÑAS ===== */
+.calendar-both .day-both{
+  background:#f4f1e8!important;
+  color:#20251c!important;
+  border:1px solid #e2dccd;
+  min-height:84px;
+}
+.dual-slots{
+  display:grid;
+  gap:4px;
+  margin-top:5px;
+}
+.dual-slot{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:4px 6px;
+  border-radius:6px;
+  font-size:10px;
+  line-height:1.15;
+  font-weight:700;
+  border:1px solid transparent;
+}
+.dual-code{
+  flex:0 0 auto;
+  font-weight:800;
+}
+.dual-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.dual-slot.free{
+  background:#fffdf8;
+  color:#777b72;
+  border-color:#ddd7ca;
+}
+.dual-slot.confirmed{
+  background:#9fc68f;
+  color:#173019;
+  border-color:#7eaa70;
+}
+.dual-slot.pending{
+  background:#f0c75e;
+  color:#4a3500;
+  border-color:#d7aa36;
+}
+.dual-slot.blocked{
+  background:#aeb4b8;
+  color:#252a2d;
+  border-color:#92999e;
+}
+
+@media(max-width:560px){
+  .calendar-both .day-both{
+    min-height:72px;
+    padding:4px;
+  }
+  .dual-slots{
+    gap:3px;
+    margin-top:4px;
+  }
+  .dual-slot{
+    justify-content:center;
+    min-height:20px;
+    padding:3px 2px;
+    border-radius:5px;
+    font-size:10px;
+  }
+  .dual-text{
+    display:none;
+  }
+}
