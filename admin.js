@@ -7,7 +7,8 @@ const ARS=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maxi
 const fmt=d=>new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'short',year:'numeric'}).format(new Date(d+'T12:00:00'));
 const fmtDateTime24=d=>new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(d))+' hs';
 const fmtTime24=d=>new Intl.DateTimeFormat('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d)+' hs';
-let token=null,user=null,bookings=[],blocks=[],history=[],rates=null,calDate=new Date(),current=null;
+let token=null,user=null,bookings=[],blocks=[],history=[],rates=null,ratePeriods=[],calDate=new Date(),current=null;
+let editingRatePeriodId=null;
 let refreshTimer=null, refreshInProgress=false, lastRefreshAt=null;
 let sessionExpiryHandled=false;
 
@@ -127,10 +128,11 @@ async function loadAll(options={}){
   const currentId=current?.id||null;
   const modalWasOpen=$('bookingModal')?.classList.contains('open');
   try{
-    [bookings,blocks,history]=await Promise.all([
+    [bookings,blocks,history,ratePeriods]=await Promise.all([
       rest('bookings?select=*&order=created_at.desc'),
       rest('blocks?select=*&order=created_at.desc'),
-      rest('booking_history?select=*&order=created_at.desc')
+      rest('booking_history?select=*&order=created_at.desc'),
+      rest('rate_periods?select=*&order=start_date.asc')
     ]);
     const rr=await rest('rates?select=*&id=eq.1');
     rates=rr[0]||null;
@@ -286,21 +288,61 @@ async function patchBooking(fields,event,detail=''){
 async function changeStatus(status,event,detail){await patchBooking({status},event,detail)}
 function nightsBetween(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000)}
 function isoAddDays(iso,days){const d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
-function calc(a,b,g){let n=nightsBetween(a,b),d=new Date(a+'T12:00:00'),base=0;for(let i=0;i<n;i++){base += [0,5,6].includes(d.getDay())?rates.weekend_package/2:rates.weekday_rate;d.setDate(d.getDate()+1)}const extra=Math.max(0,g-2)*rates.extra_guest_rate*n,total=base+extra;return{total,deposit:Math.round(total*rates.deposit_percent/100)}}
-function conflicts(unit,a,b,id){return bookings.some(x=>x.id!==id&&x.unit_id===unit&&active(x)&&a<x.checkout&&b>x.checkin)||blocks.some(x=>x.unit_id===unit&&a<x.checkout&&b>x.checkin)}
+function isWeekendOneNight(a,b){return nightsBetween(a,b)===1&&[0,5,6].includes(new Date(a+'T12:00:00').getDay())}
+function rateForDate(iso){
+  const matches=(ratePeriods||[]).filter(p=>p.active!==false&&p.start_date<=iso&&iso<=p.end_date).sort((a,b)=>{
+    const byStart=String(b.start_date).localeCompare(String(a.start_date));
+    return byStart!==0?byStart:Number(b.id||0)-Number(a.id||0);
+  });
+  return matches[0]||rates;
+}
+function calc(a,b,g){
+  const n=nightsBetween(a,b);
+  let d=new Date(a+'T12:00:00'),base=0,extra=0;
+  for(let i=0;i<n;i++){
+    const iso=d.toISOString().slice(0,10),r=rateForDate(iso);
+    base += [0,5,6].includes(d.getDay())?Number(r.weekend_package)/2:Number(r.weekday_rate);
+    extra += Math.max(0,g-2)*Number(r.extra_guest_rate);
+    d.setDate(d.getDate()+1);
+  }
+  const arrivalRate=rateForDate(a);
+  const lateCheckout=isWeekendOneNight(a,b);
+  const lateAmount=lateCheckout?Number(arrivalRate.late_checkout_weekend||0):0;
+  const total=base+extra+lateAmount;
+  const depositPercent=Number(arrivalRate.deposit_percent??rates.deposit_percent);
+  return{
+    total,
+    deposit:Math.round(total*depositPercent/100),
+    lateCheckout,
+    lateAmount,
+    blockedUntil:lateCheckout?isoAddDays(b,1):null
+  };
+}
+function conflicts(unit,a,b,id){
+  const requestedEnd=isWeekendOneNight(a,b)?isoAddDays(b,1):b;
+  return bookings.some(x=>{
+    if(x.id===id||x.unit_id!==unit||!active(x))return false;
+    const occupiedUntil=x.blocked_until||x.checkout;
+    return a<occupiedUntil&&requestedEnd>x.checkin;
+  })||blocks.some(x=>x.unit_id===unit&&a<x.checkout&&requestedEnd>x.checkin);
+}
 async function saveEdit(){
   if(isExpiredBooking(current))return alert('Esta reserva está vencida y es solo de consulta.');
   const a=$('eIn').value,b=$('eOut').value,g=+$('eGuests').value,u=$('eUnit').value;
   if(!a||!b||b<=a)return alert('Revisá las fechas.');
-  const nights=nightsBetween(a,b);
-  const dow=new Date(a+'T12:00:00').getDay();
-  if([0,5,6].includes(dow)&&nights<2){
-    return alert('Los ingresos de viernes, sábado o domingo requieren un mínimo de 2 noches.');
-  }
   if(conflicts(u,a,b,current.id))return alert('Hay una superposición con otra reserva o bloqueo.');
   const q=calc(a,b,g);
   const detail=`${current.checkin}→${current.checkout} / ${current.unit_id} → ${a}→${b} / ${u}`;
-  await patchBooking({checkin:a,checkout:b,guests:g,unit_id:u,total_amount:q.total,deposit_amount:q.deposit},'Reserva modificada',detail)
+  await patchBooking({
+    checkin:a,
+    checkout:b,
+    guests:g,
+    unit_id:u,
+    total_amount:q.total,
+    deposit_amount:q.deposit,
+    late_checkout:q.lateCheckout,
+    blocked_until:q.blockedUntil
+  },'Reserva modificada',detail)
 }
 $('closeModal').onclick=()=>$('bookingModal').classList.remove('open');
 $('bookingModal').onclick=e=>{if(e.target===$('bookingModal'))$('bookingModal').classList.remove('open')};
@@ -368,17 +410,97 @@ if($('syncAirbnbRustic')) $('syncAirbnbRustic').onclick=syncAirbnbRustic;
 if($('syncAirbnbZen')) $('syncAirbnbZen').onclick=syncAirbnbZen;
 
 
-function renderRates(){if(!rates)return;$('rWeek').value=rates.weekday_rate;$('rWeekend').value=rates.weekend_package;$('rExtra').value=rates.extra_guest_rate;$('rLateWeek').value=rates.late_checkout_weekday;$('rLateWeekend').value=rates.late_checkout_weekend}
+function renderRates(){
+  if(!rates)return;
+  $('rWeek').value=rates.weekday_rate;
+  $('rWeekend').value=rates.weekend_package;
+  $('rExtra').value=rates.extra_guest_rate;
+  $('rLateWeek').value=rates.late_checkout_weekday;
+  $('rLateWeekend').value=rates.late_checkout_weekend;
+  if($('rDeposit'))$('rDeposit').value=rates.deposit_percent;
+  renderRatePeriods();
+}
+
+function renderRatePeriods(){
+  const list=$('ratePeriodList');
+  if(!list)return;
+  const rows=(ratePeriods||[]).filter(p=>p.active!==false).sort((a,b)=>a.start_date.localeCompare(b.start_date));
+  if(!rows.length){
+    list.innerHTML='<div class="rate-period-empty">Todavía no hay tarifas temporales creadas.</div>';
+    return;
+  }
+  list.innerHTML=rows.map(p=>`
+    <div class="rate-period-item">
+      <div><span class="small">Período</span><strong>${p.label||'Sin nombre'}</strong></div>
+      <div class="rate-period-dates">${fmt(p.start_date)} → ${fmt(p.end_date)}</div>
+      <div class="rate-period-values">
+        Lun-Jue ${ARS(p.weekday_rate)} · Finde ${ARS(p.weekend_package)}<br>
+        Adicional ${ARS(p.extra_guest_rate)} · Late finde ${ARS(p.late_checkout_weekend)} · Seña ${p.deposit_percent}%
+      </div>
+      <div class="rate-period-actions">
+        <button class="btn secondary" type="button" onclick="editRatePeriod(${Number(p.id)})">Editar</button>
+        <button class="btn danger" type="button" onclick="deleteRatePeriod(${Number(p.id)})">Eliminar</button>
+      </div>
+    </div>`).join('');
+}
+
+function resetRatePeriodForm(){
+  editingRatePeriodId=null;
+  ['rpLabel','rpStart','rpEnd','rpWeek','rpWeekend','rpExtra','rpLateWeek','rpLateWeekend'].forEach(id=>{if($(id))$(id).value=''});
+  if($('rpDeposit'))$('rpDeposit').value=rates?.deposit_percent??50;
+  if($('saveRatePeriod'))$('saveRatePeriod').textContent='Guardar período';
+  if($('ratePeriodMsg'))$('ratePeriodMsg').textContent='';
+}
+
+function showRatePeriodForm(){
+  resetRatePeriodForm();
+  const r=rates||{};
+  $('rpWeek').value=r.weekday_rate??'';
+  $('rpWeekend').value=r.weekend_package??'';
+  $('rpExtra').value=r.extra_guest_rate??'';
+  $('rpLateWeek').value=r.late_checkout_weekday??'';
+  $('rpLateWeekend').value=r.late_checkout_weekend??'';
+  $('rpDeposit').value=r.deposit_percent??50;
+  $('ratePeriodForm').classList.remove('hidden');
+}
+
+function periodValuesFromForm(){
+  return{
+    label:$('rpLabel').value.trim()||null,
+    start_date:$('rpStart').value,
+    end_date:$('rpEnd').value,
+    weekday_rate:+$('rpWeek').value,
+    weekend_package:+$('rpWeekend').value,
+    extra_guest_rate:+$('rpExtra').value,
+    late_checkout_weekday:+$('rpLateWeek').value,
+    late_checkout_weekend:+$('rpLateWeekend').value,
+    deposit_percent:+$('rpDeposit').value,
+    active:true
+  };
+}
+
+function validatePeriodValues(v){
+  if(!v.start_date||!v.end_date||v.end_date<v.start_date)return 'Revisá las fechas del período.';
+  const nums=[v.weekday_rate,v.weekend_package,v.extra_guest_rate,v.late_checkout_weekday,v.late_checkout_weekend];
+  if(nums.some(n=>!Number.isFinite(n)||n<0))return 'Revisá los importes: deben ser números iguales o mayores a 0.';
+  if(!Number.isFinite(v.deposit_percent)||v.deposit_percent<0||v.deposit_percent>100)return 'La seña debe ser un porcentaje entre 0 y 100.';
+  const overlap=(ratePeriods||[]).find(p=>p.active!==false&&Number(p.id)!==Number(editingRatePeriodId)&&v.start_date<=p.end_date&&v.end_date>=p.start_date);
+  if(overlap)return `Ese período se superpone con "${overlap.label||'otro período'}" (${fmt(overlap.start_date)} → ${fmt(overlap.end_date)}).`;
+  return null;
+}
+
 $('saveRates').onclick=async()=>{
   const values={
     weekday_rate:+$('rWeek').value,
     weekend_package:+$('rWeekend').value,
     extra_guest_rate:+$('rExtra').value,
     late_checkout_weekday:+$('rLateWeek').value,
-    late_checkout_weekend:+$('rLateWeekend').value
+    late_checkout_weekend:+$('rLateWeekend').value,
+    deposit_percent:+$('rDeposit').value
   };
-  if(Object.values(values).some(v=>!Number.isFinite(v)||v<0)){
-    alert('Revisá las tarifas: todos los valores deben ser números iguales o mayores a 0.');
+  const amounts=[values.weekday_rate,values.weekend_package,values.extra_guest_rate,values.late_checkout_weekday,values.late_checkout_weekend];
+  if(amounts.some(v=>!Number.isFinite(v)||v<0)||!Number.isFinite(values.deposit_percent)||values.deposit_percent<0||values.deposit_percent>100){
+    alert('Revisá las tarifas y el porcentaje de seña.');
     return;
   }
   $('saveRates').disabled=true;
@@ -390,9 +512,66 @@ $('saveRates').onclick=async()=>{
     setTimeout(()=>$('rateMsg').textContent='',1800);
   }catch(e){
     $('rateMsg').textContent=' Error al guardar';
-    alert('No pudimos guardar las tarifas: '+e.message);
+    alert('No pudimos guardar la tarifa general: '+e.message);
   }finally{
     $('saveRates').disabled=false;
+  }
+};
+
+if($('newRatePeriod'))$('newRatePeriod').onclick=showRatePeriodForm;
+if($('cancelRatePeriod'))$('cancelRatePeriod').onclick=()=>{$('ratePeriodForm').classList.add('hidden');resetRatePeriodForm()};
+
+window.editRatePeriod=id=>{
+  const p=(ratePeriods||[]).find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+  editingRatePeriodId=Number(id);
+  $('rpLabel').value=p.label||'';
+  $('rpStart').value=p.start_date;
+  $('rpEnd').value=p.end_date;
+  $('rpWeek').value=p.weekday_rate;
+  $('rpWeekend').value=p.weekend_package;
+  $('rpExtra').value=p.extra_guest_rate;
+  $('rpLateWeek').value=p.late_checkout_weekday;
+  $('rpLateWeekend').value=p.late_checkout_weekend;
+  $('rpDeposit').value=p.deposit_percent;
+  $('saveRatePeriod').textContent='Guardar cambios';
+  $('ratePeriodMsg').textContent='';
+  $('ratePeriodForm').classList.remove('hidden');
+  $('ratePeriodForm').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+
+window.deleteRatePeriod=async id=>{
+  const p=(ratePeriods||[]).find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+  if(!confirm(`¿Eliminar la tarifa temporal "${p.label||'Sin nombre'}"?`))return;
+  try{
+    await rest(`rate_periods?id=eq.${Number(id)}`,{method:'DELETE'});
+    await loadAll();
+  }catch(e){
+    alert('No pudimos eliminar el período: '+e.message);
+  }
+};
+
+if($('saveRatePeriod'))$('saveRatePeriod').onclick=async()=>{
+  const values=periodValuesFromForm();
+  const error=validatePeriodValues(values);
+  if(error){$('ratePeriodMsg').textContent=error;return;}
+  $('saveRatePeriod').disabled=true;
+  $('ratePeriodMsg').textContent=editingRatePeriodId?' Guardando cambios…':' Creando período…';
+  try{
+    if(editingRatePeriodId){
+      await rest(`rate_periods?id=eq.${editingRatePeriodId}`,{method:'PATCH',body:JSON.stringify({...values,updated_at:new Date().toISOString()})});
+    }else{
+      await rest('rate_periods',{method:'POST',body:JSON.stringify(values)});
+    }
+    await loadAll();
+    $('ratePeriodForm').classList.add('hidden');
+    resetRatePeriodForm();
+  }catch(e){
+    $('ratePeriodMsg').textContent=' Error';
+    alert('No pudimos guardar el período: '+e.message);
+  }finally{
+    $('saveRatePeriod').disabled=false;
   }
 };
 

@@ -47,13 +47,51 @@
 </section>
 
 <section id="tarifas" class="section">
-<div class="title"><span class="eyebrow">CONFIGURACIÓN</span><h1>Tarifas</h1></div>
-<div class="grid2">
-<div class="card panel"><div class="field"><label>Lunes a jueves · por noche · 1 o 2 huéspedes</label><input type="number" id="rWeek"></div></div>
-<div class="card panel"><div class="field"><label>Fin de semana · mínimo 2 noches</label><input type="number" id="rWeekend"></div></div>
-<div class="card panel"><div class="field"><label>Huésped adicional · por persona y noche</label><input type="number" id="rExtra"></div></div>
-<div class="card panel"><div class="grid2"><div class="field"><label>Late checkout Lun-Jue</label><input type="number" id="rLateWeek"></div><div class="field"><label>Late checkout Vie-Dom</label><input type="number" id="rLateWeekend"></div></div></div>
-</div><button class="btn primary" id="saveRates" style="margin-top:16px">Guardar tarifas</button><span id="rateMsg" class="small"></span>
+<div class="title"><span class="eyebrow">CONFIGURACIÓN</span><h1>Tarifas</h1><p class="muted">La tarifa general funciona como respaldo. Las tarifas temporales reemplazan esos valores únicamente dentro del período indicado.</p></div>
+
+<div class="card panel rate-section">
+  <div class="rate-section-head">
+    <div><span class="eyebrow">BASE PERMANENTE</span><h2>Tarifa general</h2><p class="muted">Se aplica automáticamente a cualquier fecha que no tenga una tarifa temporal.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="field"><label>Lunes a jueves · por noche · 1 o 2 huéspedes</label><input type="number" id="rWeek" min="0"></div>
+    <div class="field"><label>Fin de semana · paquete 2 noches</label><input type="number" id="rWeekend" min="0"></div>
+    <div class="field"><label>Huésped adicional · por persona y noche</label><input type="number" id="rExtra" min="0"></div>
+    <div class="field"><label>Seña · porcentaje</label><input type="number" id="rDeposit" min="0" max="100"></div>
+    <div class="field"><label>Late checkout Lun-Jue</label><input type="number" id="rLateWeek" min="0"></div>
+    <div class="field"><label>Late checkout Vie-Dom</label><input type="number" id="rLateWeekend" min="0"></div>
+  </div>
+  <button class="btn primary" id="saveRates" style="margin-top:16px">Guardar tarifa general</button><span id="rateMsg" class="small"></span>
+</div>
+
+<div class="card panel rate-section">
+  <div class="rate-section-head">
+    <div><span class="eyebrow">EXCEPCIONES POR FECHA</span><h2>Tarifas temporales</h2><p class="muted">Podés crear todos los períodos que necesites. No se permiten períodos superpuestos.</p></div>
+    <button class="btn secondary" id="newRatePeriod" type="button">+ Nuevo período</button>
+  </div>
+
+  <div id="ratePeriodForm" class="rate-period-form hidden">
+    <div class="grid2">
+      <div class="field"><label>Nombre del período</label><input id="rpLabel" placeholder="Ej.: Noviembre 2026"></div>
+      <div></div>
+      <div class="field"><label>Desde</label><input type="date" id="rpStart"></div>
+      <div class="field"><label>Hasta</label><input type="date" id="rpEnd"></div>
+      <div class="field"><label>Lunes a jueves · por noche</label><input type="number" id="rpWeek" min="0"></div>
+      <div class="field"><label>Fin de semana · paquete 2 noches</label><input type="number" id="rpWeekend" min="0"></div>
+      <div class="field"><label>Huésped adicional · por persona y noche</label><input type="number" id="rpExtra" min="0"></div>
+      <div class="field"><label>Seña · porcentaje</label><input type="number" id="rpDeposit" min="0" max="100" value="50"></div>
+      <div class="field"><label>Late checkout Lun-Jue</label><input type="number" id="rpLateWeek" min="0"></div>
+      <div class="field"><label>Late checkout Vie-Dom</label><input type="number" id="rpLateWeekend" min="0"></div>
+    </div>
+    <div class="actions" style="margin-top:16px">
+      <button class="btn primary" id="saveRatePeriod" type="button">Guardar período</button>
+      <button class="btn ghost" id="cancelRatePeriod" type="button">Cancelar</button>
+      <span id="ratePeriodMsg" class="small"></span>
+    </div>
+  </div>
+
+  <div id="ratePeriodList" class="rate-period-list"></div>
+</div>
 </section>
 </main>
 </div>
