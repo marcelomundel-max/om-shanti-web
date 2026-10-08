@@ -86,3 +86,45 @@ html{
     display:none;
   }
 }
+
+/* Identidad visual por cabaña en vista "Ambas" */
+.dual-slot.rustic{
+  box-shadow:inset 4px 0 0 #8a5a3b;
+}
+.dual-slot.zen{
+  box-shadow:inset 4px 0 0 #5c6f9b;
+}
+.dual-slot.rustic .dual-code{
+  color:#6f432c;
+}
+.dual-slot.zen .dual-code{
+  color:#40567f;
+}
+.dual-slot.rustic.confirmed .dual-code,
+.dual-slot.rustic.pending .dual-code,
+.dual-slot.rustic.blocked .dual-code,
+.dual-slot.zen.confirmed .dual-code,
+.dual-slot.zen.pending .dual-code,
+.dual-slot.zen.blocked .dual-code{
+  color:inherit;
+}
+
+@media(max-width:560px){
+  .dual-slot{
+    min-height:23px;
+    display:flex!important;
+    opacity:1!important;
+    visibility:visible!important;
+  }
+  .dual-code{
+    display:inline-block!important;
+    font-size:11px;
+    line-height:1;
+  }
+  .dual-slot.rustic{
+    box-shadow:inset 3px 0 0 #8a5a3b;
+  }
+  .dual-slot.zen{
+    box-shadow:inset 3px 0 0 #5c6f9b;
+  }
+}

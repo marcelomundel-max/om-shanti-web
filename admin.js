@@ -378,7 +378,7 @@ function dualCalendarSlot(unit,iso){
   const code=unit==='rustic'?'R':'Z';
   const name=unit==='rustic'?'Rustic':'Zen';
   const compact=s.note==='Late checkout'?'Late':s.note;
-  return `<div class="dual-slot ${s.cls}" title="${name}: ${s.note}">
+  return `<div class="dual-slot ${unit} ${s.cls}" title="${name}: ${s.note}">
     <span class="dual-code">${code}</span>
     <span class="dual-text">${compact}</span>
   </div>`;
