@@ -165,7 +165,7 @@ async function restorePendingBookingFromUrl() {
   $('summaryUnit').textContent = selectedUnit.name;
   renderSummary();
   $('paymentAmount').textContent = ARS(Number(recovered.deposit_amount));
-  $('paymentHold').innerHTML = `<strong>Tu reserva sigue guardada hasta ${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Podés realizar la transferencia y cargar el comprobante desde esta misma pantalla. Una vez cargado, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
+  $('paymentHold').innerHTML = `<strong>Tu reserva sigue guardada hasta ${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Realizá la transferencia y cargá el comprobante antes de ese horario.<br><br><strong>Podés cerrar esta página:</strong> mientras el plazo siga vigente, podés volver a entrar desde el enlace que te enviamos por email.<br><br>Una vez cargado el comprobante, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
 
   $('availability').classList.add('hidden');
   $('bookingFlow').classList.remove('hidden');
