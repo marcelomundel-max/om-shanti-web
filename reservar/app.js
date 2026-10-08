@@ -93,14 +93,19 @@ async function uploadProof(bookingId, file, emailToken) {
 }
 
 
-async function triggerBookingEmail(bookingId, event, emailToken = null) {
+async function triggerBookingEmail(bookingId, event, emailToken = null, recoveryToken = null) {
   const response = await fetch(`${SUPABASE_URL}/functions/v1/send-booking-email`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'apikey': SUPABASE_KEY
     },
-    body: JSON.stringify({ booking_id: bookingId, event, ...(emailToken ? { email_token: emailToken } : {}) })
+    body: JSON.stringify({
+      booking_id: bookingId,
+      event,
+      ...(emailToken ? { email_token: emailToken } : {}),
+      ...(recoveryToken ? { recovery_token: recoveryToken } : {})
+    })
   });
 
   const text = await response.text();
@@ -113,6 +118,66 @@ async function triggerBookingEmail(bookingId, event, emailToken = null) {
   return data;
 }
 
+async function restorePendingBookingFromUrl() {
+  const token = new URLSearchParams(window.location.search).get('token');
+  if(!token) return false;
+
+  $('searchMessage').innerHTML = '<div class="notice">Recuperando tu reserva pendiente…</div>';
+
+  const { data: recovered, error } = await db.rpc('get_pending_booking_by_token', {
+    p_token: token
+  });
+  if(error) throw error;
+
+  if(!recovered?.ok) {
+    const message = recovered?.status === 'expired'
+      ? 'El plazo de 2 horas de esta reserva ya venció. Podés consultar nuevamente la disponibilidad.'
+      : recovered?.status === 'pending'
+        ? 'No pudimos recuperar esta reserva pendiente.'
+        : recovered?.status && recovered.status !== 'not_found'
+          ? 'Esta reserva ya no está pendiente de pago.'
+          : 'El enlace de recuperación no es válido o ya no está disponible.';
+
+    $('searchMessage').innerHTML = `<div class="notice error"><strong>No pudimos retomar la reserva.</strong><br>${message}</div>`;
+    return true;
+  }
+
+  currentPreBooking = {
+    ...recovered,
+    payment_recovery_token: token
+  };
+
+  selectedUnit = (config.units || []).find(u => u.id === recovered.unit_id) || {
+    id: recovered.unit_id,
+    name: recovered.unit || 'Cabaña'
+  };
+
+  const est = localEstimate(recovered.checkin, recovered.checkout, Number(recovered.guests));
+  selectedQuote = {
+    checkin: recovered.checkin,
+    checkout: recovered.checkout,
+    guests: Number(recovered.guests),
+    ...est,
+    total: Number(recovered.total_amount),
+    deposit: Number(recovered.deposit_amount)
+  };
+
+  $('summaryUnit').textContent = selectedUnit.name;
+  renderSummary();
+  $('paymentAmount').textContent = ARS(Number(recovered.deposit_amount));
+  $('paymentHold').innerHTML = `Tu reserva sigue guardada hasta <strong>${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}</strong>. Podés realizar la transferencia y cargar el comprobante desde esta misma pantalla.`;
+
+  $('availability').classList.add('hidden');
+  $('bookingFlow').classList.remove('hidden');
+  $('formStage').classList.add('hidden');
+  $('paymentStage').classList.remove('hidden');
+  $('successStage').classList.add('hidden');
+  $('step3').classList.add('active');
+  $('searchMessage').innerHTML = '<div class="notice"><strong>Recuperamos tu reserva pendiente.</strong> Podés continuar con el pago y cargar el comprobante.</div>';
+  $('bookingFlow').scrollIntoView({behavior:'smooth'});
+  return true;
+}
+
 async function init() {
   try {
     const {data,error} = await db.rpc('get_booking_config');
@@ -120,10 +185,14 @@ async function init() {
     config = data;
     $('connText').textContent = 'Supabase conectado ✓';
     $('searchBtn').disabled = false;
+
+    const handledRecovery = await restorePendingBookingFromUrl();
+    if(handledRecovery) return;
   } catch(e) {
     $('connText').textContent = 'Error de conexión';
     $('searchMessage').innerHTML = `<div class="notice error"><strong>No pudimos conectar con Supabase.</strong><br>${e.message}</div>`;
   }
+
   const d = new Date();
   d.setDate(d.getDate()+7);
   $('checkin').value = d.toISOString().slice(0,10);
@@ -241,6 +310,23 @@ $('continueBtn').onclick=async()=>{
     if(createError) throw new Error(createError.message);
 
     currentPreBooking = result;
+
+    if(result.payment_recovery_token) {
+      const recoveryUrl = `${window.location.pathname}?token=${encodeURIComponent(result.payment_recovery_token)}`;
+      window.history.replaceState(null, '', recoveryUrl);
+
+      try {
+        await triggerBookingEmail(
+          result.booking_id,
+          'booking_payment_pending',
+          null,
+          result.payment_recovery_token
+        );
+      } catch(emailError) {
+        console.warn('La pre-reserva se creó, pero falló el email para retomarla:', emailError);
+      }
+    }
+
     selectedQuote.total = result.total_amount;
     selectedQuote.deposit = result.deposit_amount;
     selectedQuote.base = result.base_amount;
@@ -248,7 +334,7 @@ $('continueBtn').onclick=async()=>{
     renderSummary();
     $('paymentAmount').textContent = ARS(result.deposit_amount);
 
-    $('paymentHold').innerHTML = `Las fechas quedan reservadas para vos hasta <strong>${new Date(result.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}</strong> mientras realizás la transferencia y cargás el comprobante. Si el comprobante llega antes de ese horario, la reserva deja de vencer automáticamente y queda pendiente de nuestra verificación.`;
+    $('paymentHold').innerHTML = `Las fechas quedan reservadas para vos hasta <strong>${new Date(result.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}</strong> mientras realizás la transferencia y cargás el comprobante. <strong>Podés cerrar esta página:</strong> te enviamos por email un enlace para retomarla durante ese plazo. Si el comprobante llega antes de ese horario, la reserva deja de vencer automáticamente y queda pendiente de nuestra verificación.`;
     $('formStage').classList.add('hidden');
     $('paymentStage').classList.remove('hidden');
     $('step3').classList.add('active');
@@ -288,6 +374,7 @@ $('submitBtn').onclick = async () => {
     }
 
     $('bookingId').textContent = currentPreBooking.booking_id;
+    window.history.replaceState(null, '', window.location.pathname);
     $('paymentStage').classList.add('hidden');
     $('successStage').classList.remove('hidden');
     $('step4').classList.add('active');
