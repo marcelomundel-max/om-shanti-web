@@ -165,7 +165,7 @@ async function restorePendingBookingFromUrl() {
   $('summaryUnit').textContent = selectedUnit.name;
   renderSummary();
   $('paymentAmount').textContent = ARS(Number(recovered.deposit_amount));
-  $('paymentHold').innerHTML = `Tu reserva sigue guardada hasta <strong>${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}</strong>. Podés realizar la transferencia y cargar el comprobante desde esta misma pantalla.`;
+  $('paymentHold').innerHTML = `<strong>Tu reserva sigue guardada hasta ${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Realizá la transferencia y cargá el comprobante antes de ese horario.<br><br><strong>Podés cerrar esta página:</strong> mientras el plazo siga vigente, podés volver a entrar desde el enlace que te enviamos por email.<br><br>Una vez cargado el comprobante, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
 
   $('availability').classList.add('hidden');
   $('bookingFlow').classList.remove('hidden');
@@ -334,7 +334,7 @@ $('continueBtn').onclick=async()=>{
     renderSummary();
     $('paymentAmount').textContent = ARS(result.deposit_amount);
 
-    $('paymentHold').innerHTML = `Las fechas quedan reservadas para vos hasta <strong>${new Date(result.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}</strong> mientras realizás la transferencia y cargás el comprobante. <strong>Podés cerrar esta página:</strong> te enviamos por email un enlace para retomarla durante ese plazo. Si el comprobante llega antes de ese horario, la reserva deja de vencer automáticamente y queda pendiente de nuestra verificación.`;
+    $('paymentHold').innerHTML = `<strong>Tu fecha queda reservada durante 2 horas, hasta ${new Date(result.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Realizá la transferencia y cargá el comprobante antes de ese horario.<br><br><strong>Podés cerrar esta página:</strong> te enviamos por email un enlace para continuar tu reserva dentro de ese plazo.<br><br>Una vez cargado el comprobante, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
     $('formStage').classList.add('hidden');
     $('paymentStage').classList.remove('hidden');
     $('step3').classList.add('active');
