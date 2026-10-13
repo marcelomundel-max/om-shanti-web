@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-reset.html
+Disallow: /resena.html
+Disallow: /guia/
+Disallow: /reglas/
+Disallow: /fotos/
+Disallow: /zen/
+Disallow: /rustic/
+Disallow: /instagram/
+Disallow: /messenger/
+Disallow: /whatsapp/
+Disallow: /calendarios/
+
+Sitemap: https://cabanasomshanti.com/sitemap.xml
