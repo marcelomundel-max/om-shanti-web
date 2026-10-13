@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Armar una salida relajada al caer la tarde.'
         ],
         note: 'Ideal si querés combinar descanso con una salida linda sin alejarte demasiado.',
-        image: 'assets/paseo-victorica.png',
+        image: 'assets/paseo-victorica.webp',
         alt: 'Paseo Victorica al atardecer en Tigre',
         whatsapp: 'Hola Om Shanti, me interesa una escapada para recorrer Paseo Victorica.'
       },
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Sumar una experiencia ideal para desconectar.'
         ],
         note: 'Perfecto para quienes quieren sentir el Delta desde adentro.',
-        image: 'assets/rio-delta.png',
+        image: 'assets/rio-delta.webp',
         alt: 'Río y Delta de Tigre',
         whatsapp: 'Hola Om Shanti, me interesa una escapada para disfrutar el río y el Delta.'
       },
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Armar una salida cultural durante la estadía.'
         ],
         note: 'Una propuesta ideal para sumar algo distinto a la escapada.',
-        image: 'assets/museos.png',
+        image: 'assets/museos.webp',
         alt: 'Museos y escapadas culturales en Tigre',
         whatsapp: 'Hola Om Shanti, me interesa una escapada con paseo por museos en Tigre.'
       },
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Disfrutar planes simples que hacen especial la escapada.'
         ],
         note: 'Muy buena opción para escapadas de descanso o en pareja.',
-        image: 'assets/gastronomia.png',
+        image: 'assets/gastronomia.webp',
         alt: 'Gastronomía junto al río en Tigre',
         whatsapp: 'Hola Om Shanti, me interesa una escapada para disfrutar la gastronomía de Tigre.'
       },
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Disfrutar un plan simple, relajado y al aire libre.'
         ],
         note: 'Excelente para quienes buscan una escapada tranquila y sin agenda cargada.',
-        image: 'assets/caminatas.png',
+        image: 'assets/caminatas.webp',
         alt: 'Caminatas en Tigre al atardecer',
         whatsapp: 'Hola Om Shanti, me interesa una escapada con caminatas en Tigre.'
       },
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Volver a la cabaña para seguir disfrutando el descanso.'
         ],
         note: 'Pensado para parejas que quieren frenar, reconectar y disfrutar el tiempo juntos.',
-        image: 'assets/escapada-pareja.png',
+        image: 'assets/escapada-pareja.webp',
         alt: 'Escapada romántica en Tigre',
         whatsapp: 'Hola Om Shanti, me interesa una escapada en pareja en Tigre.'
       }
