@@ -1,9 +1,8 @@
-PRUEBA DE DISEÑO OM SHANTI
+OM SHANTI - PRUEBA V3
 
-1. Descomprimí el ZIP completo.
-2. Abrí index.html en Chrome.
-3. Probá las flechas y el desplazamiento horizontal.
+Solo subir el contenido de esta carpeta a /prueba/ en GitHub.
+No reemplazar los archivos de la raíz ni /reservar/.
 
-No subir esta prueba sobre el sitio publicado. Los botones de reserva y WhatsApp enlazan a los servicios reales, así que evitá completar reservas de prueba.
+Cambios: flecha lateral angosta; imágenes ampliadas completas sin recortar; historia original recuperada en cinco etapas con fotos de Marcelo y Marisa; navegación corregida; mapa integrado de la V2.
 
-Esta es una maqueta funcional de navegación, no una versión definitiva: faltan secciones y ajustes de contenido, SEO, medición y accesibilidad antes de publicar.
+Esta sigue siendo una maqueta, no reemplaza la web principal.
