@@ -1,0 +1,9 @@
+PRUEBA DE DISEÑO OM SHANTI
+
+1. Descomprimí el ZIP completo.
+2. Abrí index.html en Chrome.
+3. Probá las flechas y el desplazamiento horizontal.
+
+No subir esta prueba sobre el sitio publicado. Los botones de reserva y WhatsApp enlazan a los servicios reales, así que evitá completar reservas de prueba.
+
+Esta es una maqueta funcional de navegación, no una versión definitiva: faltan secciones y ajustes de contenido, SEO, medición y accesibilidad antes de publicar.
