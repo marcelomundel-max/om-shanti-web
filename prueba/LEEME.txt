@@ -1,3 +1,1 @@
-OM SHANTI · PRUEBA V6
-Portada alta como la web original, con CTA principal y tres atributos. Se conservan cuerpo compacto, historia, mapa, carruseles, ampliaciones y botones flotantes de la V5.
-Subir contenido descomprimido únicamente a la carpeta prueba/ del repositorio. No reemplazar la raíz.
+Versión 7 de prueba. Recupera el encabezado oscuro y las seis preguntas frecuentes originales. Mantiene el resto de la versión 6. Subir el contenido a /prueba/ sin modificar la página principal.
