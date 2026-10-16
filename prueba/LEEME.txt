@@ -1,8 +1,7 @@
-OM SHANTI - PRUEBA V3
+Om Shanti · Maqueta de prueba V5
 
-Solo subir el contenido de esta carpeta a /prueba/ en GitHub.
-No reemplazar los archivos de la raíz ni /reservar/.
+Cambios: portada móvil más compacta y legible, botones flotantes Compartir y WhatsApp, se conserva el resto de V4.
 
-Cambios: flecha lateral angosta; imágenes ampliadas completas sin recortar; historia original recuperada en cinco etapas con fotos de Marcelo y Marisa; navegación corregida; mapa integrado de la V2.
+Para publicar la prueba: subir el contenido de esta carpeta a /prueba/ del repositorio, reemplazando index.html. No reemplazar el index.html de la raíz.
 
-Esta sigue siendo una maqueta, no reemplaza la web principal.
+La opción Compartir comparte la dirección de la web principal, no la prueba.
