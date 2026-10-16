@@ -71,8 +71,26 @@ body.modal-open{overflow:hidden}
  .floating{font-size:12px;padding:12px 18px}
 }
 @media(min-width:601px){.hero{min-height:490px}}
+
+/* V6: recupera la portada protagonista de la web original; el cuerpo permanece V5. */
+.hero{background-image:linear-gradient(180deg,rgba(17,18,14,.60) 0%,rgba(17,18,14,.18) 36%,rgba(17,18,14,.68) 100%),url('assets/hero.webp');background-position:38% center;min-height:88vh;height:auto;max-height:none;align-items:flex-end;padding:125px 6vw 8vh}
+.hero-inner{width:100%;max-width:850px}
+.hero h1{font-size:clamp(3.4rem,6.5vw,5.1rem);line-height:1.03;max-width:850px;letter-spacing:normal}
+.hero p{font-size:1.05rem;line-height:1.55;max-width:610px;margin-top:22px}
+.hero .actions{margin-top:30px;display:flex}
+.hero .actions .cta{background:#84944c;color:white;padding:18px 28px;font-size:16px;min-width:260px}
+.hero-points{display:flex;gap:24px;flex-wrap:wrap;margin-top:32px;font-size:15px}
+@media(max-width:600px){
+ .hero{height:auto;min-height:calc(100svh - 60px);max-height:none;align-items:flex-end;padding:110px 6vw 8vh;background-position:38% center}
+ .hero-inner{max-width:100%}
+ .hero h1{font-size:clamp(3.35rem,11.5vw,4.1rem);line-height:1.01;max-width:100%;letter-spacing:normal}
+ .hero p{font-size:1rem;line-height:1.48;max-width:100%;margin-top:22px}
+ .hero .actions{margin-top:30px}
+ .hero .actions .cta{width:100%;min-width:0;font-size:17px;padding:18px 20px}
+ .hero-points{display:flex;gap:16px 22px;align-items:center;justify-content:flex-start;margin-top:29px;padding-right:72px;font-size:14px}
+}
 </style></head><body><div class="prototype">VISTA DE PRUEBA · No reemplaza la web publicada</div><header><div class="brand">OM SHANTI<small>CABAÑAS EN TIGRE</small></div><a class="topcta" href="https://cabanasomshanti.com/reservar/">Reservar online ↗</a></header>
-<section class="hero"><div class="hero-inner"><span class="eyebrow">TIGRE · BUENOS AIRES</span><h1>Tu lugar para frenar, respirar y disfrutar.</h1><p>Cabañas para 2 a 4 huéspedes en Tigre centro, a 200 metros del río. Tranquilidad, comodidad y todo cerca.</p><div class="actions"><a class="cta alt" href="https://cabanasomshanti.com/reservar/">Ver disponibilidad ↗</a><a class="cta" href="https://wa.me/5491168330289">Consultar por WhatsApp ↗</a></div></div></section>
+<section class="hero"><div class="hero-inner"><span class="eyebrow">TIGRE · BUENOS AIRES</span><h1>Tu lugar para frenar, respirar y disfrutar.</h1><p>Cabañas para 2 a 4 huéspedes en Tigre centro, a 200 metros del río y de la ciudad.</p><div class="actions"><a class="cta" href="https://cabanasomshanti.com/reservar/">Reservar online</a></div><div class="hero-points"><span>📍 Tigre centro</span><span>🌿 Entorno tranquilo</span><span>🐾 Pet friendly</span></div></div></section>
 <div class="facts"><div><strong>📍 Tigre centro</strong><span>200 m de Paseo Victorica</span></div><div><strong>🛏️ 2 a 4 huéspedes</strong><span>Para descansar a tu ritmo</span></div><div><strong>🐾 Pet friendly</strong><span>Tu mascota es bienvenida</span></div><div><strong>☕ Desayuno</strong><span>De bienvenida</span></div></div>
 <main>
 <section class="section" id="cabana"><div class="heading"><div><span class="eyebrow">EL ALOJAMIENTO</span><h2>Conocé Om Shanti por dentro.</h2><p>Un espacio cálido, con deck y galería techada. Mirá sus rincones sin recorrer una galería interminable.</p></div></div><div class="slide-wrap"><div class="track"><article class="tile"><img alt="Deck de Om Shanti" src="assets/deck1.webp"/><div class="copy"><h3>El deck</h3><p>Un rincón para frenar y disfrutar sin apuro.</p></div></article><article class="tile"><img alt="Interior de Om Shanti" src="assets/interior.webp"/><div class="copy"><h3>La cabaña</h3><p>Cama doble, futón y un ambiente cómodo y funcional.</p></div></article><article class="tile"><img alt="Galería techada" src="assets/deck2.webp"/><div class="copy"><h3>La galería</h3><p>Un lugar para disfrutar incluso cuando llueve.</p></div></article><article class="tile"><img alt="Cama de Om Shanti" src="assets/bed.webp"/><div class="copy"><h3>Descanso</h3><p>Un espacio pensado para bajar el ritmo.</p></div></article><article class="tile"><img alt="Baño de Om Shanti" src="assets/bathroom.webp"/><div class="copy"><h3>Comodidades</h3><p>Aire frío/calor, WiFi y Smart TV con Netflix.</p></div></article></div></div><div class="carousel-progress" role="progressbar" aria-label="Progreso de la galería" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="carousel-progress-thumb"></span></div></section>

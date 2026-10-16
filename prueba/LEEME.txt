@@ -1,7 +1,3 @@
-Om Shanti · Maqueta de prueba V5
-
-Cambios: portada móvil más compacta y legible, botones flotantes Compartir y WhatsApp, se conserva el resto de V4.
-
-Para publicar la prueba: subir el contenido de esta carpeta a /prueba/ del repositorio, reemplazando index.html. No reemplazar el index.html de la raíz.
-
-La opción Compartir comparte la dirección de la web principal, no la prueba.
+OM SHANTI · PRUEBA V6
+Portada alta como la web original, con CTA principal y tres atributos. Se conservan cuerpo compacto, historia, mapa, carruseles, ampliaciones y botones flotantes de la V5.
+Subir contenido descomprimido únicamente a la carpeta prueba/ del repositorio. No reemplazar la raíz.
