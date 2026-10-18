@@ -178,7 +178,7 @@ function showDetail(tile){
  detailImg.src=first.src;detailImg.alt=first.alt;
  detailImg.className=tile.dataset.story?'detail-story-main':'';
  detailGallery.replaceChildren();
- detailGallery.hidden=!tile.dataset.story;
+ detailGallery.hidden=!tile.dataset.story || imgs.length===1;
  if(tile.dataset.story){
   imgs.forEach((img,i)=>{
    const thumb=document.createElement('img');thumb.src=img.src;thumb.alt=img.alt;
