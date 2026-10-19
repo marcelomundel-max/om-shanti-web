@@ -21,6 +21,7 @@ const galleryKeys = ['deck','living','cocina','dormitorio','bano'];
 let galleryUnitId = null;
 let galleryIndex = 0;
 let galleryReturnFocus = null;
+let availableGalleryUnits = new Set();
 function galleryRender() {
   const key=galleryKeys[galleryIndex];
   $('galleryPhoto').src=`assets/galeria/${galleryUnitId}/${key}.webp`;
@@ -33,6 +34,9 @@ function openGallery(id, trigger) {
   if(!['zen','rustic'].includes(id))return;
   galleryUnitId=id;galleryIndex=0;galleryReturnFocus=trigger;
   galleryRender();
+  const canChoose = availableGalleryUnits.has(id);
+  $('galleryChoose').disabled = !canChoose;
+  $('galleryChoose').textContent = canChoose ? 'Elegir esta cabaña' : 'No disponible para estas fechas';
   $('galleryModal').classList.add('open');
   $('galleryModal').setAttribute('aria-hidden','false');
   document.body.classList.add('gallery-open');
@@ -55,7 +59,12 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft')$('galleryPrev').click();
   if(e.key==='ArrowRight')$('galleryNext').click();
 });
-$('galleryChoose').onclick=()=>{const id=galleryUnitId;closeGallery();if(selectedQuote)selectUnit(id)};
+$('galleryChoose').onclick=()=>{
+  const id=galleryUnitId;
+  if(!selectedQuote || !availableGalleryUnits.has(id)) return;
+  closeGallery();
+  selectUnit(id);
+};
 
 
 async function refreshConfig() {
@@ -377,6 +386,7 @@ $('searchBtn').onclick = async () => {
       $('searchMessage').innerHTML = `<div class="notice"><strong>Modalidad 1 noche + late checkout.</strong> Para estadías de una sola noche con ingreso viernes, sábado o domingo se suma un late checkout de <strong>${ARS(est.lateCheckoutAmount)}</strong>. El total que ves abajo ya lo incluye.</div>`;
     }
 
+    availableGalleryUnits = new Set((data || []).filter(x => x.available).map(x => x.unit_id));
     $('unitList').innerHTML=(config.units||[]).map(u=>{
       const av=data.find(x=>x.unit_id===u.id), ok=av&&av.available;
       return `<article class="card unit"><button type="button" class="unit-photo-button" data-gallery="${u.id}" aria-label="Ver fotos de ${u.name}"><img src="${imageMap[u.id]||'assets/exterior.jpg'}" alt="Foto real de ${u.name}"><span class="photo-hint">Ver fotos de la cabaña ↗</span></button><div class="unit-body"><h3>${u.name}</h3><p class="meta">Hasta ${u.capacity} huéspedes · Om Shanti Tigre</p><div class="price">${ARS(est.total)} <span class="small">estimado</span></div>${ok?`<button class="btn primary selectUnit" data-unit="${u.id}">Elegir ${u.name.replace('Cabaña ','')}</button>`:'<div class="notice error">No disponible para estas fechas.</div>'}</div></article>`;
