@@ -407,6 +407,7 @@ $('searchBtn').onclick = async () => {
 
 function selectUnit(id) {
   selectedUnit=config.units.find(u=>u.id===id);
+  if(typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', {content_category:'alojamiento',currency:'ARS'});
   $('summaryUnit').textContent=selectedUnit.name;
   renderSummary();
   $('bookingFlow').classList.remove('hidden');
@@ -510,6 +511,8 @@ $('submitBtn').onclick = async () => {
     $('paymentStage').classList.add('hidden');
     $('successStage').classList.remove('hidden');
     $('step4').classList.add('active');
+    // El comprobante NO equivale a pago confirmado: no enviar Purchase aquí.
+    if(typeof window.fbq === 'function') window.fbq('trackCustom', 'BookingProofSubmitted', {booking_status:'pending_verification'});
   } catch(err) {
     alert('No pudimos completar la solicitud: ' + err.message);
   } finally {
