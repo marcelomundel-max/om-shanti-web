@@ -352,12 +352,9 @@ function calendarStateFor(unit,iso){
   const late=bookings.find(x=>x.unit_id===unit&&active(x)&&x.late_checkout===true&&iso===x.checkout);
   const bl=blocks.find(x=>x.unit_id===unit&&iso>=x.checkin&&iso<x.checkout);
 
-  if(bl){
-    return{
-      cls:'blocked',
-      note:bl.source==='airbnb'?'Airbnb':(bl.reason||'Bloqueado')
-    };
-  }
+  // Las reservas propias tienen prioridad visual sobre bloqueos importados.
+  // Un bloqueo de Airbnb puede reflejar la misma estadía bloqueada manualmente
+  // en esa plataforma; no debe ocultar la reserva registrada en Om Shanti.
   if(b){
     return{
       cls:b.status==='confirmed'?'confirmed':'pending',
@@ -368,6 +365,12 @@ function calendarStateFor(unit,iso){
     return{
       cls:late.status==='confirmed'?'confirmed':'pending',
       note:'Late checkout'
+    };
+  }
+  if(bl){
+    return{
+      cls:'blocked',
+      note:bl.source==='airbnb'?'Airbnb':(bl.reason||'Bloqueado')
     };
   }
   return{cls:'free',note:'Libre'};
