@@ -90,3 +90,7 @@
 .trust-panel .trust-note{border-top:1px solid #dfe4d6;padding-top:8px;margin:9px 0 0}
 .trust-note a{color:#344e30;font-weight:700;text-decoration:underline}
 .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* V4 — claridad sobre titular y confirmaciones de pago */
+.payment-active .bank-detail{line-height:1.45}
+.payment-active .proof-confirmation-note{font-size:12px;line-height:1.5;color:var(--muted);text-align:center;margin:11px 2px 0}

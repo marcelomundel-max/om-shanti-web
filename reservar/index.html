@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027c">
+<link rel="stylesheet" href="styles.css?v=20261027d">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Meta Pixel: mismo conjunto de datos que la web principal de Om Shanti -->
 <script>
@@ -95,7 +95,7 @@
         <div class="transfer">
           <p class="payment-subtitle">Transferí la seña indicada en el resumen. El saldo restante lo abonás al llegar.</p>
           <span id="paymentAmount" class="visually-hidden" aria-hidden="true">—</span>
-          <div class="bank-detail">Banco Provincia · Titular: Marcelo Gastón Mundel</div>
+          <div class="bank-detail">Banco Provincia<br>Titular: <strong>Marcelo Gastón Mundel</strong>, propietario de Cabañas Om Shanti y anfitrión en Airbnb (Changuito).</div>
           <div class="alias-box"><span>Alias para transferir</span><div class="alias-row"><strong>YESO.NIDO.VIENTO</strong><button class="btn secondary" type="button" id="copyAlias">Copiar alias</button></div></div>
           <details class="bank-more"><summary>Ver CBU y otros datos bancarios</summary><p>CBU: <strong>0140047203513854939000</strong><br>Caja de Ahorro N°: 51385493900</p></details>
         </div>
@@ -107,6 +107,7 @@
         </div>
         <div id="paymentFeedback" class="hidden notice" role="status" aria-live="polite"></div>
         <button class="btn primary submit-proof" id="submitBtn">Enviar comprobante</button>
+        <p class="proof-confirmation-note">Al enviar tu comprobante, recibirás un correo confirmando su recepción. Una vez verificado el pago, te enviaremos otro con la confirmación definitiva de tu reserva.</p>
       </div>
       <div id="successStage" class="hidden success">
         <div class="tick">✓</div><h2>¡Recibimos tu comprobante! 🌿</h2>
@@ -136,6 +137,6 @@
     <div class="gallery-actions"><button type="button" id="galleryChoose" class="btn primary">Elegir esta cabaña</button><button type="button" id="galleryDismiss" class="btn ghost">Seguir mirando</button></div>
   </div>
 </div>
-<script src="app.js?v=20261027c"></script>
+<script src="app.js?v=20261027d"></script>
 </body>
 </html>
