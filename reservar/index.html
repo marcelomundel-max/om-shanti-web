@@ -77,26 +77,29 @@
         <button class="btn primary" id="continueBtn">Continuar</button>
       </div>
       <div id="paymentStage" class="hidden">
-        <div id="paymentHold" class="notice" style="margin-bottom:16px"></div>
+        <div id="paymentHold" class="notice payment-hold" style="margin-bottom:16px">
+          <strong>Tu fecha está reservada temporalmente</strong>
+          <div class="countdown" aria-label="Tiempo restante para enviar el comprobante"><span id="countdownTime">--:--:--</span></div>
+          <div id="deadlineText" class="small"></div>
+          <p class="small">Transferí y adjuntá el comprobante antes del vencimiento. Podés retomar desde el enlace enviado por email.</p>
+        </div>
         <span class="eyebrow">SOLICITUD DE RESERVA</span><h2>Completá tu reserva</h2>
         
         <div class="transfer">
-            <strong>Reservá tu fecha con el 50% de seña</strong><br>
-            El resto lo abonás al llegar.<br><br>
-            <strong>Datos para transferir</strong><br>
-            Banco: <strong>Banco Provincia</strong><br>
-            Titular: Marcelo Gastón Mundel<br>
-            CBU: <strong>0140047203513854939000</strong><br>
-            Alias: <strong>YESO.NIDO.VIENTO</strong><br>
-            Caja de Ahorro N°: 51385493900<br><br>
-            Importe a transferir: <strong id="paymentAmount">—</strong>
-          </div><br>
-          <div class="field">
-            <label>Comprobante de transferencia</label>
-            <input id="proofFile" type="file" accept="image/jpeg,image/png,application/pdf">
-            <p class="small">Formatos permitidos: JPG, PNG o PDF. Máximo 5 MB.</p>
-          </div><br>
-          <button class="btn primary" id="submitBtn">Enviar comprobante</button>
+          <strong>Seña para reservar: <span id="paymentAmount">—</span></strong>
+          <p class="payment-subtitle">El saldo restante lo abonás al llegar.</p>
+          <div class="bank-detail">Banco Provincia · Titular: Marcelo Gastón Mundel</div>
+          <div class="alias-box"><span>Alias para transferir</span><div class="alias-row"><strong>YESO.NIDO.VIENTO</strong><button class="btn secondary" type="button" id="copyAlias">Copiar alias</button></div></div>
+          <details class="bank-more"><summary>Ver CBU y otros datos bancarios</summary><p>CBU: <strong>0140047203513854939000</strong><br>Caja de Ahorro N°: 51385493900</p></details>
+        </div>
+        <div class="field proof-field">
+          <label for="proofFile">Adjuntá tu comprobante</label>
+          <input id="proofFile" type="file" accept="image/jpeg,image/png,application/pdf" aria-describedby="proofHelp">
+          <p id="proofHelp" class="small">JPG, PNG o PDF · Hasta 5 MB.</p>
+          <p id="proofSelected" class="small" aria-live="polite"></p>
+        </div>
+        <div id="paymentFeedback" class="hidden notice" role="status" aria-live="polite"></div>
+        <button class="btn primary submit-proof" id="submitBtn">Enviar comprobante</button>
       </div>
       <div id="successStage" class="hidden success">
         <div class="tick">✓</div><h2>¡Recibimos tu comprobante! 🌿</h2>
