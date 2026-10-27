@@ -162,7 +162,7 @@ function renderSummary() {
     ${selectedQuote.lateCheckout ? `<div class="summary-row"><span>Late checkout</span><strong>${ARS(selectedQuote.lateCheckoutAmount)}</strong></div>` : ''}
     <div class="summary-row total"><span>Total estimado</span><span>${ARS(selectedQuote.total)}</span></div>
     <div class="deposit">Seña estimada (${depositPercent}%)<strong>${ARS(selectedQuote.deposit)}</strong></div>
-    <p class="small">El importe definitivo se recalcula en Supabase al enviar.</p>`;
+    <p class="small">El importe final de la seña se confirma al continuar con la reserva.</p>`;
 }
 
 
@@ -279,7 +279,7 @@ async function restorePendingBookingFromUrl() {
   $('summaryUnit').textContent = selectedUnit.name;
   renderSummary();
   $('paymentAmount').textContent = ARS(Number(recovered.deposit_amount));
-  $('paymentHold').innerHTML = `<strong>Tu reserva sigue guardada hasta ${new Date(recovered.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Realizá la transferencia y cargá el comprobante antes de ese horario.<br><br><strong>Podés cerrar esta página:</strong> mientras el plazo siga vigente, podés volver a entrar desde el enlace que te enviamos por email.<br><br>Una vez cargado el comprobante, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
+  showPaymentStage(recovered.expires_at);
 
   $('availability').classList.add('hidden');
   $('bookingFlow').classList.remove('hidden');
@@ -292,6 +292,67 @@ async function restorePendingBookingFromUrl() {
   return true;
 }
 
+// Interfaz de pago: el vencimiento real siempre proviene de Supabase.
+let paymentCountdownInterval = null;
+let paymentExpiry = null;
+function setPaymentDeadline(expiresAt) {
+  paymentExpiry = Date.parse(expiresAt);
+  if (paymentCountdownInterval) clearInterval(paymentCountdownInterval);
+  if (!Number.isFinite(paymentExpiry)) return;
+  const end = new Date(paymentExpiry).toLocaleString('es-AR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});
+  $('deadlineText').textContent = `Vence el ${end} hs.`;
+  const update = () => {
+    const left = Math.max(0, Math.ceil((paymentExpiry-Date.now())/1000));
+    const hh=String(Math.floor(left/3600)).padStart(2,'0');
+    const mm=String(Math.floor((left%3600)/60)).padStart(2,'0');
+    const ss=String(left%60).padStart(2,'0');
+    $('countdownTime').textContent=`${hh}:${mm}:${ss}`;
+    $('paymentHold').classList.toggle('expired',left===0);
+    if(left===0){
+      $('deadlineText').textContent='El plazo venció. Consultá nuevamente la disponibilidad.';
+      $('submitBtn').disabled=true;
+      clearInterval(paymentCountdownInterval);
+    }
+  };
+  update();
+  paymentCountdownInterval=setInterval(update,1000);
+}
+function showPaymentFeedback(message,isError=true){
+  const el=$('paymentFeedback'); el.textContent=message;
+  el.classList.remove('hidden'); el.classList.toggle('error',isError);
+  el.classList.toggle('ok',!isError);
+}
+$('summaryToggle').addEventListener('click', () => {
+  const expanded = $('bookingFlow').classList.toggle('summary-expanded');
+  $('summaryToggle').setAttribute('aria-expanded', String(expanded));
+  $('summaryToggle').textContent = expanded ? 'Ocultar detalle' : 'Ver detalle del precio';
+});
+$('copyAlias').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText('YESO.NIDO.VIENTO');
+    $('copyAlias').textContent='¡Copiado!';
+    setTimeout(()=>$('copyAlias').textContent='Copiar alias',1800);
+  } catch(e) { showPaymentFeedback('No se pudo copiar automáticamente. Mantené presionado el alias para copiarlo.'); }
+});
+$('proofFile').addEventListener('change',()=>{
+  const f=$('proofFile').files[0];
+  $('proofSelected').textContent=f ? `Archivo seleccionado: ${f.name}` : '';
+  $('paymentFeedback').classList.add('hidden');
+});
+function showPaymentStage(expiresAt){
+  $('bookingFlow').classList.add('payment-active');
+  const flow = $('bookingFlow').querySelector('.flow');
+  const aside = flow.querySelector('aside');
+  if (flow.firstElementChild !== aside) flow.insertBefore(aside, flow.firstElementChild);
+  $('paymentSummaryBrief').textContent = `${fmt(selectedQuote.checkin)} al ${fmt(selectedQuote.checkout)} · ${selectedQuote.nights} noche${selectedQuote.nights===1?'':'s'} · ${selectedQuote.guests} huésped${selectedQuote.guests===1?'':'es'}`;
+  $('paymentSummaryBrief').classList.remove('hidden');
+  $('summaryToggle').classList.remove('hidden');
+  $('summaryToggle').setAttribute('aria-expanded','false');
+  $('summaryToggle').textContent='Ver detalle del precio';
+  $('bookingFlow').classList.remove('summary-expanded');
+  setPaymentDeadline(expiresAt);
+  $('paymentFeedback').classList.add('hidden');
+}
 async function init() {
   try {
     const {data,error} = await db.rpc('get_booking_config');
@@ -467,7 +528,7 @@ $('continueBtn').onclick=async()=>{
     renderSummary();
     $('paymentAmount').textContent = ARS(result.deposit_amount);
 
-    $('paymentHold').innerHTML = `<strong>Tu fecha queda reservada durante 2 horas, hasta ${new Date(result.expires_at).toLocaleString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+' hs'}.</strong><br>Realizá la transferencia y cargá el comprobante antes de ese horario.<br><br><strong>Podés cerrar esta página:</strong> te enviamos por email un enlace para continuar tu reserva dentro de ese plazo.<br><br>Una vez cargado el comprobante, la reserva deja de vencer y queda pendiente de nuestra verificación.`;
+    showPaymentStage(result.expires_at);
     $('formStage').classList.add('hidden');
     $('paymentStage').classList.remove('hidden');
     $('step3').classList.add('active');
@@ -487,7 +548,7 @@ $('submitBtn').onclick = async () => {
 
   const proof = $('proofFile').files[0];
   if(!proof){
-    alert('Seleccioná el comprobante de transferencia.');
+    showPaymentFeedback('Seleccioná un comprobante antes de continuar.');
     return;
   }
 
@@ -508,13 +569,17 @@ $('submitBtn').onclick = async () => {
 
     $('bookingId').textContent = currentPreBooking.booking_id;
     window.history.replaceState(null, '', window.location.pathname);
+    if(paymentCountdownInterval) clearInterval(paymentCountdownInterval);
+    $('bookingFlow').classList.remove('payment-active');
+    $('paymentSummaryBrief').classList.add('hidden');
+    $('summaryToggle').classList.add('hidden');
     $('paymentStage').classList.add('hidden');
     $('successStage').classList.remove('hidden');
     $('step4').classList.add('active');
     // El comprobante NO equivale a pago confirmado: no enviar Purchase aquí.
     if(typeof window.fbq === 'function') window.fbq('trackCustom', 'BookingProofSubmitted', {booking_status:'pending_verification'});
   } catch(err) {
-    alert('No pudimos completar la solicitud: ' + err.message);
+    showPaymentFeedback('No pudimos completar la solicitud: ' + err.message);
   } finally {
     $('submitBtn').disabled=false;
     $('submitBtn').textContent='Enviar comprobante';

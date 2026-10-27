@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20261027b">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Meta Pixel: mismo conjunto de datos que la web principal de Om Shanti -->
 <script>
@@ -94,7 +94,7 @@
         </div>
         <div class="field proof-field">
           <label for="proofFile">Adjuntá tu comprobante</label>
-          <input id="proofFile" type="file" accept="image/jpeg,image/png,application/pdf" aria-describedby="proofHelp">
+          <label class="proof-picker" for="proofFile">📎 Elegir comprobante</label><input id="proofFile" class="proof-native" type="file" accept="image/jpeg,image/png,application/pdf" aria-describedby="proofHelp">
           <p id="proofHelp" class="small">JPG, PNG o PDF · Hasta 5 MB.</p>
           <p id="proofSelected" class="small" aria-live="polite"></p>
         </div>
@@ -112,7 +112,7 @@
     </div>
     <aside class="card panel">
       <span class="eyebrow">RESUMEN</span><h2 id="summaryUnit">Tu estadía</h2>
-      <div id="summary"><p class="muted">Elegí fechas para comenzar.</p></div>
+      <p id="paymentSummaryBrief" class="payment-summary-brief hidden"></p><button type="button" id="summaryToggle" class="btn ghost summary-toggle hidden" aria-expanded="false">Ver detalle del precio</button><div id="summary"><p class="muted">Elegí fechas para comenzar.</p></div>
     </aside>
   </div>
 </section>
@@ -129,6 +129,6 @@
     <div class="gallery-actions"><button type="button" id="galleryChoose" class="btn primary">Elegir esta cabaña</button><button type="button" id="galleryDismiss" class="btn ghost">Seguir mirando</button></div>
   </div>
 </div>
-<script src="app.js"></script>
+<script src="app.js?v=20261027b"></script>
 </body>
 </html>

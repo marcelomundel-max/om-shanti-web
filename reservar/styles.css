@@ -32,3 +32,45 @@
 .gallery-description{font-size:14px;line-height:1.55;color:#5c5c50}
 .gallery-actions{display:flex;gap:9px;flex-wrap:wrap}
 @media(max-width:560px){.topbar .shell{min-height:76px;height:auto}.topbar .brand{font-size:22px}.topbar .brand small{font-size:8px}.back-home{font-size:11px;max-width:125px;white-space:normal}.unit-photo-button img{height:230px}.gallery-box{padding:13px}.gallery-box h2{font-size:29px}}
+
+/* Mejoras de experiencia de pago — sin cambios en backend */
+.payment-hold{margin-top:0!important;text-align:center;padding:15px!important}
+.payment-hold p{margin:8px 0 0;line-height:1.45}
+.countdown{font-size:clamp(30px,6vw,44px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.06em;color:#394d32;margin:7px 0}
+.payment-hold.expired{background:#fae7e4;color:#793c39}.payment-hold.expired .countdown{color:#793c39}
+.payment-subtitle{margin:4px 0 12px;font-size:13px}.bank-detail{font-size:13px;margin-bottom:12px}
+.alias-box{background:#fffdf8;border:1px solid #dcd6c7;border-radius:12px;padding:12px}
+.alias-box>span{font-size:12px;color:var(--muted)}.alias-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.alias-row strong{font-size:15px;overflow-wrap:anywhere}
+.bank-more{margin-top:12px;font-size:13px}.bank-more summary{cursor:pointer;text-decoration:underline}.bank-more p{overflow-wrap:anywhere}
+.proof-field{margin:18px 0 12px}.proof-field input{font-size:13px}.proof-field input::file-selector-button{background:#e8eadf;border:0;border-radius:8px;padding:9px;margin-right:9px;color:#394d32;font-weight:700;cursor:pointer}
+.submit-proof{width:100%;padding:15px}.payment-active .flow{align-items:start}
+@media(max-width:950px){.payment-active .flow>aside{order:-1}.payment-active .flow{gap:12px}.payment-active .panel{padding:18px}.payment-active .summary-row{padding:6px 0}.payment-active .deposit{padding:12px;margin-top:10px}.payment-active .deposit strong{font-size:24px}.payment-active .panel h2{font-size:29px;margin-bottom:8px}}
+
+/* Pago compacto v2: la sección de resumen se coloca primero desde app.js */
+.payment-active .flow{grid-template-columns:1fr;gap:14px;margin-top:12px}
+.payment-active .flow>aside{order:0}
+.payment-active .flow>.card.panel:not(aside){order:1}
+.payment-active .flow>aside{padding:16px 20px}
+.payment-active .flow>aside h2{font-size:29px;margin:4px 0 2px}
+.payment-summary-brief{font-size:13px;color:var(--muted);margin:2px 0 8px;line-height:1.5}
+.payment-active #summary .summary-row{display:none}
+.payment-active #summary .summary-row.total{display:flex;font-size:16px;padding:5px 0}
+.payment-active #summary .deposit{margin-top:6px;padding:10px;font-size:13px}
+.payment-active #summary .deposit strong{font-size:25px;margin-top:2px}
+.payment-active #summary>p.small{display:none}
+.payment-active.summary-expanded #summary .summary-row{display:flex}
+.payment-active .summary-toggle{font-size:12px;padding:5px 0;border:0;text-decoration:underline;background:transparent}
+.payment-active #paymentHold{padding:10px 12px!important;margin:0 0 10px!important}
+.payment-active #paymentHold>strong{font-size:13px}
+.payment-active #paymentHold .countdown{font-size:34px;line-height:1.1;margin:3px 0}
+.payment-active #paymentHold p{font-size:12px;margin-top:4px;line-height:1.35}
+.payment-active #paymentHold #deadlineText{font-size:12px}
+.payment-active #paymentStage>h2{font-size:26px;margin:3px 0 10px}
+.payment-active #paymentStage>.eyebrow{font-size:10px}
+.payment-active .transfer{padding:14px;line-height:1.5}
+.payment-active .payment-subtitle{margin:3px 0 8px}
+.payment-active .proof-native{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.payment-active .proof-picker{display:block;border:1px dashed #aab19e;border-radius:12px;padding:15px;text-align:center;background:#f7f8f3;color:#34452e;font-weight:700;cursor:pointer;margin-top:8px}
+.payment-active .proof-native:focus-visible+.proof-picker{outline:3px solid #a37e4b}
+.payment-active #proofSelected{overflow-wrap:anywhere}
+@media(max-width:950px){.payment-active .flow{display:flex;flex-direction:column}.payment-active .flow>aside,.payment-active .flow>.card.panel:not(aside){width:100%}.payment-active .flow>aside{order:0}.payment-active .flow>.card.panel:not(aside){order:1}}
