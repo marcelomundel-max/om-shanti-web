@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261027b">
+<link rel="stylesheet" href="styles.css?v=20261027c">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Meta Pixel: mismo conjunto de datos que la web principal de Om Shanti -->
 <script>
@@ -83,11 +83,18 @@
           <div id="deadlineText" class="small"></div>
           <p class="small">Transferí y adjuntá el comprobante antes del vencimiento. Podés retomar desde el enlace enviado por email.</p>
         </div>
+        <section class="trust-panel" aria-label="Trayectoria de nuestros anfitriones">
+          <div class="trust-heading"><span aria-hidden="true">♡</span><strong>Tu escapada, en buenas manos</strong></div>
+          <p>Desde 2018 recibimos huéspedes en Cabañas Om Shanti. Conocé nuestra trayectoria y las experiencias de quienes nos eligieron.</p>
+          <div class="trust-rating"><strong>★ 4,91/5</strong><span>· 307 evaluaciones en Airbnb</span></div>
+          <a class="trust-link" href="https://www.airbnb.com.ar/users/profile/1463064331531373913" target="_blank" rel="noopener noreferrer">Conocé nuestro perfil de anfitriones ↗</a>
+          <p class="trust-note">¿Tenés dudas antes de transferir? <a href="https://cabanasomshanti.com/mensajeriawhatsapp/" target="_blank" rel="noopener noreferrer">Consultanos por WhatsApp ↗</a></p>
+        </section>
         <span class="eyebrow">SOLICITUD DE RESERVA</span><h2>Completá tu reserva</h2>
         
         <div class="transfer">
-          <strong>Seña para reservar: <span id="paymentAmount">—</span></strong>
-          <p class="payment-subtitle">El saldo restante lo abonás al llegar.</p>
+          <p class="payment-subtitle">Transferí la seña indicada en el resumen. El saldo restante lo abonás al llegar.</p>
+          <span id="paymentAmount" class="visually-hidden" aria-hidden="true">—</span>
           <div class="bank-detail">Banco Provincia · Titular: Marcelo Gastón Mundel</div>
           <div class="alias-box"><span>Alias para transferir</span><div class="alias-row"><strong>YESO.NIDO.VIENTO</strong><button class="btn secondary" type="button" id="copyAlias">Copiar alias</button></div></div>
           <details class="bank-more"><summary>Ver CBU y otros datos bancarios</summary><p>CBU: <strong>0140047203513854939000</strong><br>Caja de Ahorro N°: 51385493900</p></details>
@@ -129,6 +136,6 @@
     <div class="gallery-actions"><button type="button" id="galleryChoose" class="btn primary">Elegir esta cabaña</button><button type="button" id="galleryDismiss" class="btn ghost">Seguir mirando</button></div>
   </div>
 </div>
-<script src="app.js?v=20261027b"></script>
+<script src="app.js?v=20261027c"></script>
 </body>
 </html>

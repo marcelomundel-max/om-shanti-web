@@ -74,3 +74,19 @@
 .payment-active .proof-native:focus-visible+.proof-picker{outline:3px solid #a37e4b}
 .payment-active #proofSelected{overflow-wrap:anywhere}
 @media(max-width:950px){.payment-active .flow{display:flex;flex-direction:column}.payment-active .flow>aside,.payment-active .flow>.card.panel:not(aside){width:100%}.payment-active .flow>aside{order:0}.payment-active .flow>.card.panel:not(aside){order:1}}
+
+/* V3 — confianza y menor desplazamiento vertical en etapa de pago */
+.payment-active #paymentHold{padding:8px 12px!important;margin-bottom:9px!important}
+.payment-active #paymentHold .countdown{font-size:27px;line-height:1.05;margin:2px 0;letter-spacing:.025em}
+.payment-active #paymentHold p{font-size:11px;margin-top:3px;line-height:1.25}
+.payment-active #paymentHold #deadlineText{font-size:11px}
+.payment-active .trust-panel{background:#f3f4ed;border:1px solid #dfe4d6;border-radius:14px;padding:12px 14px;margin-bottom:14px;color:#34452e}
+.trust-heading{display:flex;align-items:center;gap:8px;font-size:15px}
+.trust-heading>span{font-size:22px;line-height:1;color:#405638}
+.trust-panel p{font-size:12px;line-height:1.4;margin:7px 0}
+.trust-rating{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px;font-size:12px;margin:8px 0}
+.trust-rating strong{font-size:15px;color:#405638}
+.trust-link{display:inline-block;color:#344e30;text-decoration:underline;font-weight:700;font-size:12px;line-height:1.4}
+.trust-panel .trust-note{border-top:1px solid #dfe4d6;padding-top:8px;margin:9px 0 0}
+.trust-note a{color:#344e30;font-weight:700;text-decoration:underline}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
