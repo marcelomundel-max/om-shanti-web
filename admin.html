@@ -13,6 +13,21 @@
   .field input, .field select, .field textarea { background:#fff !important; color:#20251c !important; }
 </style>
 
+<style id="stay-discounts-layout">
+  /* Diseño exclusivo de descuentos: no altera otros formularios del panel. */
+  #descuentos .sd-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 22px; margin-top:18px; padding:24px; border:1px solid #ded7c6; border-radius:18px; background:#f7f4ec; }
+  #descuentos .sd-field { display:flex; flex-direction:column; gap:8px; min-width:0; }
+  #descuentos .sd-field label { display:block; font-size:13px; font-weight:600; color:#343d2d; }
+  #descuentos .sd-field input { display:block; box-sizing:border-box; width:100%; min-width:0; height:45px; padding:10px 12px; border:1px solid #d7cfbd; border-radius:10px; background:#fffdf8; color:#20251c; font:inherit; }
+  #descuentos .sd-field input:focus { outline:2px solid #758466; outline-offset:1px; }
+  #descuentos .sd-wide { grid-column:1 / -1; }
+  #descuentos .sd-check { display:flex; align-items:center; gap:10px; width:max-content; max-width:100%; font-size:14px; font-weight:500; cursor:pointer; }
+  #descuentos .sd-check input { width:17px; height:17px; margin:0; accent-color:#435536; }
+  #descuentos .sd-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding-top:4px; }
+  #descuentos .sd-actions .btn { min-height:42px; }
+  #descuentos #sdMsg { flex-basis:100%; }
+  @media (max-width:650px) { #descuentos .sd-form { grid-template-columns:minmax(0,1fr); padding:16px; gap:16px; } #descuentos .sd-wide { grid-column:1; } #descuentos .sd-actions .btn { flex:1 1 120px; } }
+</style>
 </head><body>
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
@@ -113,14 +128,14 @@
 <section id="descuentos" class="section">
 <div class="title"><span class="eyebrow">CONFIGURACIÓN</span><h1>Descuentos por estadía</h1><p class="muted">Se aplica automáticamente el mayor descuento válido. Todas las noches deben estar dentro del período.</p></div>
 <div class="card panel"><h2>Crear o editar promoción</h2>
-<div class="rate-period-form">
-<label>Nombre interno <input id="sdLabel" type="text" maxlength="100" placeholder="Verano"></label>
-<label>Noches mínimas <input id="sdNights" type="number" min="1" max="365" value="5"></label>
-<label>Descuento (%) <input id="sdPercent" type="number" min="0.01" max="99.99" step="0.01" value="10"></label>
-<label>Desde <input id="sdStart" type="date"></label>
-<label>Hasta <input id="sdEnd" type="date"></label>
-<label><input id="sdActive" type="checkbox" checked> Promoción activa</label>
-<div><button id="sdSave" class="btn primary" type="button">Guardar promoción</button> <button id="sdCancel" class="btn secondary" type="button">Limpiar</button> <span id="sdMsg" class="small"></span></div>
+<div class="sd-form">
+  <div class="sd-field sd-wide"><label for="sdLabel">Nombre interno</label><input id="sdLabel" type="text" maxlength="100" placeholder="Ej.: Verano"></div>
+  <div class="sd-field"><label for="sdNights">Noches mínimas</label><input id="sdNights" type="number" min="1" max="365" value="5"></div>
+  <div class="sd-field"><label for="sdPercent">Descuento (%)</label><input id="sdPercent" type="number" min="0.01" max="99.99" step="0.01" value="10"></div>
+  <div class="sd-field"><label for="sdStart">Desde</label><input id="sdStart" type="date"></div>
+  <div class="sd-field"><label for="sdEnd">Hasta</label><input id="sdEnd" type="date"></div>
+  <div class="sd-wide"><label class="sd-check" for="sdActive"><input id="sdActive" type="checkbox" checked>Promoción activa</label></div>
+  <div class="sd-actions sd-wide"><button id="sdSave" class="btn primary" type="button">Guardar promoción</button><button id="sdCancel" class="btn secondary" type="button">Limpiar</button><span id="sdMsg" class="small" aria-live="polite"></span></div>
 </div></div><div class="card panel"><h2>Promociones configuradas</h2><div id="sdList" class="rate-period-list"></div></div>
 </section>
 </main>
