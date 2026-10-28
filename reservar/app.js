@@ -108,6 +108,15 @@ function isWeekendOneNight(a,b) {
   return minimumNights === 1 && nights === 1 && [0,5,6].includes(dow);
 }
 
+
+function bestStayDiscount(a,b,nights) {
+  const discounts=Array.isArray(config?.stay_discounts)?config.stay_discounts:[];
+  const lastNight=new Date(b+'T12:00:00');lastNight.setDate(lastNight.getDate()-1);
+  const lastIso=lastNight.getFullYear()+'-'+String(lastNight.getMonth()+1).padStart(2,'0')+'-'+String(lastNight.getDate()).padStart(2,'0');
+  return discounts.filter(d=>d.active!==false&&nights>=Number(d.minimum_nights)&&a>=d.start_date&&lastIso<=d.end_date)
+    .sort((x,y)=>Number(y.discount_percent)-Number(x.discount_percent)||Number(y.minimum_nights)-Number(x.minimum_nights)||Number(y.id)-Number(x.id))[0]||null;
+}
+
 function localEstimate(a,b,g) {
   const nights = nightsBetween(a,b);
   let d = new Date(a+'T12:00:00');
@@ -132,7 +141,11 @@ function localEstimate(a,b,g) {
     ? Number(arrivalRate.late_checkout_weekend || 0)
     : 0;
 
-  const total = base + extra + lateCheckoutAmount;
+  const originalAmount=base+extra+lateCheckoutAmount;
+  const discount=bestStayDiscount(a,b,nights);
+  const discountPercent=Number(discount?.discount_percent||0);
+  const discountAmount=Math.round(originalAmount*discountPercent/100);
+  const total=originalAmount-discountAmount;
   const depositPercent = Number(arrivalRate.deposit_percent ?? config.rates.deposit_percent);
 
   return {
@@ -141,6 +154,7 @@ function localEstimate(a,b,g) {
     extra,
     lateCheckout,
     lateCheckoutAmount,
+    originalAmount,discountPercent,discountAmount,stayDiscountId:discount?.id||null,
     total,
     depositPercent,
     deposit: Math.round(total * depositPercent / 100)
@@ -160,6 +174,7 @@ function renderSummary() {
     <div class="summary-row"><span>Tarifa base</span><strong>${ARS(selectedQuote.base)}</strong></div>
     ${selectedQuote.extra ? `<div class="summary-row"><span>Huéspedes adicionales</span><strong>${ARS(selectedQuote.extra)}</strong></div>` : ''}
     ${selectedQuote.lateCheckout ? `<div class="summary-row"><span>Late checkout</span><strong>${ARS(selectedQuote.lateCheckoutAmount)}</strong></div>` : ''}
+    ${selectedQuote.discountAmount>0 ? `<div class="summary-row"><span>Subtotal</span><strong>${ARS(selectedQuote.originalAmount)}</strong></div><div class="summary-row"><span>Descuento por estadía (${selectedQuote.discountPercent}%)</span><strong>−${ARS(selectedQuote.discountAmount)}</strong></div>` : ''}
     <div class="summary-row total"><span>Total estimado</span><span>${ARS(selectedQuote.total)}</span></div>
     <div class="deposit">Seña estimada (${depositPercent}%)<strong>${ARS(selectedQuote.deposit)}</strong></div>
     <p class="small">El importe final de la seña se confirma al continuar con la reserva.</p>`;
@@ -272,6 +287,9 @@ async function restorePendingBookingFromUrl() {
     checkout: recovered.checkout,
     guests: Number(recovered.guests),
     ...est,
+    originalAmount: Number(recovered.original_amount??recovered.total_amount),
+    discountPercent:Number(recovered.discount_percent||0),
+    discountAmount:Number(recovered.discount_amount||0),
     total: Number(recovered.total_amount),
     deposit: Number(recovered.deposit_amount)
   };
@@ -450,7 +468,7 @@ $('searchBtn').onclick = async () => {
     availableGalleryUnits = new Set((data || []).filter(x => x.available).map(x => x.unit_id));
     $('unitList').innerHTML=(config.units||[]).map(u=>{
       const av=data.find(x=>x.unit_id===u.id), ok=av&&av.available;
-      return `<article class="card unit"><button type="button" class="unit-photo-button" data-gallery="${u.id}" aria-label="Ver fotos de ${u.name}"><img src="${imageMap[u.id]||'assets/exterior.jpg'}" alt="Foto real de ${u.name}"><span class="photo-hint">Ver fotos de la cabaña ↗</span></button><div class="unit-body"><h3>${u.name}</h3><p class="meta">Hasta ${u.capacity} huéspedes · Om Shanti Tigre</p><div class="price">${ARS(est.total)} <span class="small">estimado</span></div>${ok?`<button class="btn primary selectUnit" data-unit="${u.id}">Elegir ${u.name.replace('Cabaña ','')}</button>`:'<div class="notice error">No disponible para estas fechas.</div>'}</div></article>`;
+      return `<article class="card unit"><button type="button" class="unit-photo-button" data-gallery="${u.id}" aria-label="Ver fotos de ${u.name}"><img src="${imageMap[u.id]||'assets/exterior.jpg'}" alt="Foto real de ${u.name}"><span class="photo-hint">Ver fotos de la cabaña ↗</span></button><div class="unit-body"><h3>${u.name}</h3><p class="meta">Hasta ${u.capacity} huéspedes · Om Shanti Tigre</p><div class="price">${ARS(est.total)} <span class="small">estimado</span>${est.discountAmount>0?`<div class="small" style="color:#287a50">${est.discountPercent}% de descuento por estadía incluido</div>`:""}</div>${ok?`<button class="btn primary selectUnit" data-unit="${u.id}">Elegir ${u.name.replace('Cabaña ','')}</button>`:'<div class="notice error">No disponible para estas fechas.</div>'}</div></article>`;
     }).join('');
 
     $('availability').classList.remove('hidden');
@@ -518,6 +536,10 @@ $('continueBtn').onclick=async()=>{
       }
     }
 
+    selectedQuote.originalAmount=Number(result.original_amount??result.total_amount);
+    selectedQuote.discountPercent=Number(result.discount_percent||0);
+    selectedQuote.discountAmount=Number(result.discount_amount||0);
+    selectedQuote.stayDiscountId=result.stay_discount_id||null;
     selectedQuote.total = Number(result.total_amount);
     selectedQuote.deposit = Number(result.deposit_amount);
     selectedQuote.base = Number(result.base_amount);
