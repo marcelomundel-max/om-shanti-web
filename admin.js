@@ -7,8 +7,9 @@ const ARS=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maxi
 const fmt=d=>new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'short',year:'numeric'}).format(new Date(d+'T12:00:00'));
 const fmtDateTime24=d=>new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(d))+' hs';
 const fmtTime24=d=>new Intl.DateTimeFormat('es-AR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(d)+' hs';
-let token=null,user=null,bookings=[],blocks=[],history=[],rates=null,ratePeriods=[],calDate=new Date(),current=null;
+let token=null,user=null,bookings=[],blocks=[],history=[],rates=null,ratePeriods=[],stayDiscounts=[],calDate=new Date(),current=null;
 let editingRatePeriodId=null;
+let editingStayDiscountId=null;
 let refreshTimer=null, refreshInProgress=false, lastRefreshAt=null;
 let sessionExpiryHandled=false;
 
@@ -128,11 +129,12 @@ async function loadAll(options={}){
   const currentId=current?.id||null;
   const modalWasOpen=$('bookingModal')?.classList.contains('open');
   try{
-    [bookings,blocks,history,ratePeriods]=await Promise.all([
+    [bookings,blocks,history,ratePeriods,stayDiscounts]=await Promise.all([
       rest('bookings?select=*&order=created_at.desc'),
       rest('blocks?select=*&order=created_at.desc'),
       rest('booking_history?select=*&order=created_at.desc'),
-      rest('rate_periods?select=*&order=start_date.asc')
+      rest('rate_periods?select=*&order=start_date.asc'),
+      rest('stay_discounts?select=*&order=start_date.asc')
     ]);
     const rr=await rest('rates?select=*&id=eq.1');
     rates=rr[0]||null;
@@ -169,7 +171,7 @@ function startAutoRefresh(){
   },15000);
 }
 function stopAutoRefresh(){if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null;}}
-function renderAll(){renderStats();renderRows();renderCalendar();renderBlocks();renderRates();renderSummary()}
+function renderAll(){renderStats();renderRows();renderCalendar();renderBlocks();renderRates();renderStayDiscounts();renderSummary()}
 function renderStats(){
   $('stPending').textContent=bookings.filter(x=>x.status==='pending'&&x.proof_path).length;
   $('stConfirmed').textContent=bookings.filter(x=>x.status==='confirmed').length;
@@ -649,3 +651,11 @@ window.addEventListener('focus',()=>{if(token)loadAll({silent:true});});
 window.addEventListener('beforeunload',stopAutoRefresh);
 
 (async()=>{if(await tryRestore()){await showApp();await loadAll();startAutoRefresh();}})();
+
+// DESCUENTOS POR ESTADÍA
+function resetStayDiscountForm(){editingStayDiscountId=null;['sdLabel','sdStart','sdEnd'].forEach(id=>$(id).value='');$('sdNights').value=5;$('sdPercent').value=10;$('sdActive').checked=true;$('sdMsg').textContent='';}
+function renderStayDiscounts(){const list=$('sdList');if(!list)return;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));list.innerHTML=(stayDiscounts||[]).length?stayDiscounts.map(d=>`<div class="rate-period-item"><strong>${esc(d.label)}</strong><div>${Number(d.minimum_nights)} noches o más · ${Number(d.discount_percent)}% OFF</div><div>${esc(d.start_date)} → ${esc(d.end_date)} · ${d.active?'Activa':'Pausada'}</div><div class="rate-period-actions"><button class="btn secondary" onclick="editStayDiscount(${Number(d.id)})">Editar</button> <button class="btn danger" onclick="deleteStayDiscount(${Number(d.id)})">Eliminar</button></div></div>`).join(''):'<div class="rate-period-empty">Todavía no hay descuentos cargados.</div>';}
+window.editStayDiscount=id=>{const d=stayDiscounts.find(x=>Number(x.id)===id);if(!d)return;editingStayDiscountId=id;$('sdLabel').value=d.label;$('sdNights').value=d.minimum_nights;$('sdPercent').value=d.discount_percent;$('sdStart').value=d.start_date;$('sdEnd').value=d.end_date;$('sdActive').checked=d.active;};
+window.deleteStayDiscount=async id=>{if(!confirm('¿Eliminar esta promoción? Las reservas existentes conservarán su precio.'))return;try{await rest('stay_discounts?id=eq.'+id,{method:'DELETE'});await loadAll();}catch(e){alert('No se pudo eliminar: '+e.message)}};
+$('sdCancel').onclick=resetStayDiscountForm;
+$('sdSave').onclick=async()=>{const d={label:$('sdLabel').value.trim(),minimum_nights:Number($('sdNights').value),discount_percent:Number($('sdPercent').value),start_date:$('sdStart').value,end_date:$('sdEnd').value,active:$('sdActive').checked};if(!d.label||!Number.isInteger(d.minimum_nights)||d.minimum_nights<1||d.minimum_nights>365||!Number.isFinite(d.discount_percent)||d.discount_percent<=0||d.discount_percent>=100||!d.start_date||!d.end_date||d.end_date<d.start_date){$('sdMsg').textContent='Revisá los datos y fechas.';return;}const btn=$('sdSave');btn.disabled=true;try{await rest(editingStayDiscountId?'stay_discounts?id=eq.'+editingStayDiscountId:'stay_discounts',{method:editingStayDiscountId?'PATCH':'POST',body:JSON.stringify(d)});resetStayDiscountForm();await loadAll();}catch(e){$('sdMsg').textContent='Error: '+e.message;}finally{btn.disabled=false;}};

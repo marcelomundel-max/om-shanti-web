@@ -36,6 +36,7 @@
 <button class="sidebtn" data-section="calendario">Calendario</button>
 <button class="sidebtn" data-section="bloqueos">Bloqueos</button>
 <button class="sidebtn" data-section="tarifas">Tarifas</button>
+<button class="sidebtn" data-section="descuentos">Descuentos</button>
 </aside>
 
 <main class="main">
@@ -109,9 +110,22 @@
   <div id="ratePeriodList" class="rate-period-list"></div>
 </div>
 </section>
+<section id="descuentos" class="section">
+<div class="title"><span class="eyebrow">CONFIGURACIÓN</span><h1>Descuentos por estadía</h1><p class="muted">Se aplica automáticamente el mayor descuento válido. Todas las noches deben estar dentro del período.</p></div>
+<div class="card panel"><h2>Crear o editar promoción</h2>
+<div class="rate-period-form">
+<label>Nombre interno <input id="sdLabel" type="text" maxlength="100" placeholder="Verano"></label>
+<label>Noches mínimas <input id="sdNights" type="number" min="1" max="365" value="5"></label>
+<label>Descuento (%) <input id="sdPercent" type="number" min="0.01" max="99.99" step="0.01" value="10"></label>
+<label>Desde <input id="sdStart" type="date"></label>
+<label>Hasta <input id="sdEnd" type="date"></label>
+<label><input id="sdActive" type="checkbox" checked> Promoción activa</label>
+<div><button id="sdSave" class="btn primary" type="button">Guardar promoción</button> <button id="sdCancel" class="btn secondary" type="button">Limpiar</button> <span id="sdMsg" class="small"></span></div>
+</div></div><div class="card panel"><h2>Promociones configuradas</h2><div id="sdList" class="rate-period-list"></div></div>
+</section>
 </main>
 </div>
 </div>
 
 <div class="modal" id="bookingModal"><div class="modal-card"><div class="topline"><div><span class="eyebrow">RESERVA</span><h2 id="mTitle"></h2></div><button class="btn ghost" id="closeModal">✕</button></div><div id="mBody"></div></div></div>
-<script src="admin.js?v=20261008-1840"></script></body></html>
+<script src="admin.js?v=20261028-descuentos1"></script></body></html>
