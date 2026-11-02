@@ -6,12 +6,25 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 const ARS = n => new Intl.NumberFormat('es-AR', {style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n);
 const fmt = d => new Intl.DateTimeFormat('es-AR', {day:'numeric',month:'long',year:'numeric'}).format(new Date(d+'T12:00:00'));
+function fmtDateRange(startIso, endIso) {
+  const start = new Date(startIso + 'T12:00:00');
+  const end = new Date(endIso + 'T12:00:00');
+  const day = d => new Intl.DateTimeFormat('es-AR', {day:'numeric'}).format(d);
+  const month = d => new Intl.DateTimeFormat('es-AR', {month:'long'}).format(d);
+  const year = d => d.getFullYear();
+  if (year(start) === year(end) && month(start) === month(end))
+    return `${day(start)} al ${day(end)} de ${month(end)} de ${year(end)}`;
+  if (year(start) === year(end))
+    return `${day(start)} de ${month(start)} al ${day(end)} de ${month(end)} de ${year(end)}`;
+  return `${fmt(startIso)} al ${fmt(endIso)}`;
+}
 
 let config = null;
 let selectedUnit = null;
 let selectedQuote = null;
 let currentPreBooking = null;
-const imageMap = {rustic:'assets/rustic.jpg', zen:'assets/zen.jpg'};
+// Portadas distintas, tomadas de la galería real de cada unidad.
+const imageMap = {rustic:'assets/galeria/rustic/living.webp', zen:'assets/galeria/zen/living.webp'};
 const galleryLabels = {deck:'Deck',living:'Living',cocina:'Cocina',dormitorio:'Dormitorio',bano:'Baño'};
 const galleryDescriptions = {
   zen:'Conocé los espacios de la cabaña Zen: deck, ambiente interior, cocina, sector de descanso y baño. Un lugar para disfrutar Tigre a tu ritmo.',
@@ -370,7 +383,7 @@ function showPaymentStage(expiresAt){
     $('checkoutPhoto').alt = `Fotografía real de ${selectedUnit.name}`;
     $('checkoutPhotoBadge').textContent = selectedUnit.name;
   }
-  $('checkoutDatesText').textContent = `${fmt(selectedQuote.checkin)} al ${fmt(selectedQuote.checkout)}`;
+  $('checkoutDatesText').textContent = fmtDateRange(selectedQuote.checkin, selectedQuote.checkout);
   $('checkoutDates').classList.remove('hidden');
   $('checkoutStayMeta').textContent = `${selectedQuote.nights} noche${selectedQuote.nights===1?'':'s'} · ${selectedQuote.guests} huésped${selectedQuote.guests===1?'':'es'}${selectedQuote.lateCheckout?' · Late checkout':''}`;
   $('checkoutStayMeta').classList.remove('hidden');

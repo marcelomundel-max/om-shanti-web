@@ -146,3 +146,7 @@
  .payment-active .trust-whatsapp{padding:13px}
  .payment-active .payment-next{padding:15px}
 }
+
+/* Ícono vectorial compatible con navegadores móviles. */
+.payment-active .checkout-dates .checkout-calendar-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px}
+.payment-active .checkout-dates .checkout-calendar-icon svg{display:block}
