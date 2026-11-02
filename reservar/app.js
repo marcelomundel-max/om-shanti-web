@@ -24,7 +24,7 @@ let selectedUnit = null;
 let selectedQuote = null;
 let currentPreBooking = null;
 // Portadas distintas, tomadas de la galería real de cada unidad.
-const imageMap = {rustic:'assets/galeria/rustic/living.webp', zen:'assets/galeria/zen/living.webp'};
+const imageMap = {rustic:'assets/galeria/rustic/deck.webp', zen:'assets/galeria/zen/deck.webp'};
 const galleryLabels = {deck:'Deck',living:'Living',cocina:'Cocina',dormitorio:'Dormitorio',bano:'Baño'};
 const galleryDescriptions = {
   zen:'Conocé los espacios de la cabaña Zen: deck, ambiente interior, cocina, sector de descanso y baño. Un lugar para disfrutar Tigre a tu ritmo.',
