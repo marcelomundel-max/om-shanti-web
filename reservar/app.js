@@ -362,8 +362,19 @@ function showPaymentStage(expiresAt){
   const flow = $('bookingFlow').querySelector('.flow');
   const aside = flow.querySelector('aside');
   if (flow.firstElementChild !== aside) flow.insertBefore(aside, flow.firstElementChild);
-  $('paymentSummaryBrief').textContent = `${fmt(selectedQuote.checkin)} al ${fmt(selectedQuote.checkout)} · ${selectedQuote.nights} noche${selectedQuote.nights===1?'':'s'} · ${selectedQuote.guests} huésped${selectedQuote.guests===1?'':'es'}`;
-  $('paymentSummaryBrief').classList.remove('hidden');
+  // Solo presentación: foto real y datos de la estadía, también al retomar por email.
+  const cabinId = selectedUnit?.id === 'rustic' ? 'rustic' : selectedUnit?.id === 'zen' ? 'zen' : null;
+  $('checkoutPhotoWrap').classList.toggle('hidden', !cabinId);
+  if(cabinId) {
+    $('checkoutPhoto').src = imageMap[cabinId];
+    $('checkoutPhoto').alt = `Fotografía real de ${selectedUnit.name}`;
+    $('checkoutPhotoBadge').textContent = selectedUnit.name;
+  }
+  $('checkoutDatesText').textContent = `${fmt(selectedQuote.checkin)} al ${fmt(selectedQuote.checkout)}`;
+  $('checkoutDates').classList.remove('hidden');
+  $('checkoutStayMeta').textContent = `${selectedQuote.nights} noche${selectedQuote.nights===1?'':'s'} · ${selectedQuote.guests} huésped${selectedQuote.guests===1?'':'es'}${selectedQuote.lateCheckout?' · Late checkout':''}`;
+  $('checkoutStayMeta').classList.remove('hidden');
+  $('paymentSummaryBrief').classList.add('hidden');
   $('summaryToggle').classList.remove('hidden');
   $('summaryToggle').setAttribute('aria-expanded','false');
   $('summaryToggle').textContent='Ver detalle del precio';
@@ -489,6 +500,9 @@ function selectUnit(id) {
   if(typeof window.fbq === 'function') window.fbq('track', 'InitiateCheckout', {content_category:'alojamiento',currency:'ARS'});
   $('summaryUnit').textContent=selectedUnit.name;
   renderSummary();
+  $('checkoutPhotoWrap').classList.add('hidden');
+  $('checkoutDates').classList.add('hidden');
+  $('checkoutStayMeta').classList.add('hidden');
   $('bookingFlow').classList.remove('hidden');
   $('formStage').classList.remove('hidden');
   $('paymentStage').classList.add('hidden');
@@ -593,6 +607,9 @@ $('submitBtn').onclick = async () => {
     window.history.replaceState(null, '', window.location.pathname);
     if(paymentCountdownInterval) clearInterval(paymentCountdownInterval);
     $('bookingFlow').classList.remove('payment-active');
+    $('checkoutPhotoWrap').classList.add('hidden');
+    $('checkoutDates').classList.add('hidden');
+    $('checkoutStayMeta').classList.add('hidden');
     $('paymentSummaryBrief').classList.add('hidden');
     $('summaryToggle').classList.add('hidden');
     $('paymentStage').classList.add('hidden');
