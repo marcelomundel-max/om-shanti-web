@@ -319,9 +319,36 @@ async function restorePendingBookingFromUrl() {
   $('successStage').classList.add('hidden');
   $('step3').classList.add('active');
   $('searchMessage').innerHTML = '<div class="notice"><strong>Recuperamos tu reserva pendiente.</strong> Podés continuar con el pago y cargar el comprobante.</div>';
-  $('bookingFlow').scrollIntoView({behavior:'smooth'});
+  openPaymentGuide();
   return true;
 }
+
+// Guía de pago: se abre solo tras crear o recuperar exitosamente una pre-reserva.
+let guidePreviousFocus = null;
+function openPaymentGuide() {
+  guidePreviousFocus = document.activeElement;
+  const overlay = $('paymentGuide');
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('guide-open');
+  $('guideContinue').focus({preventScroll:true});
+}
+function closePaymentGuide() {
+  const overlay = $('paymentGuide');
+  if(overlay.classList.contains('hidden')) return;
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('guide-open');
+  const target = $('paymentHeading');
+  // Scroll luego de cerrar, cuando el documento vuelve a ser desplazable.
+  requestAnimationFrame(() => target.scrollIntoView({behavior:'smooth',block:'start'}));
+}
+$('guideContinue').addEventListener('click', closePaymentGuide);
+$('paymentGuide').addEventListener('keydown', (event) => {
+  if(event.key === 'Escape') {event.preventDefault();closePaymentGuide();}
+  // Un único control interactivo: retener el foco dentro del diálogo.
+  if(event.key === 'Tab') {event.preventDefault();$('guideContinue').focus();}
+});
 
 // Interfaz de pago: el vencimiento real siempre proviene de Supabase.
 let paymentCountdownInterval = null;
@@ -581,6 +608,7 @@ $('continueBtn').onclick=async()=>{
     $('formStage').classList.add('hidden');
     $('paymentStage').classList.remove('hidden');
     $('step3').classList.add('active');
+    openPaymentGuide();
   } catch(err) {
     alert('No pudimos reservar temporalmente las fechas: ' + err.message);
   } finally {
@@ -628,6 +656,7 @@ $('submitBtn').onclick = async () => {
     $('paymentStage').classList.add('hidden');
     $('successStage').classList.remove('hidden');
     $('step4').classList.add('active');
+    requestAnimationFrame(() => $('successStage').scrollIntoView({behavior:'smooth',block:'start'}));
     // El comprobante NO equivale a pago confirmado: no enviar Purchase aquí.
     if(typeof window.fbq === 'function') window.fbq('trackCustom', 'BookingProofSubmitted', {booking_status:'pending_verification'});
   } catch(err) {

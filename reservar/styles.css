@@ -150,3 +150,15 @@
 /* Ícono vectorial compatible con navegadores móviles. */
 .payment-active .checkout-dates .checkout-calendar-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px}
 .payment-active .checkout-dates .checkout-calendar-icon svg{display:block}
+
+/* UX 2026-11-06: guía al crear o retomar una solicitud, optimizada para móvil. */
+body.guide-open{overflow:hidden}
+.guide-overlay{position:fixed;inset:0;z-index:1100;background:rgba(26,36,26,.7);display:flex;align-items:center;justify-content:center;padding:18px}
+.guide-dialog{width:min(440px,100%);max-height:calc(100dvh - 36px);overflow-y:auto;border-radius:22px;background:#fffdf8;box-shadow:0 14px 55px rgba(0,0,0,.25);padding:25px 22px;text-align:center}
+.guide-icon{width:54px;height:54px;display:grid;place-items:center;margin:0 auto 13px;border-radius:50%;background:#e6eee1;color:#385439;font-size:29px;font-weight:700}
+.guide-dialog h2{font-family:'Cormorant Garamond',serif;font-size:clamp(29px,6vw,37px);line-height:1.05;margin:0 0 14px;color:#263b28}
+.guide-dialog p{line-height:1.55;font-size:14px;margin:0 0 14px}
+.guide-dialog .guide-email{border-radius:12px;background:#f2efe5;padding:13px;font-size:12px;text-align:left}
+.guide-dialog .btn{width:100%;margin-top:6px;min-height:48px}
+#paymentHeading,#successStage{scroll-margin-top:88px}
+@media(max-width:560px){.guide-dialog{padding:22px 18px}.guide-dialog h2{font-size:31px}#successStage{scroll-margin-top:75px}}

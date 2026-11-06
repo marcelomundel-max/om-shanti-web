@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261102checkout1">
+<link rel="stylesheet" href="styles.css?v=20261106ux1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Meta Pixel: mismo conjunto de datos que la web principal de Om Shanti -->
 <script>
@@ -77,21 +77,13 @@
         <button class="btn primary" id="continueBtn">Continuar</button>
       </div>
       <div id="paymentStage" class="hidden">
+        <span class="eyebrow">SOLICITUD DE RESERVA</span><h2 id="paymentHeading">Completá tu reserva</h2>
         <div id="paymentHold" class="notice payment-hold" style="margin-bottom:16px">
           <div class="hold-main"><strong><span aria-hidden="true">◷</span> Tu fecha está reservada temporalmente</strong>
           <div class="countdown" aria-label="Tiempo restante para enviar el comprobante"><span id="countdownTime">--:--:--</span></div></div>
           <div id="deadlineText" class="small"></div>
           <p class="small">Transferí y adjuntá el comprobante antes del vencimiento. Podés retomar desde el enlace enviado por email.</p>
         </div>
-        <section class="trust-panel" aria-label="Trayectoria de nuestros anfitriones">
-          <div class="trust-heading"><span aria-hidden="true">♡</span><strong>Tu escapada, en buenas manos</strong></div>
-          <p>Desde 2018 recibimos huéspedes en Cabañas Om Shanti. Conocé nuestra trayectoria y las experiencias de quienes nos eligieron.</p>
-          <div class="trust-rating"><strong>★ 4,91/5</strong><span>· 307 evaluaciones en Airbnb</span></div>
-          <a class="trust-link" href="https://www.airbnb.com.ar/users/profile/1463064331531373913" target="_blank" rel="noopener noreferrer">Conocé nuestro perfil de anfitriones ↗</a>
-          <a class="trust-whatsapp" href="https://cabanasomshanti.com/mensajeriawhatsapp/" target="_blank" rel="noopener noreferrer" aria-label="Consultanos por WhatsApp antes de transferir"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8.5 8.4c.4 3.1 2.4 5.2 5.4 6.1l1.7-1.5 2 1.1c-.5 1.6-1.7 2.3-3.3 2.1-4.4-.7-7.5-4-7.4-8 0-1.4 1.2-2.5 2.4-2.5Z"/></svg><span>¿Tenés dudas antes de transferir?<strong>Consultanos por WhatsApp</strong></span><span aria-hidden="true">↗</span></a>
-        </section>
-        <span class="eyebrow">SOLICITUD DE RESERVA</span><h2>Completá tu reserva</h2>
-        
         <div class="transfer">
           <p class="payment-subtitle">Transferí la seña indicada en el resumen. El saldo restante lo abonás al llegar.</p>
           <span id="paymentAmount" class="visually-hidden" aria-hidden="true">—</span>
@@ -107,6 +99,13 @@
         </div>
         <div id="paymentFeedback" class="hidden notice" role="status" aria-live="polite"></div>
         <button class="btn primary submit-proof" id="submitBtn">Enviar comprobante</button>
+        <section class="trust-panel" aria-label="Trayectoria de nuestros anfitriones">
+          <div class="trust-heading"><span aria-hidden="true">♡</span><strong>Tu escapada, en buenas manos</strong></div>
+          <p>Desde 2018 recibimos huéspedes en Cabañas Om Shanti. Conocé nuestra trayectoria y las experiencias de quienes nos eligieron.</p>
+          <div class="trust-rating"><strong>★ 4,91/5</strong><span>· 307 evaluaciones en Airbnb</span></div>
+          <a class="trust-link" href="https://www.airbnb.com.ar/users/profile/1463064331531373913" target="_blank" rel="noopener noreferrer">Conocé nuestro perfil de anfitriones ↗</a>
+          <a class="trust-whatsapp" href="https://cabanasomshanti.com/mensajeriawhatsapp/" target="_blank" rel="noopener noreferrer" aria-label="Consultanos por WhatsApp antes de transferir"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.1A8.5 8.5 0 1 1 20 11.5Z"/><path d="M8.5 8.4c.4 3.1 2.4 5.2 5.4 6.1l1.7-1.5 2 1.1c-.5 1.6-1.7 2.3-3.3 2.1-4.4-.7-7.5-4-7.4-8 0-1.4 1.2-2.5 2.4-2.5Z"/></svg><span>¿Tenés dudas antes de transferir?<strong>Consultanos por WhatsApp</strong></span><span aria-hidden="true">↗</span></a>
+        </section>
         <section class="payment-next" aria-label="Qué pasa después de enviar el comprobante"><h3><span aria-hidden="true">✓</span> ¿Qué pasa después?</h3><ol><li>Recibís un correo confirmando la recepción del comprobante.</li><li>Verificamos el pago.</li><li>Te enviamos otro correo con la confirmación definitiva de tu reserva.</li></ol></section>
       </div>
       <div id="successStage" class="hidden success">
@@ -140,6 +139,16 @@
     <div class="gallery-actions"><button type="button" id="galleryChoose" class="btn primary">Elegir esta cabaña</button><button type="button" id="galleryDismiss" class="btn ghost">Seguir mirando</button></div>
   </div>
 </div>
-<script src="app.js?v=20261102checkout1"></script>
+
+<div id="paymentGuide" class="guide-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="guideTitle" aria-describedby="guideDescription" aria-hidden="true">
+  <div class="guide-dialog" tabindex="-1">
+    <div class="guide-icon" aria-hidden="true">✓</div>
+    <h2 id="guideTitle">¡Estás a un paso de completar tu reserva!</h2>
+    <p id="guideDescription">Tus fechas están reservadas temporalmente. Para continuar, realizá la transferencia y adjuntá el comprobante.</p>
+    <p class="guide-email">✉ También te enviamos un correo con un enlace para retomar tu reserva si necesitás salir de esta página.</p>
+    <button type="button" id="guideContinue" class="btn primary">Continuar con mi reserva</button>
+  </div>
+</div>
+<script src="app.js?v=20261106ux1"></script>
 </body>
 </html>
